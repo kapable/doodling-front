@@ -1,15 +1,10 @@
 version: '3'
 services:
   next:
-    container_name: "doodling-front-dev"
+    container_name: "doodling-front"
     restart: "on-failure"
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
       - "3060:3060"
-    volumes:
-      # hot reload를 위해 mount
-      - "./:/usr/src/next"
-      - "/usr/src/next/node_modules"
-      - "/usr/src/next/.next" 

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "next -p 3060",
-    "build": "next build"
+    "build": "next build",
+    "start": "next start -p 3060"
   },
   "author": "Seeyong",
   "license": "ISC",
