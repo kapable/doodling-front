@@ -1,7 +1,7 @@
 version: '3'
 services:
   next:
-    image: cookieocket/doodling-front 
+    image: cookierocket/doodling-front 
     container_name: "doodling-front"
     restart: "on-failure"
     build:
