@@ -1,6 +1,7 @@
 version: '3'
 services:
   next:
+    image: cookieocket/doodling-front 
     container_name: "doodling-front"
     restart: "on-failure"
     build:
@@ -8,8 +9,3 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3060:3060"
-    # volumes:
-    #   # hot reload를 위해 mount
-    #   - "./:/usr/src/next"
-    #   - "/usr/src/next/node_modules"
-    #   - "/usr/src/next/.next" 
