@@ -61,6 +61,7 @@ jobs:
         run: |
           docker stop ${{ env.NAME }} && docker rm ${{ env.NAME }} && docker rmi ${{ env.DOCKER_IMAGE }}:latest
           docker run -d -p 3060:3060 --name go_cicd --restart always ${{ env.DOCKER_IMAGE }}:latest
+      # CloudFront 무효화
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
         env:
