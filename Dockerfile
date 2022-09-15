@@ -1,4 +1,4 @@
-FROM node:16.14.0-alpine
+FROM node:lts-alpine
 WORKDIR /usr/src/next
 RUN npm install pm2 -g
 # COPY *.* /usr/src/next

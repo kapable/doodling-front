@@ -4,6 +4,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withBundleAnalyzer({
     compress: true,
+    reactStrictMode: true,
     webpack(config, { webpack }) {
         const prod = process.env.NODE_ENV === 'production';
         return {
@@ -15,5 +16,5 @@ module.exports = withBundleAnalyzer({
                 new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^\.\/ko$/),
             ],
         };
-    }
+    },
 });
