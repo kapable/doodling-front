@@ -1,0 +1,88 @@
+:root {
+    --point-color: #375cb7;
+    --grey-color: #f3f3f3;
+    --red-color: #c86143;
+}
+
+/* AppLayout */
+.applayout-header {
+    background-color: white;
+    height: 4rem;
+    color: white;
+    padding: 0 20px;
+    border-bottom: solid 2px var(--grey-color)
+}
+
+.applayout-header-main-logo {
+    width: 7rem;
+}
+
+/* Navigation */
+.applayout-nav {
+    display: inline;
+    color: black;
+    border-bottom: solid 0.05rem black;
+}
+
+.applayout-nav-left-div-a {
+    font-size: 0.8rem;
+    color: white;
+    background-color: var(--point-color);
+    padding: 0.5rem 0.8rem;
+}
+
+.applayout-nav-left-div-a:hover {
+    color: white;
+}
+
+.applayout-nav-right-div-a {
+    font-size: 0.8rem;
+    color: black;
+    background-color: white;
+    border: solid var(--grey-color) 2px;
+    padding: 0.5rem 0.8rem;
+}
+
+.applayout-nav-right-div-a:hover {
+    color: black;
+}
+
+.applayout-nav-right-div {
+    float: right;
+    padding: 0.1rem 0.3rem 0;
+}
+
+.applayout-nav-left-div {
+    float: right;
+    height: 2rem;
+    padding: 0.1rem 0.3rem 0;
+}
+
+/* .applayout-content {
+    background-color: white;
+} */
+
+.applayout-footer {
+    color: #d3d3d3;
+    font-weight: bold;
+    text-align: center;
+    background-color: white;
+    padding: 3rem 10px;
+}
+
+.applayout-footer > a {
+    color: inherit;
+}
+
+/* index home */
+.ant-tabs-nav-list {
+    padding: 0 20px;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn, .ant-tabs-tab:hover {
+    color: var(--point-color);
+}
+
+.ant-tabs-top > .ant-tabs-nav {
+    margin-bottom: 0;
+}

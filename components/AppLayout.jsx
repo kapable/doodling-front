@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { Layout, Collapse, Tabs } from 'antd';
@@ -7,7 +7,7 @@ const { Header, Content, Footer } = Layout;
 const { Panel } = Collapse;
 
 const AppLayout = ({ children }) => {
-    const myInfo  = false;
+    const myInfo  = true;
     
     return (
         <Layout className='applayout'>
@@ -16,22 +16,22 @@ const AppLayout = ({ children }) => {
                 <Link href='/'><a><img className='applayout-header-main-logo' src={'https://d3edqqquyf396f.cloudfront.net/basic/doodling-logo.png'} alt='두들링' /></a></Link>
                 <div className='applayout-nav'>
                     {myInfo
-                    ? (
-                        <>
-                            <div className='applayout-nav-signup-div'><Link href={`/profile/`}><a className='applayout-nav-signup-div-a'>내 정보</a></Link></div> {/* 50 | myInfo.id */}
-                            <div className='applayout-nav-login-div'><a className='applayout-nav-login-div-a'>로그아웃</a></div>
-                        </>
-                    )
-                    : (
-                        <>
-                            <div className='applayout-nav-signup-div'><Link href='/register'><a className='applayout-nav-signup-div-a'>회원가입</a></Link></div>
-                            <div className='applayout-nav-login-div'><Link href='/login'><a className='applayout-nav-login-div-a'>로그인</a></Link></div>
-                        </>
-                    )
-                }
+                        ? (
+                            <Fragment>
+                                <div className='applayout-nav-right-div'><Link href={`/info/1`}><a className='applayout-nav-right-div-a'>내 정보</a></Link></div>
+                                <div className='applayout-nav-left-div'><Link href='/upload'><a className='applayout-nav-left-div-a'>글쓰기</a></Link></div>
+                            </Fragment>
+                        )
+                        : (
+                            <Fragment>
+                                <div className='applayout-nav-right-div'><Link href='/login'><a className='applayout-nav-right-div-a'>로그인</a></Link></div>
+                                <div className='applayout-nav-left-div'><Link href='/register'><a className='applayout-nav-left-div-a'>회원가입</a></Link></div>
+                            </Fragment>
+                        )
+                        }
                 </div>
             </Header>
-            <Content>
+            <Content style={{ backgroundColor: 'white'}}>
                 {children}
             </Content>
             <Footer className='applayout-footer'>

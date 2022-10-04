@@ -29,7 +29,7 @@ const Home = () => {
                 ))}
                 tabPosition='top' size='default' type='line'
                 tabBarGutter={20}
-                tabBarStyle={{backgroundColor: '#f3f3f3', height:'1.7rem'}}
+                tabBarStyle={{backgroundColor: 'white', height:'2.7rem'}}
                 moreIcon={<EllipsisOutlined />} />
                 {/* Sub Categories Bar */}
         </Fragment>
