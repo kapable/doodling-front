@@ -100,7 +100,7 @@ const UploadEditor = () => {
     ]
     return (
         <div className='main-div' style={{ maxWidth: '50rem', width: "100%", margin: '0 auto' }}>
-            <form enctype="multipart/form-data" accept-charset="UTF-8">
+            <form encType="multipart/form-data" acceptCharset="UTF-8">
                 <QuillNoSSRWrapper
                     forwardedRef={quillRef}
                     onChange={setValue}

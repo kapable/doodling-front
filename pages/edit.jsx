@@ -1,14 +1,11 @@
-import React, { Fragment } from 'react';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
+import React, { Fragment } from 'react';
 
-const Top100Now = () => {
-    const router = useRouter();
-
+const Edit = () => {
     return (
         <Fragment>
             <Head>
-                <title>실시간 Top100 - 두들링</title>
+                <title>글 수정 - 두들링</title>
                 <link rel='shortcut icon' href='/doodling-favicon.png'/>
                 <meta charSet='utf-8'/>
                 <meta name="language" content="Korean" />
@@ -16,9 +13,9 @@ const Top100Now = () => {
                 <meta name="description" content="두들링 - MBTI 기반 커뮤니티" />
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
-            Top100Now
+            Edit
         </Fragment>
     );
 };
 
-export default Top100Now;
+export default Edit;
