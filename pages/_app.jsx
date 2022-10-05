@@ -10,7 +10,8 @@ const App = ({ Component }) => {
     return (
         <Fragment>
             <Head>
-                <meta name="naver-site-verification" content="87fd62dae7bf8be269b0d304ef296d6973ed9e0e" />
+                <meta name="naver-site-verification" content="87fd62dae7bf8be269b0d304ef296d6973ed9e0e" /> 
+                <meta name="naver-site-verification" content="b6a6791901d49d1e344b7a7fb2b30249dc920d07" />
                 <meta name="google-site-verification" content="D255Tc4guakthKOk3pAZG-VOoqn_LOcn_JMiq-MbZ8o" />
             </Head>
             <AppLayout>
