@@ -1,10 +1,19 @@
 import React, { Fragment } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import FollowList from '../../components/Info/FollowList';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const Follow = () => {
     const router = useRouter();
     const { follow } = router.query;
+
+    const [userId, setUserId] = useState();
+
+    useEffect(() => {
+        setUserId(follow ? follow[0] : null);
+    }, [follow]);
 
     return (
         <Fragment>
@@ -17,7 +26,7 @@ const Follow = () => {
                 <meta name="description" content="두들링 - MBTI 기반 커뮤니티" />
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
-            <div>{console.log(follow)}</div>
+            <FollowList user={userId} />
         </Fragment>
     );
 };

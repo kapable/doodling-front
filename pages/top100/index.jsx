@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import NavigationBar from '../../components/NavigationBar';
+import TopPostsList from '../../components/Top/TopPostsList';
 
 const Top100Now = () => {
     const router = useRouter();
@@ -18,7 +19,7 @@ const Top100Now = () => {
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
             <NavigationBar categoryDomain='top100' />
-            Top100Now
+            <TopPostsList />
         </Fragment>
     );
 };

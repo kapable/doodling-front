@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import NavigationBar from '../components/NavigationBar';
 
 const Notice = () => {
     return (
-        <div>Notice</div>
+        <Fragment>
+            <NavigationBar categoryDomain='notice' />
+        </Fragment>
     );
 };
 

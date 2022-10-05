@@ -95,7 +95,6 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
     }, []);
 
     const onCategoryTabClick = useCallback((domain) => {
-        console.log('CAT', domain);
         if(domain === 'top100') { // TOP100
             return router.push('/top100');
         } else if (domain === 'notice') { // NOTICE
@@ -110,6 +109,11 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
     const onSubCategoryTabClick = useCallback((domain) => {
         return router.push(`/${currentCategoryDomain}/${domain}`);
     }, [currentCategoryDomain]);
+
+    useEffect(() => {
+        setCurrentCategoryDomain(categoryDomain);
+        setCurrentSubCategoryDomain(subCategoryDomain);
+    }, [categoryDomain, subCategoryDomain])
 
     return (
         <Fragment>

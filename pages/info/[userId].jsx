@@ -1,6 +1,9 @@
 import React, { Fragment } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import BasicInfoCard from '../../components/Info/BasicInfoCard';
+import DescriptionCard from '../../components/Info/DescriptionCard';
+import MyPosts from '../../components/Info/MyPosts';
 
 const UserInfo = () => {
     const router = useRouter();
@@ -17,7 +20,9 @@ const UserInfo = () => {
                 <meta name="description" content="두들링 - MBTI 기반 커뮤니티" />
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
-            <div>{ userId }</div>
+            <BasicInfoCard />
+            <DescriptionCard />
+            <MyPosts />
         </Fragment>
     );
 };

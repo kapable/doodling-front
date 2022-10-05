@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import CategoryNewPosts from './Home/CategoryNewPosts';
+import NoticeRollingBanner from './Home/NoticeRollingBanner';
+import TopPosts from './Home/TopPosts';
 
 const HomeLayout = () => {
     return (
-        <div>HomeLayout</div>
+        <Fragment>
+            <NoticeRollingBanner />
+            <TopPosts />
+            <CategoryNewPosts />
+        </Fragment>
     );
 };
 

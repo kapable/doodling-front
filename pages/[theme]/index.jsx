@@ -2,6 +2,9 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { Fragment } from 'react';
 import NavigationBar from '../../components/NavigationBar';
+import NewPosts from '../../components/Theme/NewPosts';
+import TItleInfoCard from '../../components/Theme/TItleInfoCard';
+import TopFivePosts from '../../components/Theme/TopFivePosts';
 
 const Theme = () => {
     const router = useRouter();
@@ -19,7 +22,9 @@ const Theme = () => {
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
             <NavigationBar categoryDomain={theme} />
-            Theme Main
+            <TItleInfoCard />
+            <TopFivePosts />
+            <NewPosts />
         </Fragment>
     );
 };

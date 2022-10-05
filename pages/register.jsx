@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import React, { Fragment } from 'react';
+import RegisterForm from '../components/RegisterForm';
 
 const Register = () => {
     return (
@@ -13,7 +14,7 @@ const Register = () => {
                 <meta name="description" content="두들링 - MBTI 기반 커뮤니티" />
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
-            Register
+            <RegisterForm />
         </Fragment>
     );
 };
