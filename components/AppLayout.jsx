@@ -1,13 +1,18 @@
 import React, { Fragment } from 'react';
 import Link from 'next/link';
+import { useRouter, asPath } from 'next/router'
 import PropTypes from 'prop-types';
 import { Layout, Collapse, Tabs } from 'antd';
+import NavigationBar from './NavigationBar';
+
 
 const { Header, Content, Footer } = Layout;
 const { Panel } = Collapse;
 
 const AppLayout = ({ children }) => {
     const myInfo  = true;
+    const router = useRouter();
+    const noNavPages = ['info', 'upload', 'register', 'login', 'edit'];
     
     return (
         <Layout className='applayout'>
@@ -32,6 +37,7 @@ const AppLayout = ({ children }) => {
                 </div>
             </Header>
             <Content style={{ backgroundColor: 'white'}}>
+                {/* {router.asPath.split('/').some(p => noNavPages.includes(p)) ? null : <NavigationBar />} */}
                 {children}
             </Content>
             <Footer className='applayout-footer'>

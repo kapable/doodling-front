@@ -5,6 +5,11 @@
 }
 
 /* AppLayout */
+.applayout {
+    width: 100%;
+    max-width: 80rem;
+    margin: 0 auto;
+}
 .applayout-header {
     background-color: white;
     height: 4rem;
