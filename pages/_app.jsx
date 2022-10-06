@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import '../scss/basic.scss';
 import '../scss/sign.scss';
 import AppLayout from '../components/AppLayout';
+import wrapper from '../store/configureStore';
 import Head from 'next/head';
 
 const App = ({ Component }) => {
@@ -27,4 +28,4 @@ App.propTypes = {
     Component: PropTypes.elementType.isRequired,
 };
 
-export default App;
+export default wrapper.withRedux(App);

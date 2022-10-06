@@ -1,9 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const TopPostsList = () => {
+const TopPostsList = ({ topPeriod }) => {
     return (
-        <div>TopPostsList</div>
+        <div>{topPeriod}</div>
     );
+};
+
+TopPostsList.propTypes = {
+    topPeriod: PropTypes.string.isRequired,
 };
 
 export default TopPostsList;

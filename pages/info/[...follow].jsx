@@ -20,8 +20,7 @@ const Follow = () => {
 
     // in case of the query is wrong
     useEffect(() => {
-        if(followType !== 'follower' && followType !== 'following' && followType !== null && followType !== '') {
-            console.log(followType);
+        if(followType !== 'follower' && followType !== 'following' && followType !== null && followType !== '' && followType !== undefined) {
             router.push('/404');
         }
     }, [followType]);

@@ -13,7 +13,7 @@ const LoginForm = () => {
     // const dispatch = useDispatch();
 
     const onSubmit = useCallback(
-        () => {
+        async () => {
             console.log(email, password);
             alert("로그인 되었습니다!");
             // dispatch({
