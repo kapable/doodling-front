@@ -50,10 +50,10 @@ const RegisterForm = () => {
             if(!term) {
                 return setTermError(true);
             }
-            dispatch({
-                type: SIGN_UP_REQUEST,
-                data: { email, nickname, myMBTI, password }
-            })
+            // dispatch({
+            //     type: SIGN_UP_REQUEST,
+            //     data: { email, nickname, myMBTI, password }
+            // })
             console.log(email, password, myMBTI);
         },
         [password, passwordCheck, setPasswordError, term, setTermError, email, nickname, myMBTI],
@@ -62,8 +62,8 @@ const RegisterForm = () => {
     return (
         <div className='signup-div'>
             <div className='signup-header'>
-                <img className='signup-header-main-logo' src={'https://d3edqqquyf396f.cloudfront.net/basic/doodling-logo.png'} alt='케이퍼니' />
-                <p className='signup-header-desc'>두들링은 MBTI 성향이 다른 서로에게<br />궁금한 점을 물어보거나 소통하는<br />MBTI 커뮤니티 사이트입니다.</p>
+                <img src={'https://d3edqqquyf396f.cloudfront.net/basic/doodling-logo.png'} alt='케이퍼니' />
+                <p>두들링은 MBTI 성향이 다른 서로에게<br />궁금한 점을 물어보거나 소통하는<br />MBTI 커뮤니티 사이트입니다.</p>
             </div>
             <Form onFinish={onSubmit} layout="vertical" className='signup-form'>
                 <div>
@@ -88,7 +88,7 @@ const RegisterForm = () => {
                     </Form.Item>
                     {passwordError && <div className='sign-up-error-message-div'>비밀번호가 일치하지 않습니다.</div>}
                 </div>
-                <Row>
+                <Row gutter={8}>
                     <Col span={12}>
                         <Form.Item htmlFor="user-nick" required label="닉네임">
                             <Input name="user-nick" value={nickname} required onChange={onChangeNickname}/>
@@ -97,10 +97,10 @@ const RegisterForm = () => {
                     <Col span={12}>
                         <Form.Item htmlFor="user-nick" required label="내 MBTI(항시 변경 가능)">
                             <Dropdown overlay={menu} trigger={['click']}>
-                                <Button style={{ width: '100%' }}>
+                                <Button className='signup-user-mbti-button'>
                                     <Space>
                                         {myMBTI ? myMBTI : 'MBTI'}
-                                    <DownOutlined />
+                                        <DownOutlined />
                                     </Space>
                                 </Button>
                             </Dropdown>
@@ -111,8 +111,8 @@ const RegisterForm = () => {
                     <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>(필수) 체크 후 가입시 개인정보활용 방침에 동의합니다.</Checkbox>
                     {termError && <div className='sign-up-error-message-div'>개인정보활용방침 동의 후 가입이 가능합니다.</div>}
                 </div>
-                <div className='signup-form-button-group'>
-                    <Button className='signup-form-button' htmlType="submit" >회원가입하기</Button>
+                <div>
+                    <Button className='signup-form-button' htmlType="submit" >회원가입</Button>
                 </div>
             </Form>
         </div>

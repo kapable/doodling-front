@@ -1,3 +1,4 @@
+const path = require('path');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.ANAYLZE === 'true',
 });
@@ -16,5 +17,8 @@ module.exports = withBundleAnalyzer({
                 new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^\.\/ko$/),
             ],
         };
+    },
+    sassOptions: {
+        includePaths: [path.join(__dirname, 'scss')],
     },
 });

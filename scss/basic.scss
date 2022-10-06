@@ -1,0 +1,139 @@
+$point-color : #375cb7;
+$grey-color: #f3f3f3;
+$red-color: #c86143;
+
+/* AppLayout */
+.applayout {
+    width: 100%;
+    max-width: 80rem;
+    margin: 0 auto;
+
+    .applayout-header {
+        background-color: white;
+        height: 4rem;
+        color: white;
+        padding: 0 20px;
+        border-bottom: solid 2px $grey-color;
+
+        img { // main-logo
+            width: 7rem;
+        }
+
+        /* Navigation */
+        .applayout-nav {
+            display: inline;
+            color: black;
+            border-bottom: solid 0.05rem black;
+
+            .applayout-nav-right-div {
+                float: right;
+                padding: 0.1rem 0.3rem 0;
+    
+                .applayout-nav-right-div-a {
+                    font-size: 0.8rem;
+                    color: black;
+                    background-color: white;
+                    border: solid $grey-color 2px;
+                    padding: 0.5rem 0.8rem;
+                }
+                
+                .applayout-nav-right-div-a:hover {
+                    color: black;
+                }
+            }
+            
+            .applayout-nav-left-div {
+                float: right;
+                height: 2rem;
+                padding: 0.1rem 0.3rem 0;
+    
+                .applayout-nav-left-div-a {
+                    font-size: 0.8rem;
+                    color: white;
+                    background-color: $point-color;
+                    padding: 0.5rem 0.8rem;
+                }
+                
+                .applayout-nav-left-div-a:hover {
+                    color: white;
+                }
+            }
+        }
+    }
+
+    .applayout-content {
+        background-color: white;
+    }
+
+    .applayout-footer {
+        color: #d3d3d3;
+        font-weight: bold;
+        text-align: center;
+        background-color: white;
+        padding: 3rem 10px;
+
+        a {
+            color: inherit;
+        }
+    }
+}
+
+/* index home - ant tabs nav bar */
+.ant-tabs-nav-list {
+    padding: 0 20px;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn, .ant-tabs-tab:hover {
+    color: $point-color;
+}
+
+.ant-tabs-top > .ant-tabs-nav {
+    margin-bottom: 0;
+}
+
+/* Signup */
+.signup-div {
+    background-color: white;
+    text-align: center;
+    font-weight: bold;
+
+    .signup-header {
+        img { // main-logo
+            width: 15rem;
+            margin: 2rem auto 1rem;
+        }
+    }
+
+    .signup-form {
+        padding: 0 16px 3rem;
+        max-width: 30rem;
+        margin: 0 auto;
+
+        .sign-up-error-message-div {
+            margin: 0 auto 1rem;
+            color: red;
+            text-align: left;
+        }
+
+        .signup-user-mbti-button {
+            width: 100%;
+            letter-spacing: 7px;
+        }
+    }
+
+    div {
+        .signup-form-button {
+            text-align: center;
+            margin-top: 1rem;
+            background-color: $point-color;
+            color: white;
+            width: 100%;
+            max-width: 30rem;
+            height: 3rem;
+            font-size: 1.2rem;
+            letter-spacing: 20px;
+            text-indent: 10px;
+            font-weight: bold;
+        }
+    }
+}

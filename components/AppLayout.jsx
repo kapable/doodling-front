@@ -4,18 +4,17 @@ import { useRouter, asPath } from 'next/router'
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
 
-
 const { Header, Content, Footer } = Layout;
 
 const AppLayout = ({ children }) => {
-    const myInfo  = true;
+    const myInfo  = false;
     const router = useRouter();
     
     return (
         <Layout className='applayout'>
             <Header className='applayout-header'>
                 {/* Top Nav-bar */}
-                <Link href='/'><a><img className='applayout-header-main-logo' src={'https://d3edqqquyf396f.cloudfront.net/basic/doodling-logo.png'} alt='두들링' /></a></Link>
+                <Link href='/'><a><img src={'https://d3edqqquyf396f.cloudfront.net/basic/doodling-logo.png'} alt='두들링' /></a></Link>
                 <div className='applayout-nav'>
                     {myInfo
                         ? (
@@ -33,7 +32,7 @@ const AppLayout = ({ children }) => {
                         }
                 </div>
             </Header>
-            <Content style={{ backgroundColor: 'white'}}>
+            <Content className='applayout-content'>
                 {children}
             </Content>
             <Footer className='applayout-footer'>
