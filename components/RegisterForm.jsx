@@ -3,8 +3,14 @@ import { Button, Checkbox, Form, Input, Dropdown, Row, Col, Space, Menu } from '
 import { DownOutlined, LoadingOutlined } from '@ant-design/icons';
 import Router from 'next/router';
 import useInput from '../hooks/useInput';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { SIGN_UP_REQUEST } from '../reducers/user';
 
 const RegisterForm = () => {
+    const dispatch = useDispatch();
+    const { myInfo, signUpLoading, signUpDone, signUpError } = useSelector((state) => state.user);
+
     const [email, onChangeEmail] = useInput('');
     const [nickname, onChangeNickname] = useInput('');
     const [myMBTI, setMyMBTI] = useState('');
@@ -13,8 +19,7 @@ const RegisterForm = () => {
     const [passwordError, setPasswordError] = useState(false);
 
     const onMBTIClick = useCallback((e) => {
-        setMyMBTI(e.key)
-        console.log(myMBTI);
+        setMyMBTI(e.key);
     }, [myMBTI]);
 
     const categories = ['ENFJ', 'ENFP', 'ENTJ', 'ENTP', 'ESFJ', 'ESFP', 'ESTJ', 'ESTP', 'INFJ', 'INFP', 'INTJ', 'INTP', 'ISFJ', 'ISFP', 'ISTJ', 'ISTP'];
@@ -50,14 +55,30 @@ const RegisterForm = () => {
             if(!term) {
                 return setTermError(true);
             }
-            // dispatch({
-            //     type: SIGN_UP_REQUEST,
-            //     data: { email, nickname, myMBTI, password }
-            // })
-            console.log(email, password, myMBTI);
+            dispatch({
+                type: SIGN_UP_REQUEST,
+                data: { email, nickname, mbti: myMBTI, password }
+            })
         },
         [password, passwordCheck, setPasswordError, term, setTermError, email, nickname, myMBTI],
     );
+
+    useEffect(() => {
+        if(myInfo?.id) {
+            Router.push('/');
+        };
+    }, [myInfo]);
+
+    useEffect(() => {
+        if (signUpDone) {
+            alert("회원가입에 성공했습니다!");
+            Router.replace('/login');
+        };
+
+        if (signUpError) {
+            alert('회원가입 에러가 발생했습니다. 다시 시도해주세요 ㅠㅠ');
+        };
+    }, [signUpDone, signUpError]);
 
     return (
         <div className='signup-div'>
@@ -112,7 +133,7 @@ const RegisterForm = () => {
                     {termError && <div className='sign-up-error-message-div'>개인정보활용방침 동의 후 가입이 가능합니다.</div>}
                 </div>
                 <div>
-                    <Button className='signup-form-button' htmlType="submit" >회원가입</Button>
+                    <Button className='signup-form-button' htmlType="submit" >{signUpLoading ? <LoadingOutlined /> : "회원가입"}</Button>
                 </div>
             </Form>
         </div>

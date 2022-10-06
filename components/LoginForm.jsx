@@ -1,33 +1,37 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Button, Form, Input } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import useInput from '../hooks/useInput';
 import { useRouter } from 'next/router';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { LOG_IN_REQUEST } from '../reducers/user';
 
 const LoginForm = () => {
     const router = useRouter();
-    // const { logInLoading } = useSelector((state) => state.user);
+    const { myInfo, logInLoading, logInError } = useSelector((state) => state.user);
     const [email, onChangeEmail] = useInput('');
     const [password, onChangePassword] = useInput('');
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    const onSubmit = useCallback(
-        async () => {
-            console.log(email, password);
-            alert("로그인 되었습니다!");
-            // dispatch({
-                //     type: SIGN_UP_REQUEST,
-                //     data: { email, nickname, myMBTI, password }
-                // })
-            // dispatch({
-            //     type: LOG_IN_REQUEST,
-            //     data: { email, password },
-            // });
-            return router.push('/');
-        },
-        [email, password],
-    )
+    const onSubmit = useCallback(() => {
+            dispatch({
+                type: LOG_IN_REQUEST,
+                data: { email, password },
+            });
+        }, [email, password])
+
+    useEffect(() => {
+        if(myInfo?.id) {
+            router.push('/');
+        }
+    }, [myInfo]);
+
+    useEffect(() => {
+        if(logInError) {
+            alert(logInError);
+        }
+    }, [logInError]);
+    
 
     return (
         <div className='signup-div'>
@@ -47,7 +51,7 @@ const LoginForm = () => {
                     </Form.Item>
                 </div>
                 <div>
-                    <Button className='signup-form-button' htmlType="submit" >로그인</Button>
+                    <Button className='signup-form-button' htmlType="submit" >{logInLoading ? <LoadingOutlined /> : "로그인"}</Button>
                 </div>
             </Form>
         </div>

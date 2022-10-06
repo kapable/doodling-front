@@ -4,10 +4,12 @@ import Head from 'next/head';
 import BasicInfoCard from '../../components/Info/BasicInfoCard';
 import DescriptionCard from '../../components/Info/DescriptionCard';
 import MyPosts from '../../components/Info/MyPosts';
+import { useSelector } from 'react-redux';
 
 const UserInfo = () => {
     const router = useRouter();
     const { userId } = router.query;
+    const { logOutDone } = useSelector((state) => state.user);
 
     return (
         <Fragment>

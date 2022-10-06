@@ -1,14 +1,15 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter, asPath } from 'next/router'
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 const { Header, Content, Footer } = Layout;
 
 const AppLayout = ({ children }) => {
-    const myInfo  = false;
-    const router = useRouter();
+
+    const { myInfo } = useSelector((state) => state.user);
     
     return (
         <Layout className='applayout'>
@@ -16,10 +17,10 @@ const AppLayout = ({ children }) => {
                 {/* Top Nav-bar */}
                 <Link href='/'><a><img src={'https://d3edqqquyf396f.cloudfront.net/basic/doodling-logo.png'} alt='두들링' /></a></Link>
                 <div className='applayout-nav'>
-                    {myInfo
+                    {myInfo?.id
                         ? (
                             <Fragment>
-                                <div className='applayout-nav-right-div'><Link href={`/info/1`}><a className='applayout-nav-right-div-a'>내 정보</a></Link></div>
+                                <div className='applayout-nav-right-div'><Link href={`/info/${myInfo?.id}`}><a className='applayout-nav-right-div-a'>내 정보</a></Link></div>
                                 <div className='applayout-nav-left-div'><Link href='/upload'><a className='applayout-nav-left-div-a'>글쓰기</a></Link></div>
                             </Fragment>
                         )
