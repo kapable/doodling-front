@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { Tabs } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
+import PropTypes from 'prop-types';
 
 const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
     const router = useRouter();
@@ -149,6 +150,11 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
                 moreIcon={<EllipsisOutlined />} />
         </Fragment>
     );
+};
+
+NavigationBar.propTypes = {
+    categoryDomain: PropTypes.string.isRequired,
+    subCategoryDomain: PropTypes.string,
 };
 
 export default NavigationBar;

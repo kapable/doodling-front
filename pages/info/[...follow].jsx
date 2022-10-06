@@ -9,16 +9,52 @@ const Follow = () => {
     const router = useRouter();
     const { follow } = router.query;
 
-    const [userId, setUserId] = useState();
+    const [ userId, setUserId ] = useState('');
+    const [ followType, setFollowType ] = useState('');
 
+    // set user info from the query
     useEffect(() => {
         setUserId(follow ? follow[0] : null);
+        setFollowType(follow ? follow[1] : null);
     }, [follow]);
+
+    // in case of the query is wrong
+    useEffect(() => {
+        if(followType !== 'follower' && followType !== 'following' && followType !== null && followType !== '') {
+            console.log(followType);
+            router.push('/404');
+        }
+    }, [followType]);
+
+    const followList = [
+        {
+            "id": 2,
+            "nickname": "good boy",
+            "mbti": "ENPJ",
+            "Follow": {
+                "createdAt": "2022-09-26T20:02:50.000Z",
+                "updatedAt": "2022-09-26T20:02:50.000Z",
+                "FollowingId": 1,
+                "FollowerId": 2
+            }
+        },
+        {
+            "id": 3,
+            "nickname": "bad boy",
+            "mbti": "ENTP",
+            "Follow": {
+                "createdAt": "2022-09-26T20:02:50.000Z",
+                "updatedAt": "2022-09-26T20:02:50.000Z",
+                "FollowingId": 1,
+                "FollowerId": 2
+            }
+        }
+    ];
 
     return (
         <Fragment>
             <Head>
-                <title>{`${follow ? follow[0] : null} 님의 ${follow ? follow[1] : null}`}</title>
+                <title>{`${userId} 님의 ${followType}`}</title>
                 <link rel='shortcut icon' href='/doodling-favicon.png'/>
                 <meta charSet='utf-8'/>
                 <meta name="language" content="Korean" />
@@ -26,7 +62,7 @@ const Follow = () => {
                 <meta name="description" content="두들링 - MBTI 기반 커뮤니티" />
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
-            <FollowList user={userId} />
+            <FollowList userList={followList} type={followType} />
         </Fragment>
     );
 };
