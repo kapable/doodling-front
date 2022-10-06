@@ -15,6 +15,7 @@ const App = ({ Component }) => {
                 <meta name="naver-site-verification" content="87fd62dae7bf8be269b0d304ef296d6973ed9e0e" /> 
                 <meta name="naver-site-verification" content="b6a6791901d49d1e344b7a7fb2b30249dc920d07" />
                 <meta name="google-site-verification" content="D255Tc4guakthKOk3pAZG-VOoqn_LOcn_JMiq-MbZ8o" />
+                <meta name='viewport' content='initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width' />
             </Head>
             <AppLayout>
                 <Component />
