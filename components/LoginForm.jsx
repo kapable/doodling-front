@@ -31,7 +31,6 @@ const LoginForm = () => {
             alert(logInError);
         }
     }, [logInError]);
-    
 
     return (
         <div className='signup-div'>
