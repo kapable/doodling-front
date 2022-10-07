@@ -37,7 +37,7 @@ const UploadEditor = () => {
             // formData.append('image', file); // formData는 키-밸류 구조
             // 백엔드 multer라우터에 이미지를 보낸다.
             try {
-                const result = await axios.post(`http://localhost:3065/post/images`, formData);
+                const result = await axios.post(`https://api.doodling.kr/post/images`, formData);
                 console.log(result);
                 result.data.map((url) => {
                     // const IMG_URL = result.data[0];
