@@ -42,7 +42,7 @@ const UploadEditor = () => {
                 result.data.map((url) => {
                     // const IMG_URL = result.data[0];
                     const editor = quillRef.current.getEditorSelection(); // // 2. 현재 에디터 커서 위치값을 가져온다 + 에디터 객체 가져오기
-                    quillRef.current.getEditor().insertEmbed(editor.index, 'image', url); // 가져온 위치에 이미지를 삽입한다
+                    quillRef.current.getEditor().insertEmbed(editor.index, 'image', url.replace(/\/resized\//, '/original/')); // 가져온 위치에 이미지를 삽입한다
                     quillRef.current.getEditor().setSelection(editor.index + 1);
                     // document.body.querySelector(':scope > input').remove()
                 });
