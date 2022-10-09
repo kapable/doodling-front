@@ -86,12 +86,32 @@ export const initialState = {
             ]
         }
     ],
+    addCategoryLoading: false,
+    addCategoryDone: false,
+    addCategoryError: false,
 };
+
+export const ADD_CATEGORY_REQUEST = 'ADD_CATEGORY_REQUEST';
+export const ADD_CATEGORY_SUCCESS = 'ADD_CATEGORY_SUCCESS';
+export const ADD_CATEGORY_FAILURE = 'ADD_CATEGORY_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
         switch (action.type) {
-
+            case ADD_CATEGORY_REQUEST:
+                draft.addCategoryLoading = true;
+                draft.addCategoryDone = false;
+                draft.addCategoryError = null;
+                break;
+            case ADD_CATEGORY_SUCCESS:
+                draft.categories = action.data;
+                draft.addCategoryDone = true;
+                draft.addCategoryLoading = false;
+                break;
+            case ADD_CATEGORY_FAILURE:
+                draft.addCategoryLoading = false;
+                draft.addCategoryError = action.error;
+                break;
             default:
                 break;
         };

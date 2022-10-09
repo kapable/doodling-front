@@ -4,6 +4,7 @@ import { BackTop } from 'antd';
 import 'antd/dist/antd.css';
 import '../scss/basic.scss';
 import '../scss/sign.scss';
+import '../scss/admin.scss';
 import AppLayout from '../components/AppLayout';
 import wrapper from '../store/configureStore';
 import Head from 'next/head';

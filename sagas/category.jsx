@@ -1,35 +1,36 @@
 import axios from 'axios';
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import {
-    // LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
+    ADD_CATEGORY_SUCCESS, ADD_CATEGORY_FAILURE, ADD_CATEGORY_REQUEST,
 } from '../reducers/category';
 
-// function uploadImagesAPI(data) {
-//     return axios.post(`/post/images`, data);
-// };
+function addCategoryAPI(data) {
+    return axios.post(`/category`, data);
+};
 
-// function* uploadImages(action) {
-//     try {
-//         const result = yield call(uploadImagesAPI, action.data);
-//         yield put({
-//             type: UPLOAD_IMAGES_SUCCESS,
-//             data: result.data,
-//         });
-//     } catch (err) {
-//         console.log(err);
-//         yield put({
-//             type: UPLOAD_IMAGES_FAILURE,
-//             error: err.response.data
-//         });
-//     };
-// };
+function* addCategory(action) {
+    console.log(action);
+    try {
+        const result = yield call(addCategoryAPI, action.data);
+        yield put({
+            type: ADD_CATEGORY_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: ADD_CATEGORY_FAILURE,
+            error: err.response
+        });
+    };
+};
 
-// function* watchUploadImages() {
-//     yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
-// };
+function* watchAddCategory() {
+    yield takeLatest(ADD_CATEGORY_REQUEST, addCategory);
+};
 
 export default function* postSaga() {
     yield all([
-        // fork(watchLoadPosts),
+        fork(watchAddCategory),
     ]);
 };

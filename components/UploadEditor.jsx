@@ -175,7 +175,7 @@ const UploadEditor = () => {
                     />
 
                 {/* Submit Button */}
-                <button type='submit'>업로드</button>
+                <Button type='submit'>업로드</Button>
             </form>
             {/* <div dangerouslySetInnerHTML={{ __html: value }}></div> */}
         </div>

@@ -1,0 +1,27 @@
+/* Admin Index */
+.admin-index-row {
+    margin: 3rem auto;
+    text-align: center;
+    font-size: 1.5rem;
+
+    .admin-index-col {
+        margin: 1.5rem auto;
+
+        a {
+            color: inherit;
+        }
+    }
+}
+
+/* Category */
+.admin-category-main-div {
+    padding: 1.5rem;
+
+    h1 {
+        margin-top: 1rem;
+    }
+
+    .create-category-input {
+        width: 100%;
+    }
+}
