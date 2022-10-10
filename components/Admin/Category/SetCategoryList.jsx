@@ -141,7 +141,8 @@ const SetCategoryList = ({ categories }) => {
                     })  
                 }
             }
-        })
+        });
+        console.log(categories, checkedCats);
         setCheckedKeys(checkedCats);
     }, [categories])
 
