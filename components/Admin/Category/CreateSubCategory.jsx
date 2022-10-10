@@ -1,7 +1,9 @@
 import { Select, Input, Button } from 'antd';
 import React, { Fragment, useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import useInput from '../../../hooks/useInput';
+import PropTypes from 'prop-types';
+import { ADD_SUBCATEGORY_REQUEST } from '../../../reducers/category';
 
 const { Option } = Select;
 
@@ -12,8 +14,8 @@ const CreateSubCategory = ({ categories }) => {
     const [selectedCategory, setSelectedCategory] = useState();
 
     const onCategoryChange = useCallback((cat) => {
-        let selectedCategory = categories.find((c) => c.label === cat);
-        setSelectedCategory(selectedCategory)
+        let selectedCat = categories.find((c) => c.label === cat);
+        setSelectedCategory(selectedCat);
     }, []);
 
     const onSubCategoryDomain = useCallback((e) => {
@@ -23,15 +25,26 @@ const CreateSubCategory = ({ categories }) => {
     const onSubInputSubmit = useCallback(() => {
         if(newSubCategory === '') {
             return alert('서브 카테고리를 입력해주세요');
-        } else {
-            // dispatch({
-            //     type: ADD_SUBCATEGORY_REQUEST,
-            //     data: { newCategory },
-            // })
-            setNewSubCategory('');
-            console.log(newSubCategory);
-        }
-    }, [newSubCategory]);
+        };
+        if(!newSubCategoryDomain) {
+            return alert('서브 카테고리 도메인을 입력해주세요.');
+        };
+        let exSubCategoryLabels =  selectedCategory?.SubCategories.map((s) => s.label.replace(/[\s]/ig, ''));
+        if(exSubCategoryLabels.includes(newSubCategory)) {
+            return alert('이미 존재하는 서브 카테고리입니다.');
+        };
+
+        let exSubCategoryDomains =  selectedCategory?.SubCategories.map((s) => s.domain.replace(/[\s]/ig, ''));
+        if(exSubCategoryDomains.includes(newSubCategoryDomain)) {
+            return alert('이미 존재하는 서브 카테고리 도메인입니다.');
+        };
+        dispatch({
+            type: ADD_SUBCATEGORY_REQUEST,
+            data: { label: newSubCategory, domain: newSubCategoryDomain, categoryId: selectedCategory.id },
+        });
+        setNewSubCategory('');
+        setNewSubCategoryDomain('');
+    }, [newSubCategory, newSubCategoryDomain, selectedCategory]);
 
     return (
         <Fragment>
@@ -69,9 +82,13 @@ const CreateSubCategory = ({ categories }) => {
                 />
                 </Fragment>
             : null}
-            <Button type='primary' disabled={!(newSubCategory && newSubCategoryDomain)}>서브 카테고리 생성</Button>
+            <Button onClick={onSubInputSubmit} type='primary' disabled={!(newSubCategory && newSubCategoryDomain)}>서브 카테고리 생성</Button>
         </Fragment>
     );
+};
+
+CreateSubCategory.propTypes = {
+    categories: PropTypes.array.isRequired,
 };
 
 export default CreateSubCategory;

@@ -1,7 +1,12 @@
 import { Tree } from 'antd';
 import React, { Fragment, useCallback, useState } from 'react';
+import { SET_CATEGORY_ENABLE_REQUEST, SET_SUBCATEGORY_ENABLE_REQUEST } from '../../../reducers/category';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 const SetCategoryList = () => {
+    const dispatch = useDispatch();
+    const { categories, setCategoryEnableLoading, setCategoryEnableDone, setCategoryEnableError, setSubCategoryEnableLoading, setSubCategoryEnableDone, setSubCategoryEnableError } = useSelector((state) => state.category);
 
     const sampleDatas = [{
         title: '홈',
@@ -91,17 +96,48 @@ const SetCategoryList = () => {
         setGData(data);
     }, []);
 
-    const onCheck = useCallback((checkedKeysValue) => {
-        console.log('onCheck', checkedKeysValue);
+    const onCheck = useCallback((checkedKeysValue, e) => {
+        // in case of Main Category Enabling Check
+        if(e.node?.children) {
+            let selectedCategory = categories.find((cat) => cat.domain === e.node.key);
+            dispatch({
+                type: SET_CATEGORY_ENABLE_REQUEST,
+                data: { categoryId : selectedCategory.id, checked : !e.node.checked }
+            });
+        // in case of Sub Category Enabling Check
+        } else {
+            const subPosition = e.node.pos.split('-');
+            const selectedCat = sampleDatas[subPosition[1]];
+            const selectedSubCat = selectedCat.children[subPosition[2]];
+            const selectedSubCatKey = selectedSubCat.key.includes('index') ? "" : selectedSubCat.key;
+            let selectedCategory = categories.find((cat) => cat.domain === selectedCat.key);
+            let selectedSubCategory = selectedCategory.SubCategories.find((sub) => sub.domain === selectedSubCatKey);
+            dispatch({
+                type: SET_SUBCATEGORY_ENABLE_REQUEST,
+                data: { subCategoryId: selectedSubCategory.id, checked : !e.node.checked }
+            });
+        }
         setCheckedKeys(checkedKeysValue);
     }, []);
+
+    useEffect(() => {
+        if(setCategoryEnableError || setSubCategoryEnableError) {
+            return alert('카테고리 세팅 중 에러가 발생했습니다.');
+        };
+    }, [setCategoryEnableError, setSubCategoryEnableError]);
+
+    useEffect(() => {
+        if(setCategoryEnableDone || setSubCategoryEnableDone) {
+            return alert('카테고리 세팅이 성공적으로 반영되었습니다.');
+        }
+    }, [setCategoryEnableDone, setSubCategoryEnableDone])
 
     return (
         <Fragment>
             <h1>두들링 카테고리 목록</h1>
             <Tree
                 className="category-tree"
-                draggable
+                // draggable
                 onDrop={onDrop}
                 blockNode
                 showLine
@@ -109,6 +145,7 @@ const SetCategoryList = () => {
                 onCheck={onCheck}
                 checkedKeys={checkedKeys}
                 treeData={gData}
+                disabled={setCategoryEnableLoading || setSubCategoryEnableLoading}
             />
         </Fragment>
     );

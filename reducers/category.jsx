@@ -58,14 +58,14 @@ export const initialState = {
                     "order": 4,
                     "CategoryId": 3
                 },
-                {
-                    "id": 5,
-                    "label": "월간  ",
-                    "domain": "top100Monthly",
-                    "enabled": true,
-                    "order": 5,
-                    "CategoryId": 3
-                }
+                // {
+                //     "id": 5,
+                //     "label": "월간  ",
+                //     "domain": "top100Monthly",
+                //     "enabled": true,
+                //     "order": 5,
+                //     "CategoryId": 3
+                // }
             ]
         },
         {
@@ -89,11 +89,32 @@ export const initialState = {
     addCategoryLoading: false,
     addCategoryDone: false,
     addCategoryError: false,
+    addSubCategoryLoading: false,
+    addSubCategoryDone: false,
+    addSubCategoryError: false,
+    setCategoryEnableLoading: false,
+    setCategoryEnableDone: false,
+    setCategoryEnableError: false,
+    setSubCategoryEnableLoading: false,
+    setSubCategoryEnableDone: false,
+    setSubCategoryEnableError: false,
 };
 
 export const ADD_CATEGORY_REQUEST = 'ADD_CATEGORY_REQUEST';
 export const ADD_CATEGORY_SUCCESS = 'ADD_CATEGORY_SUCCESS';
 export const ADD_CATEGORY_FAILURE = 'ADD_CATEGORY_FAILURE';
+
+export const ADD_SUBCATEGORY_REQUEST = 'ADD_SUBCATEGORY_REQUEST';
+export const ADD_SUBCATEGORY_SUCCESS = 'ADD_SUBCATEGORY_SUCCESS';
+export const ADD_SUBCATEGORY_FAILURE = 'ADD_SUBCATEGORY_FAILURE';
+
+export const SET_CATEGORY_ENABLE_REQUEST = 'SET_CATEGORY_ENABLE_REQUEST';
+export const SET_CATEGORY_ENABLE_SUCCESS = 'SET_CATEGORY_ENABLE_SUCCESS';
+export const SET_CATEGORY_ENABLE_FAILURE = 'SET_CATEGORY_ENABLE_FAILURE';
+
+export const SET_SUBCATEGORY_ENABLE_REQUEST = 'SET_SUBCATEGORY_ENABLE_REQUEST';
+export const SET_SUBCATEGORY_ENABLE_SUCCESS = 'SET_SUBCATEGORY_ENABLE_SUCCESS';
+export const SET_SUBCATEGORY_ENABLE_FAILURE = 'SET_SUBCATEGORY_ENABLE_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -111,6 +132,48 @@ const reducer = (state = initialState, action) => {
             case ADD_CATEGORY_FAILURE:
                 draft.addCategoryLoading = false;
                 draft.addCategoryError = action.error;
+                break;
+            case ADD_SUBCATEGORY_REQUEST:
+                draft.addSubCategoryLoading = true;
+                draft.addSubCategoryDone = false;
+                draft.addSubCategoryError = null;
+                break;
+            case ADD_SUBCATEGORY_SUCCESS:
+                draft.categories = action.data;
+                draft.addSubCategoryDone = true;
+                draft.addSubCategoryLoading = false;
+                break;
+            case ADD_SUBCATEGORY_FAILURE:
+                draft.addSubCategoryLoading = false;
+                draft.addSubCategoryError = action.error;
+                break;
+            case SET_CATEGORY_ENABLE_REQUEST:
+                draft.setCategoryEnableLoading = true;
+                draft.setCategoryEnableDone = false;
+                draft.setCategoryEnableError = null;
+                break;
+            case SET_CATEGORY_ENABLE_SUCCESS:
+                draft.categories = action.data;
+                draft.setCategoryEnableDone = true;
+                draft.setCategoryEnableLoading = false;
+                break;
+            case SET_CATEGORY_ENABLE_FAILURE:
+                draft.setCategoryEnableLoading = false;
+                draft.setCategoryEnableError = action.error;
+                break;
+            case SET_SUBCATEGORY_ENABLE_REQUEST:
+                draft.setSubCategoryEnableLoading = true;
+                draft.setSubCategoryEnableDone = false;
+                draft.setSubCategoryEnableError = null;
+                break;
+            case SET_SUBCATEGORY_ENABLE_SUCCESS:
+                draft.categories = action.data;
+                draft.setSubCategoryEnableDone = true;
+                draft.setSubCategoryEnableLoading = false;
+                break;
+            case SET_SUBCATEGORY_ENABLE_FAILURE:
+                draft.setSubCategoryEnableLoading = false;
+                draft.setSubCategoryEnableError = action.error;
                 break;
             default:
                 break;
