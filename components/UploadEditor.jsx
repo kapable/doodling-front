@@ -43,7 +43,7 @@ const UploadEditor = () => {
     useEffect(() => {
         if(addPostDone && uploadedPost) {
             alert('성공적으로 업로드 되었습니다!');
-            router.push(`/${uploadedPost.SubCategory.domain}/${uploadedPost.id}`);
+            router.push(`/${uploadedPost.SubCategory.Category.domain}/${uploadedPost.SubCategory.domain}/${uploadedPost.id}`);
         };
     }, [addPostDone, uploadedPost]);
 

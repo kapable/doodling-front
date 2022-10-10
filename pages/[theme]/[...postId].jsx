@@ -1,28 +1,39 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { useDispatch, useSelector } from 'react-redux';
 import PostTitleCard from '../../components/Post/PostTitleCard';
 import MainContentsCard from '../../components/Post/MainContentsCard';
 import CommentsCard from '../../components/Post/CommentsCard';
 import RecommendPosts from '../../components/Post/RecommendPosts';
 import NavigationBar from '../../components/NavigationBar';
+import { LOAD_POST_REQUEST } from '../../reducers/post';
 
 const Post = () => {
+    const dispatch = useDispatch();
+    const { singlePost } = useSelector((state) => state.post);
     const router = useRouter();
     const { theme, postId } = router.query;
     const [subTheme, setSubTheme] = useState('');
     const [postNum, setPostNum] = useState('');
 
-
+    
     useEffect(() => {
         setSubTheme(postId ? postId[0] : null);
         setPostNum(postId ? postId[1] : null);
     }, [postId]);
+    
+    useEffect(() => {
+        dispatch({
+            type: LOAD_POST_REQUEST,
+            data: postNum
+        })
+    }, [postNum]);
 
     return (
         <Fragment>
             <Head>
-                <title>{`${postNum} - 두들링`}</title>
+                <title>{`${singlePost?.title || '두들링'} - 두들링`}</title>
                 <link rel='shortcut icon' href='/doodling-favicon.png'/>
                 <meta charSet='utf-8'/>
                 <meta name="language" content="Korean" />
@@ -32,10 +43,11 @@ const Post = () => {
             </Head>
             <NavigationBar categoryDomain={theme} subCategoryDomain={subTheme} />
             {/* category & back url */}
-            <PostTitleCard />
-            <MainContentsCard />
-            <CommentsCard />
+            <PostTitleCard contents={singlePost}/>
+            <MainContentsCard contents={singlePost.text} />
+            <CommentsCard comments={singlePost.Comments}/>
             <RecommendPosts />
+            {console.log(singlePost)}
         </Fragment>
     );
 };

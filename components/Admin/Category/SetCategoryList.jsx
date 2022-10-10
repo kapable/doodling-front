@@ -1,4 +1,5 @@
 import { Tree } from 'antd';
+import PropTypes from 'prop-types';
 import React, { Fragment, useCallback, useState } from 'react';
 import { SET_CATEGORY_ENABLE_REQUEST, SET_SUBCATEGORY_ENABLE_REQUEST } from '../../../reducers/category';
 import { useDispatch, useSelector } from 'react-redux';
@@ -175,6 +176,10 @@ const SetCategoryList = ({ categories }) => {
             />
         </Fragment>
     );
+};
+
+SetCategoryList.propTypes = {
+    categories: PropTypes.array.isRequired,
 };
 
 export default SetCategoryList;
