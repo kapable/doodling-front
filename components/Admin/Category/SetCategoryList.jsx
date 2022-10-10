@@ -104,7 +104,8 @@ const SetCategoryList = ({ categories }) => {
                 
                 return {
                     title: c.label,
-                    key: treeKey
+                    key: treeKey,
+                    disabled: c.label === '홈',
                 }
             } else {
                 if(c.enabled === true || c.enaled === 'true') {
@@ -142,8 +143,7 @@ const SetCategoryList = ({ categories }) => {
                 }
             }
         });
-        console.log(categories, checkedCats);
-        setCheckedKeys(checkedCats);
+        setCheckedKeys(['-index',...checkedCats]);
     }, [categories])
 
     useEffect(() => {
