@@ -1,8 +1,9 @@
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Divider, Input, Select } from 'antd';
+import { Form, Button, Divider, Input, Select } from 'antd';
 import useInput from '../hooks/useInput';
+import { useRouter } from 'next/router';
 
 const QuillNoSSRWrapper = dynamic(async () => {
     const { default: RQ } = await import('react-quill');
@@ -14,19 +15,37 @@ const QuillNoSSRWrapper = dynamic(async () => {
 import React, { useState, useMemo, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { backUrl } from '../config/config';
+import { useEffect } from 'react';
+import { LOAD_CATEGORIES_REQUEST } from '../reducers/category';
+import { ADD_POST_REQUEST } from '../reducers/post';
 
 const { Option } = Select;
 
 const UploadEditor = () => {
+    const router = useRouter();
     const dispatch = useDispatch();
     const { categories } = useSelector((state) => state.category);
+    const { addPostDone, uploadedPost, addPostLoading } = useSelector((state) => state.post);
 
     const [title, onChangeTitle] = useInput('');
     const [subCategories, setSubCategories] = useState([]);
     const [subCategory, setSubCategory] = useState('');
     const [subCategoryId, setSubCategoryId] = useState('');
-    const [value, setValue] = useState("");
+    const [text, setText] = useState("");
     const quillRef = useRef(null);
+
+    useEffect(() => {
+        dispatch({
+            type: LOAD_CATEGORIES_REQUEST
+        });
+    }, []);
+
+    useEffect(() => {
+        if(addPostDone && uploadedPost) {
+            alert('성공적으로 업로드 되었습니다!');
+            router.push(`/${uploadedPost.SubCategory.domain}/${uploadedPost.id}`);
+        };
+    }, [addPostDone, uploadedPost]);
 
     const onCategoryChange = useCallback((cat) => {
         let selectedCategory = categories.find((c) => c.label === cat);
@@ -35,7 +54,7 @@ const UploadEditor = () => {
             setSubCategory(selectedCategory.SubCategories[0].label)
             setSubCategoryId(selectedCategory.SubCategories[0].id)
         };
-    }, []);
+    }, [categories]);
 
     const onSubCategoryChange = useCallback((subCat) => {
         setSubCategory(subCat)
@@ -44,6 +63,31 @@ const UploadEditor = () => {
             setSubCategoryId(selectedSubCategory.id);
         }
     }, [categories, subCategories]);
+
+    const onSubmit = useCallback(() => {
+        // if(!userInfo) {
+        //     return alert('관리자 로그인이 필요합니다!');
+        // }
+        if(!title || !title.trim()) {
+            return alert('제목을 입력하세요!');
+        };
+        if(!subCategoryId) {
+            return alert('서브 게시판을 선택하세요!');
+        };
+        if(!text || text === '<p><br></p>') {
+            return alert('글을 작성해주세요!');
+        };
+        dispatch({
+            type: ADD_POST_REQUEST,
+            data: {
+                title,
+                text,
+                subCategoryId,
+                userId: 1
+            }
+        });
+    }, [title, text, subCategoryId]);
+    
 
     const imageHandler = () => {
         // 1. 이미지를 저장할 input type=file DOM을 만든다.
@@ -127,7 +171,7 @@ const UploadEditor = () => {
 
     return (
         <div className='upload-main-div'>
-            <form encType="multipart/form-data" acceptCharset="UTF-8">
+            <Form encType="multipart/form-data" acceptCharset="UTF-8" onFinish={onSubmit}>
                 {/* Title */}
                 <Input className='upload-title-input' value={title} required showCount maxLength={30} onChange={onChangeTitle} placeholder="멋진 제목을 써주세요!" allowClear={true} />
 
@@ -139,8 +183,8 @@ const UploadEditor = () => {
                     onChange={onCategoryChange}
                     >
                     {categories.map((cat) => {
-                        if(cat.domain !== 'main') {
-                            return <Option value={cat.label} key={cat.domain} ></Option>
+                        if(cat.domain !== '') {
+                            return <Option value={cat.label} key={cat.domain} />
                         }
                     })}
                 </Select>
@@ -150,13 +194,13 @@ const UploadEditor = () => {
                 ? (
                     <Select
                         className='upload-subCategory-select'
-                        placeholder="서브게시판을 선택해주세요."
+                        placeholder="서브 게시판을 선택해주세요."
                         optionLabelProp='type'
                         onChange={onSubCategoryChange}
                         value={subCategory}
                     >
                         {subCategories.map((subCat) => (
-                            <Option value={subCat.label} key={subCat.domain} ></Option>
+                            <Option value={subCat.label} key={subCat.domain} />
                         ))}
                     </Select>
                 )
@@ -166,8 +210,8 @@ const UploadEditor = () => {
                 <QuillNoSSRWrapper
                     className="upload-editor-quill"
                     forwardedRef={quillRef}
-                    onChange={setValue}
-                    value={value}
+                    onChange={setText}
+                    value={text}
                     modules={modules}
                     formats={formats}
                     placeholder="글과 사진으로 여러분의 이야기를 들려주세요 : )"
@@ -175,9 +219,8 @@ const UploadEditor = () => {
                     />
 
                 {/* Submit Button */}
-                <Button type='submit'>업로드</Button>
-            </form>
-            {/* <div dangerouslySetInnerHTML={{ __html: value }}></div> */}
+                <Button type='primary' htmlType="submit" loading={addPostLoading} >업로드</Button>
+            </Form>
         </div>
     );
 };
