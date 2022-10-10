@@ -16,11 +16,11 @@ const CreateSubCategory = ({ categories }) => {
     const onCategoryChange = useCallback((cat) => {
         let selectedCat = categories.find((c) => c.label === cat);
         setSelectedCategory(selectedCat);
-    }, []);
+    }, [categories]);
 
     const onSubCategoryDomain = useCallback((e) => {
         setNewSubCategoryDomain(e.target.value.replace(/[^A-Za-z0-9]/ig, ''))
-    }, []);
+    }, [categories]);
 
     const onSubInputSubmit = useCallback(() => {
         if(newSubCategory === '') {

@@ -5,6 +5,7 @@ import {
     ADD_SUBCATEGORY_SUCCESS, ADD_SUBCATEGORY_FAILURE, ADD_SUBCATEGORY_REQUEST,
     SET_CATEGORY_ENABLE_REQUEST, SET_CATEGORY_ENABLE_FAILURE, SET_CATEGORY_ENABLE_SUCCESS,
     SET_SUBCATEGORY_ENABLE_REQUEST, SET_SUBCATEGORY_ENABLE_FAILURE, SET_SUBCATEGORY_ENABLE_SUCCESS,
+    LOAD_CATEGORIES_REQUEST, LOAD_CATEGORIES_SUCCESS, LOAD_CATEGORIES_FAILURE,
 } from '../reducers/category';
 
 function addCategoryAPI(data) {
@@ -87,6 +88,27 @@ function* addSetSubCategoryEnable(action) {
     };
 };
 
+function loadCategoriesAPI() {
+    return axios.get(`/category`);
+};
+
+function* loadCategories() {
+    try {
+        const result = yield call(loadCategoriesAPI);
+        yield put({
+            type: LOAD_CATEGORIES_SUCCESS,
+            data: result.data,
+        })
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: LOAD_CATEGORIES_FAILURE,
+            error: err.response.data
+        })
+    };
+};
+
+
 function* watchAddCategory() {
     yield takeLatest(ADD_CATEGORY_REQUEST, addCategory);
 };
@@ -99,6 +121,9 @@ function* watchSetCategoryEnable() {
 function* watchSetSubCategoryEnable() {
     yield takeLatest(SET_SUBCATEGORY_ENABLE_REQUEST, addSetSubCategoryEnable);
 };
+function* watchLoadCategories() {
+    yield takeLatest(LOAD_CATEGORIES_REQUEST, loadCategories);
+};
 
 export default function* postSaga() {
     yield all([
@@ -106,5 +131,6 @@ export default function* postSaga() {
         fork(watchAddSubCategory),
         fork(watchSetCategoryEnable),
         fork(watchSetSubCategoryEnable),
+        fork(watchLoadCategories),
     ]);
 };

@@ -8,10 +8,18 @@ import Router from 'next/router';
 import CreateMainCategory from '../../components/Admin/Category/CreateMainCategory';
 import CreateSubCategory from '../../components/Admin/Category/CreateSubCategory';
 import SetCategoryList from '../../components/Admin/Category/SetCategoryList';
+import { useEffect } from 'react';
+import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 
 const Category = () => {
     const dispatch = useDispatch();
     const { categories, addCategoryLoading, addCategoryDone, addCategoryError } = useSelector((state) => state.category);
+
+    useEffect(() => {
+        dispatch({
+            type: LOAD_CATEGORIES_REQUEST
+        });
+    }, []);
 
     // useEffect(() => {
     //     if(!userInfo?.admin) {
@@ -48,7 +56,7 @@ const Category = () => {
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
             {/* Sorting and Enabling */}
-            <SetCategoryList />
+            <SetCategoryList categories={categories}/>
 
             {/* Creating Main Category */}
             <CreateMainCategory />

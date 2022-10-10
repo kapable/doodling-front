@@ -4,36 +4,12 @@ import { SET_CATEGORY_ENABLE_REQUEST, SET_SUBCATEGORY_ENABLE_REQUEST } from '../
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-const SetCategoryList = () => {
+const SetCategoryList = ({ categories }) => {
     const dispatch = useDispatch();
-    const { categories, setCategoryEnableLoading, setCategoryEnableDone, setCategoryEnableError, setSubCategoryEnableLoading, setSubCategoryEnableDone, setSubCategoryEnableError } = useSelector((state) => state.category);
+    const { setCategoryEnableLoading, setCategoryEnableDone, setCategoryEnableError, setSubCategoryEnableLoading, setSubCategoryEnableDone, setSubCategoryEnableError } = useSelector((state) => state.category);
 
-    const sampleDatas = [{
-        title: '홈',
-        key: 'home',
-    }, {
-        title: 'MBTI',
-        key: 'mbti',
-        children: [{
-            title: '전체',
-            key: 'mbti-index',
-        }, {
-            title: '연애&썸',
-            key: 'mbtiLoveAndSome'
-        }]
-    }, {
-        title: 'TOP100',
-        key: 'top100',
-        children: [{
-            title: '실시간',
-            key:'top100-index'
-        }, {
-            title: '주간',
-            key: 'top100Weekly'
-        }]
-    }]
-    const [gData, setGData] = useState(sampleDatas);
-    const [checkedKeys, setCheckedKeys] = useState(['home', 'top100Weekly']);
+    const [gData, setGData] = useState([]);
+    const [checkedKeys, setCheckedKeys] = useState([]);
 
     const onDrop = useCallback((info) => {
         const dropKey = info.node.key;
@@ -107,7 +83,7 @@ const SetCategoryList = () => {
         // in case of Sub Category Enabling Check
         } else {
             const subPosition = e.node.pos.split('-');
-            const selectedCat = sampleDatas[subPosition[1]];
+            const selectedCat = gData[subPosition[1]];
             const selectedSubCat = selectedCat.children[subPosition[2]];
             const selectedSubCatKey = selectedSubCat.key.includes('index') ? "" : selectedSubCat.key;
             let selectedCategory = categories.find((cat) => cat.domain === selectedCat.key);
@@ -118,7 +94,56 @@ const SetCategoryList = () => {
             });
         }
         setCheckedKeys(checkedKeysValue);
-    }, []);
+    }, [categories, gData]);
+
+    // setting for Tree Structure
+    useEffect(() => {
+        const treeData = categories.map((c) => {
+            let treeKey = c.label.includes('홈') || c.label.includes('전체') || c.label.includes('실시간') ? c.domain + '-index' : c.domain;
+            if(c.SubCategories.length === 0) {
+                
+                return {
+                    title: c.label,
+                    key: treeKey
+                }
+            } else {
+                if(c.enabled === true || c.enaled === 'true') {
+                    
+                }
+                return {
+                    title: c.label,
+                    key: c.domain,
+                    children: c.SubCategories.map((s) => {
+                        let treeKeySub = s.label.includes('홈') || s.label.includes('전체') || s.label.includes('실시간') ? c.domain + '-index' : s.domain;
+                        
+                        return {
+                            title: s.label,
+                            key: treeKeySub
+                        }
+                    })
+                }
+            };
+        });
+        setGData(treeData);
+    }, [categories]);
+
+    // setting for Checked Tree Nodes
+    useEffect(() => {
+        let checkedCats = [];
+        categories.map((c) => {
+            if(c.enabled) {
+                if(c?.SubCategories.length > 0) {
+                    c.SubCategories.map((s) => {
+                        let treeKeySub = s.label.includes('홈') || s.label.includes('전체') || s.label.includes('실시간') ? c.domain + '-index' : s.domain;
+                        if(s.enabled) {
+                            checkedCats.push(treeKeySub)
+                        }
+                    })  
+                }
+            }
+        })
+        setCheckedKeys(checkedCats);
+    }, [categories])
 
     useEffect(() => {
         if(setCategoryEnableError || setSubCategoryEnableError) {
