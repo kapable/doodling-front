@@ -178,11 +178,24 @@ $red-color: #c86143;
 }
 
 /* Post Contents */
-.post-contents-div {
-    img {
-        width: 60%;
-        display: block;
-        margin: 0 auto
+.post-contents-main-div {
+    padding: 1.5rem;
+    .post-title-p {
+        // font-size: 1rem;
+        font-weight: bolder;
+    }
+    .post-basic-info-row {
+        p {
+            margin-right: 1rem;
+        }
+    }
+    .post-contents-div {
+        img {
+            width: 100%;
+            max-width: 35rem;
+            display: block;
+            margin: 0 auto
+        }
     }
 }
 

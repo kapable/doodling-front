@@ -8,6 +8,7 @@ import CommentsCard from '../../components/Post/CommentsCard';
 import RecommendPosts from '../../components/Post/RecommendPosts';
 import NavigationBar from '../../components/NavigationBar';
 import { LOAD_POST_REQUEST } from '../../reducers/post';
+import { Divider } from 'antd';
 
 const Post = () => {
     const dispatch = useDispatch();
@@ -43,11 +44,16 @@ const Post = () => {
             </Head>
             <NavigationBar categoryDomain={theme} subCategoryDomain={subTheme} />
             {/* category & back url */}
-            <PostTitleCard contents={singlePost}/>
-            <MainContentsCard contents={singlePost.text} />
-            <CommentsCard comments={singlePost.Comments}/>
-            <RecommendPosts />
-            {console.log(singlePost)}
+            <div className='post-contents-main-div'>
+                <PostTitleCard contents={singlePost}/>
+                <Divider />
+                <MainContentsCard contents={singlePost.text} />
+                <Divider />
+                <CommentsCard comments={singlePost.Comments}/>
+                <Divider />
+                <RecommendPosts />
+                {console.log(singlePost)}
+            </div>
         </Fragment>
     );
 };
