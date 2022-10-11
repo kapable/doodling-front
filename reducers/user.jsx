@@ -50,7 +50,7 @@ export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 
-// export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
+export const ADD_POST_LIKE_TO_ME = 'ADD_POST_LIKE_TO_ME';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -98,9 +98,9 @@ const reducer = (state = initialState, action) => {
                 draft.signUpDone = false;
                 draft.signUpError = action.error;
                 break;
-            // case ADD_POST_TO_ME:
-            //     draft.myInfo.PostLiked.unshift({ id: action.data });
-            //     break;
+            case ADD_POST_LIKE_TO_ME:
+                draft.myInfo.PostLiked.unshift(action.data);
+                break;
             default:
                 break;
         };

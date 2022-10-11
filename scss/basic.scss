@@ -185,10 +185,12 @@ $red-color: #c86143;
             margin: 0.3rem 0;
         }
         .post-title-p {
-            // font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: bolder;
         }
         .post-basic-info-row {
+            font-size: 0.7rem;
+            color: grey;
             p {
                 margin-right: 1rem;
                 .post-like-btn-span {
@@ -196,10 +198,20 @@ $red-color: #c86143;
                 }
             }
         }
+        .post-report-btn-span, .post-report-btn-span {
+            color: $red-color;
+            border: $red-color solid 0.15rem;
+            padding: 0.15rem 0.3rem;
+            cursor: pointer;
+        }
         .post-user-mbti-span {
             color: white;
             padding: 0 0.3rem;
             margin-left: 0.2rem;
+        }
+        .post-title-header-user {
+            font-size: 1rem;
+            color: grey;
         }
     }
     

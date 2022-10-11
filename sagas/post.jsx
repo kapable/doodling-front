@@ -10,8 +10,9 @@ import {
     LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE,
     // SET_POST_TITLE_REQUEST, SET_POST_TITLE_SUCCESS, SET_POST_TITLE_FAILURE,
     // SET_POST_TEXT_SUCCESS, SET_POST_TEXT_FAILURE, SET_POST_TEXT_REQUEST,
+    LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE
 } from '../reducers/post';
-// import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
+import { ADD_POST_LIKE_TO_ME } from '../reducers/user';
 
 function addPostAPI(data) {
     return axios.post(`/post`, data);
@@ -77,6 +78,31 @@ function* loadPost(action) {
     };
 };
 
+function likePostAPI(data) {
+    return axios.patch(`/post/${data.postId}/like`, data);
+}
+
+function* likePost(action) {
+    console.log(action);
+    try {
+        const result = yield call(likePostAPI, action.data);
+        yield put({
+            type: LIKE_POST_SUCCESS,
+            data: result.data,
+        });
+        // yield put({
+        //     type: ADD_POST_LIKE_TO_ME,
+        //     data: result.data,
+        // });
+    } catch (err) {
+        console.log(err)
+        yield put({
+            type: LIKE_POST_FAILURE,
+            error: err.response
+        })
+    };
+};
+
 function* watchUploadImages() {
     yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 };
@@ -85,6 +111,9 @@ function* watchAddPost() {
 };
 function* watchLoadPost() {
     yield takeLatest(LOAD_POST_REQUEST, loadPost);
+};
+function* watchLikePost() {
+    yield takeLatest(LIKE_POST_REQUEST, likePost);
 };
 
 export default function* postSaga() {
@@ -97,6 +126,6 @@ export default function* postSaga() {
         // fork(watchSetPostText),
         // fork(watchAddComment),
         fork(watchUploadImages),
-        // fork(watchUploadThumbnail),
+        fork(watchLikePost),
     ]);
 };

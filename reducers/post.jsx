@@ -85,7 +85,7 @@ const reducer = (state = initialState, action) => {
                 draft.likePostError = null;
                 break;
             case LIKE_POST_SUCCESS:
-                draft.singlePost = action.data;
+                draft.singlePost.PostLikers = draft.singlePost.PostLikers + 1;
                 draft.likePostDone = true;
                 draft.likePostLoading = false;
                 break;
