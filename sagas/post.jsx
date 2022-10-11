@@ -3,6 +3,7 @@ import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import {
     // LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
     ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
+    EDIT_POST_REQUEST, EDIT_POST_SUCCESS, EDIT_POST_FAILURE,
     // ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
     // REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
     UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_REQUEST,
@@ -13,6 +14,7 @@ import {
     LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE,
     UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
     VIEW_POST_REQUEST, VIEW_POST_SUCCESS, VIEW_POST_FAILURE,
+    ENABLE_POST_REQUEST, ENABLE_POST_SUCCESS, ENABLE_POST_FAILURE,
 } from '../reducers/post';
 import { ADD_POST_LIKE_TO_ME, REMOVE_POST_LIKE_TO_ME } from '../reducers/user';
 
@@ -35,6 +37,26 @@ function* addPost(action) {
         console.log(err);
         yield put({
             type: ADD_POST_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
+function editPostAPI(data) {
+    return axios.patch(`/post/${data.postId}`, data);
+};
+
+function* editPost(action) {
+    try {
+        const result = yield call(editPostAPI, action.data);
+        yield put({
+            type: EDIT_POST_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: EDIT_POST_FAILURE,
             error: err.response.data
         });
     };
@@ -147,11 +169,34 @@ function* viewPost(action) {
     };
 };
 
+function enablePostAPI(data) {
+    return axios.patch(`/post/${data.postId}/enable`, data);
+}
+
+function* enablePost(action) {
+    try {
+        const result = yield call(enablePostAPI, action.data);
+        yield put({
+            type: ENABLE_POST_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log(err)
+        yield put({
+            type: ENABLE_POST_FAILURE,
+            error: err.response
+        })
+    };
+};
+
 function* watchUploadImages() {
     yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 };
 function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost);
+};
+function* watchEditPost() {
+    yield takeLatest(EDIT_POST_REQUEST, editPost);
 };
 function* watchLoadPost() {
     yield takeLatest(LOAD_POST_REQUEST, loadPost);
@@ -165,12 +210,16 @@ function* watchUnLikePost() {
 function* watchViewPost() {
     yield takeLatest(VIEW_POST_REQUEST, viewPost);
 };
+function* watchEnablePost() {
+    yield takeLatest(ENABLE_POST_REQUEST, enablePost);
+};
 
 export default function* postSaga() {
     yield all([
         // fork(watchLoadPosts),
         fork(watchLoadPost),
         fork(watchAddPost),
+        fork(watchEditPost),
         // fork(watchRemovePost),
         // fork(watchSetPostTitle),
         // fork(watchSetPostText),
@@ -179,5 +228,6 @@ export default function* postSaga() {
         fork(watchLikePost),
         fork(watchUnLikePost),
         fork(watchViewPost),
+        fork(watchEnablePost),
     ]);
 };

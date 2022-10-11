@@ -17,21 +17,23 @@ import axios from 'axios';
 import { backUrl } from '../config/config';
 import { useEffect } from 'react';
 import { LOAD_CATEGORIES_REQUEST } from '../reducers/category';
-import { ADD_POST_REQUEST } from '../reducers/post';
+import { ADD_POST_REQUEST, EDIT_POST_REQUEST } from '../reducers/post';
 
 const { Option } = Select;
 
-const UploadEditor = () => {
+const UploadEditor = ({ contents, isNewContents }) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { categories } = useSelector((state) => state.category);
     const { addPostDone, uploadedPost, addPostLoading } = useSelector((state) => state.post);
 
-    const [title, onChangeTitle] = useInput('');
+    const [isNew, setIsNew] = useState(isNewContents); // upload Or Edit
+    const [title, onChangeTitle] = useInput(contents?.title || '');
+    const [category, setCategory] = useState(contents?.SubCategory.Category.label || '');
     const [subCategories, setSubCategories] = useState([]);
-    const [subCategory, setSubCategory] = useState('');
-    const [subCategoryId, setSubCategoryId] = useState('');
-    const [text, setText] = useState("");
+    const [subCategory, setSubCategory] = useState(contents?.SubCategory.label || '');
+    const [subCategoryId, setSubCategoryId] = useState(contents?.SubCategoryId || '');
+    const [text, setText] = useState(contents?.text || "");
     const quillRef = useRef(null);
 
     useEffect(() => {
@@ -47,8 +49,16 @@ const UploadEditor = () => {
         };
     }, [addPostDone, uploadedPost]);
 
+    // for Edit mode
+    useEffect(() => {
+        let selectedCategory = categories.find((c) => c.label === category);
+        setSubCategories(selectedCategory.SubCategories);
+    }, [category, categories]);
+
     const onCategoryChange = useCallback((cat) => {
+        setCategory(cat);
         let selectedCategory = categories.find((c) => c.label === cat);
+        console.log(selectedCategory.SubCategories);
         setSubCategories(selectedCategory.SubCategories);
         if(selectedCategory.SubCategories.length > 0) {
             setSubCategory(selectedCategory.SubCategories[0].label)
@@ -77,16 +87,29 @@ const UploadEditor = () => {
         if(!text || text === '<p><br></p>') {
             return alert('글을 작성해주세요!');
         };
-        dispatch({
-            type: ADD_POST_REQUEST,
-            data: {
-                title,
-                text,
-                subCategoryId,
-                userId: 1
-            }
-        });
-    }, [title, text, subCategoryId]);
+        isNew
+        ? ( // upload a New Post
+            dispatch({
+                type: ADD_POST_REQUEST,
+                data: {
+                    title,
+                    text,
+                    subCategoryId,
+                }
+            })
+        )
+        : ( // edit a existing Post
+            dispatch({
+                type: EDIT_POST_REQUEST,
+                data: {
+                    postId: contents?.id,
+                    title,
+                    text,
+                    subCategoryId,
+                }
+            })
+        )
+    }, [title, text, subCategoryId, contents?.id]);
     
 
     const imageHandler = () => {
@@ -181,6 +204,7 @@ const UploadEditor = () => {
                     placeholder="게시판을 선택해주세요."
                     optionLabelProp='type'
                     onChange={onCategoryChange}
+                    value={category}
                     >
                     {categories.map((cat) => {
                         if(cat.domain !== '') {
@@ -219,7 +243,7 @@ const UploadEditor = () => {
                     />
 
                 {/* Submit Button */}
-                <Button type='primary' htmlType="submit" loading={addPostLoading} >업로드</Button>
+                <Button type='primary' htmlType="submit" loading={addPostLoading} >{isNew ? '업로드' : '수정하기'}</Button>
             </Form>
         </div>
     );

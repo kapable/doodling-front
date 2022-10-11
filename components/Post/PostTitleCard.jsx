@@ -8,7 +8,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post';
+import { ENABLE_POST_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post';
 import { LOAD_USER_INFO_REQUEST } from '../../reducers/user';
 
 dayjs.extend(relativeTime);
@@ -75,12 +75,15 @@ const PostTitleCard = ({ contents }) => {
     }, []);
 
     const onEditClick = useCallback(() => {
-        console.log('clickedEdit');
-    }, []);
+        router.push(`/edit/${contents.id}`);
+    }, [contents]);
 
     const onDeleteClick = useCallback(() => {
-        console.log('clickedDelete');
-    }, []);
+        dispatch({
+            type: ENABLE_POST_REQUEST,
+            data: { postId: contents.id, checked: false },
+        })
+    }, [contents]);
 
     return (
         <Fragment>

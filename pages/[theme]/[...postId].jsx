@@ -21,10 +21,17 @@ const Post = () => {
     const { theme, postId } = router.query;
     const [subTheme, setSubTheme] = useState('');
 
-    
+    // check with enabled post
     useEffect(() => {
         setSubTheme(postId ? postId[0] : null);
     }, [postId]);
+
+    useEffect(() => {
+        if(!singlePost?.enabled) {
+            alert('더이상 존재하지 않는 게시물입니다.');
+            router.push('/');
+        }
+    }, [singlePost]);
 
     return (
         <Fragment>
@@ -39,15 +46,20 @@ const Post = () => {
             </Head>
             <NavigationBar categoryDomain={theme} subCategoryDomain={subTheme} />
             {/* category & back url */}
-            <div className='post-contents-main-div'>
-                <PostTitleCard contents={singlePost}/>
-                <Divider />
-                <MainContentsCard contents={singlePost} categoryDomain={theme} subCategoryDomain={subTheme} />
-                <Divider />
-                {/* <CommentsCard comments={singlePost?.Comments}/>
-                <Divider />
-                <RecommendPosts /> */}
-            </div>
+            {singlePost?.enabled // rendering check with enabled post
+            ? (
+                <div className='post-contents-main-div'>
+                    <PostTitleCard contents={singlePost}/>
+                    <Divider />
+                    <MainContentsCard contents={singlePost} categoryDomain={theme} subCategoryDomain={subTheme} />
+                    <Divider />
+                    {/* <CommentsCard comments={singlePost?.Comments}/>
+                    <Divider />
+                    <RecommendPosts /> */}
+                </div>
+            )
+            : (null)
+            }
         </Fragment>
     );
 };

@@ -7,6 +7,9 @@ export const initialState = {
     addPostLoading: false,
     addPostDone: false,
     addPostError: false,
+    editPostLoading: false,
+    editPostDone: false,
+    editPostError: false,
     uploadImagesLoading: false,
     uploadImagesDone: false,
     uploadImagesError: false,
@@ -22,11 +25,18 @@ export const initialState = {
     viewPostLoading: false,
     viewPostDone: false,
     viewPostError: false,
+    enablePostLoading: false,
+    enablePostDone: false,
+    enablePostError: false,
 };
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
+
+export const EDIT_POST_REQUEST = 'EDIT_POST_REQUEST';
+export const EDIT_POST_SUCCESS = 'EDIT_POST_SUCCESS';
+export const EDIT_POST_FAILURE = 'EDIT_POST_FAILURE';
 
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
@@ -48,6 +58,10 @@ export const VIEW_POST_REQUEST = 'VIEW_POST_REQUEST';
 export const VIEW_POST_SUCCESS = 'VIEW_POST_SUCCESS';
 export const VIEW_POST_FAILURE = 'VIEW_POST_FAILURE';
 
+export const ENABLE_POST_REQUEST = 'ENABLE_POST_REQUEST';
+export const ENABLE_POST_SUCCESS = 'ENABLE_POST_SUCCESS';
+export const ENABLE_POST_FAILURE = 'ENABLE_POST_FAILURE';
+
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
         switch (action.type) {
@@ -64,6 +78,20 @@ const reducer = (state = initialState, action) => {
             case ADD_POST_FAILURE:
                 draft.addPostLoading = false;
                 draft.addPostError = action.error;
+                break;
+            case EDIT_POST_REQUEST:
+                draft.editPostLoading = true;
+                draft.editPostDone = false;
+                draft.editPostError = null;
+                break;
+            case EDIT_POST_SUCCESS:
+                draft.uploadedPost = action.data;
+                draft.editPostDone = true;
+                draft.editPostLoading = false;
+                break;
+            case EDIT_POST_FAILURE:
+                draft.editPostLoading = false;
+                draft.editPostError = action.error;
                 break;
             case UPLOAD_IMAGES_REQUEST:
                 draft.uploadImagesLoading = true;
@@ -133,6 +161,20 @@ const reducer = (state = initialState, action) => {
             case VIEW_POST_FAILURE:
                 draft.viewPostLoading = false;
                 draft.viewPostError = action.error;
+                break;
+            case ENABLE_POST_REQUEST:
+                draft.enablePostLoading = true;
+                draft.enablePostDone = false;
+                draft.enablePostError = null;
+                break;
+            case ENABLE_POST_SUCCESS:
+                draft.singlePost = action.data;
+                draft.enablePostDone = true;
+                draft.enablePostLoading = false;
+                break;
+            case ENABLE_POST_FAILURE:
+                draft.enablePostLoading = false;
+                draft.enablePostError = action.error;
                 break;
             default:
                 break;
