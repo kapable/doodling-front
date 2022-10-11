@@ -4,7 +4,7 @@ import {
     // LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
     ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
     EDIT_POST_REQUEST, EDIT_POST_SUCCESS, EDIT_POST_FAILURE,
-    // ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
+    ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
     // REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
     UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_REQUEST,
     // UPLOAD_THUMBNAIL_SUCCESS, UPLOAD_THUMBNAIL_FAILURE, UPLOAD_THUMBNAIL_REQUEST,
@@ -189,6 +189,26 @@ function* enablePost(action) {
     };
 };
 
+function addCommentAPI(data) {
+    return axios.post(`/post/${data.postId}/comment`, data);
+}
+
+function* addComment(action) {
+    try {
+        const result = yield call(addCommentAPI, action.data);
+        yield put({
+            type: ADD_COMMENT_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log(err)
+        yield put({
+            type: ADD_COMMENT_FAILURE,
+            error: err.response
+        })
+    };
+};
+
 function* watchUploadImages() {
     yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 };
@@ -213,6 +233,9 @@ function* watchViewPost() {
 function* watchEnablePost() {
     yield takeLatest(ENABLE_POST_REQUEST, enablePost);
 };
+function* watchAddComment() {
+    yield takeLatest(ADD_COMMENT_REQUEST, addComment);
+};
 
 export default function* postSaga() {
     yield all([
@@ -223,7 +246,7 @@ export default function* postSaga() {
         // fork(watchRemovePost),
         // fork(watchSetPostTitle),
         // fork(watchSetPostText),
-        // fork(watchAddComment),
+        fork(watchAddComment),
         fork(watchUploadImages),
         fork(watchLikePost),
         fork(watchUnLikePost),

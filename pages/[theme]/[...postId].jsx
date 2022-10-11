@@ -14,6 +14,7 @@ import wrapper from '../../store/configureStore';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import { END } from 'redux-saga';
+import CommentsList from '../../components/CommentsList';
 
 const Post = () => {
     const { singlePost } = useSelector((state) => state.post);
@@ -53,9 +54,10 @@ const Post = () => {
                     <Divider />
                     <MainContentsCard contents={singlePost} categoryDomain={theme} subCategoryDomain={subTheme} />
                     <Divider />
-                    {/* <CommentsCard comments={singlePost?.Comments}/>
+                    <CommentsCard contents={singlePost}/>
+                    <CommentsList comments={singlePost?.Comments} />
                     <Divider />
-                    <RecommendPosts /> */}
+                    {/* <RecommendPosts /> */}
                 </div>
             )
             : (null)

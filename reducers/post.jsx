@@ -28,6 +28,9 @@ export const initialState = {
     enablePostLoading: false,
     enablePostDone: false,
     enablePostError: false,
+    addCommentLoading: false,
+    addCommentDone: false,
+    addCommentError: false,
 };
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
@@ -61,6 +64,10 @@ export const VIEW_POST_FAILURE = 'VIEW_POST_FAILURE';
 export const ENABLE_POST_REQUEST = 'ENABLE_POST_REQUEST';
 export const ENABLE_POST_SUCCESS = 'ENABLE_POST_SUCCESS';
 export const ENABLE_POST_FAILURE = 'ENABLE_POST_FAILURE';
+
+export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
+export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
+export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -175,6 +182,20 @@ const reducer = (state = initialState, action) => {
             case ENABLE_POST_FAILURE:
                 draft.enablePostLoading = false;
                 draft.enablePostError = action.error;
+                break;
+            case ADD_COMMENT_REQUEST:
+                draft.addCommentLoading = true;
+                draft.addCommentDone = false;
+                draft.addCommentError = null;
+                break;
+            case ADD_COMMENT_SUCCESS:
+                action.data.unshift(draft.singlePost.Comments);
+                draft.addCommentDone = true;
+                draft.addCommentLoading = false;
+                break;
+            case ADD_COMMENT_FAILURE:
+                draft.addCommentLoading = false;
+                draft.addCommentError = action.error;
                 break;
             default:
                 break;
