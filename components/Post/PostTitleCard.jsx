@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'antd';
-import { BellFilled, BellOutlined, EditOutlined, LikeOutlined, LikeFilled, CommentOutlined, LinkOutlined, TagOutlined, BookOutlined, BookFilled, DeleteOutlined, LoadingOutlined, AlertOutlined } from '@ant-design/icons';
+import { EditOutlined, LikeOutlined, LikeFilled, CommentOutlined, LinkOutlined, TagOutlined, BookOutlined, BookFilled, DeleteOutlined, LoadingOutlined, AlertOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
@@ -14,8 +15,9 @@ dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
 const PostTitleCard = ({ contents }) => {
+    const router = useRouter();
     const dispatch = useDispatch();
-    const { myInfo, userInfo, loadUserInfoDone } = useSelector((state) => state.user);
+    const { myInfo, userInfo } = useSelector((state) => state.user);
     const { categoriesColorObj } = useSelector((state) => state.category);
     const { title, createdAt, views, PostLikers, User } = contents;
     const [dateTime, setDateTime] = useState();
@@ -64,8 +66,16 @@ const PostTitleCard = ({ contents }) => {
         });
     }, [contents, myInfo]);
 
+    const onUserClick = (userId) => useCallback(() => {
+        router.push(`/info/${userId}`);
+    }, [])
+
     const onReportClick = useCallback(() => {
-        console.log('clickedReport');
+        alert('신고 기능은 준비중입니다!');
+    }, []);
+
+    const onEditClick = useCallback(() => {
+        console.log('clickedEdit');
     }, []);
 
     const onDeleteClick = useCallback(() => {
@@ -90,11 +100,18 @@ const PostTitleCard = ({ contents }) => {
                 <Col className='post-title-header-right-col' span={8}>
                     <Row><p className='post-title-header-alert'>
                             {myInfo?.id === User?.id
-                            ? <span className='post-delete-btn-span' onClick={onDeleteClick}><DeleteOutlined /> 삭제하기</span> // ssr needed
-                            : <span className='post-report-btn-span' onClick={onReportClick}><AlertOutlined /> 신고하기</span>//<span><br /></span>
+                            ? (
+                                <>
+                                    <span className='post-edit-btn-span' onClick={onEditClick}><EditOutlined /> 수정하기</span>
+                                    <span className='post-delete-btn-span' onClick={onDeleteClick}><DeleteOutlined /> 삭제하기</span>
+                                </>)
+                            : <span className='post-report-btn-span' onClick={onReportClick}><AlertOutlined /> 신고하기</span>
                             }
                         </p></Row>
-                    <Row><p className='post-title-header-user'>{User?.nickname} <span style={{ backgroundColor : categoriesColorObj[User?.mbti]}} className='post-user-mbti-span'>{User?.mbti}</span></p></Row>
+                    <Row><p className='post-title-header-user'>
+                        <span className='post-user-nickname-span' onClick={onUserClick(User?.id)}>{User?.nickname}</span>&nbsp;
+                        <span style={{ backgroundColor : categoriesColorObj[User?.mbti]}} className='post-user-mbti-span'>{User?.mbti}</span>
+                        </p></Row>
                 </Col>
             </Row>
         </Fragment>

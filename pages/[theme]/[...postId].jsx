@@ -7,7 +7,7 @@ import MainContentsCard from '../../components/Post/MainContentsCard';
 import CommentsCard from '../../components/Post/CommentsCard';
 import RecommendPosts from '../../components/Post/RecommendPosts';
 import NavigationBar from '../../components/NavigationBar';
-import { LOAD_POST_REQUEST } from '../../reducers/post';
+import { LOAD_POST_REQUEST, VIEW_POST_REQUEST } from '../../reducers/post';
 import { Divider } from 'antd';
 import axios from 'axios';
 import wrapper from '../../store/configureStore';
@@ -42,7 +42,7 @@ const Post = () => {
             <div className='post-contents-main-div'>
                 <PostTitleCard contents={singlePost}/>
                 <Divider />
-                <MainContentsCard contents={singlePost?.text} />
+                <MainContentsCard contents={singlePost} categoryDomain={theme} subCategoryDomain={subTheme} />
                 <Divider />
                 {/* <CommentsCard comments={singlePost?.Comments}/>
                 <Divider />
@@ -67,6 +67,10 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     store.dispatch({
         type: LOAD_POST_REQUEST, // 포스트 가져오기
         data: params.postId[1]
+    });
+    store.dispatch({
+        type: VIEW_POST_REQUEST, // 포스트 보기
+        data: { postId: params.postId[1] }
     });
     store.dispatch(END);
     

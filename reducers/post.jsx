@@ -19,6 +19,9 @@ export const initialState = {
     unLikePostLoading: false,
     unLikePostDone: false,
     unLikePostError: false,
+    viewPostLoading: false,
+    viewPostDone: false,
+    viewPostError: false,
 };
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
@@ -40,6 +43,10 @@ export const LIKE_POST_FAILURE = 'LIKE_POST_FAILURE';
 export const UNLIKE_POST_REQUEST = 'UNLIKE_POST_REQUEST';
 export const UNLIKE_POST_SUCCESS = 'UNLIKE_POST_SUCCESS';
 export const UNLIKE_POST_FAILURE = 'UNLIKE_POST_FAILURE';
+
+export const VIEW_POST_REQUEST = 'VIEW_POST_REQUEST';
+export const VIEW_POST_SUCCESS = 'VIEW_POST_SUCCESS';
+export const VIEW_POST_FAILURE = 'VIEW_POST_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -113,6 +120,19 @@ const reducer = (state = initialState, action) => {
             case UNLIKE_POST_FAILURE:
                 draft.unLikePostLoading = false;
                 draft.unLikePostError = action.error;
+                break;
+            case VIEW_POST_REQUEST:
+                draft.viewPostLoading = true;
+                draft.viewPostDone = false;
+                draft.viewPostError = null;
+                break;
+            case VIEW_POST_SUCCESS:
+                draft.viewPostDone = true;
+                draft.viewPostLoading = false;
+                break;
+            case VIEW_POST_FAILURE:
+                draft.viewPostLoading = false;
+                draft.viewPostError = action.error;
                 break;
             default:
                 break;

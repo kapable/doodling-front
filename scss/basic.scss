@@ -1,6 +1,4 @@
-$point-color : #375cb7;
-$grey-color: #f3f3f3;
-$red-color: #c86143;
+@import './utils';
 
 /* AppLayout */
 .applayout {
@@ -189,6 +187,8 @@ $red-color: #c86143;
             font-weight: bolder;
         }
         .post-basic-info-row {
+            position: absolute;
+            bottom: 0;
             font-size: 0.7rem;
             color: grey;
             p {
@@ -198,10 +198,19 @@ $red-color: #c86143;
                 }
             }
         }
-        .post-report-btn-span, .post-report-btn-span {
+        .post-edit-btn-span {
+            border: grey solid 0.15rem;
+            padding: 0.15rem 0.3rem;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }  
+        .post-report-btn-span, .post-delete-btn-span {
             color: $red-color;
             border: $red-color solid 0.15rem;
             padding: 0.15rem 0.3rem;
+            cursor: pointer;
+        }
+        .post-user-nickname-span {
             cursor: pointer;
         }
         .post-user-mbti-span {
@@ -224,6 +233,15 @@ $red-color: #c86143;
             margin: 0 auto
         }
     }
+    .post-contents-bottom-div {
+        button {
+            margin-right: 0.5rem;
+            color: grey;
+        }
+        .post-contents-bottom-liked {
+            color: white;
+        }
+    }
 }
 
 /* 404 */
@@ -237,5 +255,15 @@ $red-color: #c86143;
         height: 5rem;
         width: 13rem;
         font-size: 1rem;
+    }
+}
+
+@include mobile {
+    .post-title-header-alert {
+        span {
+            display: inline-block;
+            margin: 0.1rem;
+            padding: 0 0;
+        }
     }
 }

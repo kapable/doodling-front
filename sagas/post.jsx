@@ -12,6 +12,7 @@ import {
     // SET_POST_TEXT_SUCCESS, SET_POST_TEXT_FAILURE, SET_POST_TEXT_REQUEST,
     LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE,
     UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
+    VIEW_POST_REQUEST, VIEW_POST_SUCCESS, VIEW_POST_FAILURE,
 } from '../reducers/post';
 import { ADD_POST_LIKE_TO_ME, REMOVE_POST_LIKE_TO_ME } from '../reducers/user';
 
@@ -127,6 +128,25 @@ function* unLikePost(action) {
     };
 };
 
+function viewPostAPI(data) {
+    return axios.patch(`/post/${data.postId}/view`, data);
+}
+
+function* viewPost(action) {
+    try {
+        yield call(viewPostAPI, action.data);
+        yield put({
+            type: VIEW_POST_SUCCESS,
+        });
+    } catch (err) {
+        console.log(err)
+        yield put({
+            type: VIEW_POST_FAILURE,
+            error: err.response
+        })
+    };
+};
+
 function* watchUploadImages() {
     yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 };
@@ -142,6 +162,9 @@ function* watchLikePost() {
 function* watchUnLikePost() {
     yield takeLatest(UNLIKE_POST_REQUEST, unLikePost);
 };
+function* watchViewPost() {
+    yield takeLatest(VIEW_POST_REQUEST, viewPost);
+};
 
 export default function* postSaga() {
     yield all([
@@ -155,5 +178,6 @@ export default function* postSaga() {
         fork(watchUploadImages),
         fork(watchLikePost),
         fork(watchUnLikePost),
+        fork(watchViewPost),
     ]);
 };
