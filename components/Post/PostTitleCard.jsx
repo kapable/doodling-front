@@ -14,6 +14,7 @@ dayjs.locale('ko');
 const PostTitleCard = ({ contents }) => {
     const dispatch = useDispatch();
     const { myInfo } = useSelector((state) => state.user);
+    const { categoriesColorObj } = useSelector((state) => state.category);
     const { title, createdAt, views, PostLikers, User } = contents;
     const [dateTime, setDateTime] = useState();
     const [likeClick, setLikeClick] = useState(false);
@@ -51,8 +52,13 @@ const PostTitleCard = ({ contents }) => {
                     </Row>
                 </Col>
                 <Col className='post-title-header-right-col' span={8}>
-                    <Row><p className='post-title-header-type'>REPORT</p></Row>
-                    <Row><p className='post-title-header-type'>{User?.nickname} {User?.mbti}</p></Row>
+                    <Row><p className='post-title-header-type'>
+                            {myInfo?.id === User?.id
+                            ? <span className='post-report-btn-span'>REPORT</span> // ssr needed
+                            : <span className='post-report-btn-span'>REPORT</span>//<span><br /></span>
+                            }
+                        </p></Row>
+                    <Row><p className='post-title-header-type'>{User?.nickname} <span style={{ backgroundColor : categoriesColorObj[User?.mbti]}} className='post-user-mbti-span'>{User?.mbti}</span></p></Row>
                 </Col>
             </Row>
         </Fragment>

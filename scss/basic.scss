@@ -184,19 +184,26 @@ $red-color: #c86143;
         p {
             margin: 0.3rem 0;
         }
-    }
-    .post-title-p {
-        // font-size: 1rem;
-        font-weight: bolder;
-    }
-    .post-basic-info-row {
-        p {
-            margin-right: 1rem;
-            .post-like-btn-span {
-                cursor: pointer;
+        .post-title-p {
+            // font-size: 1rem;
+            font-weight: bolder;
+        }
+        .post-basic-info-row {
+            p {
+                margin-right: 1rem;
+                .post-like-btn-span {
+                    cursor: pointer;
+                }
             }
         }
+        .post-user-mbti-span {
+            color: white;
+            padding: 0 0.3rem;
+            margin-left: 0.2rem;
+        }
     }
+    
+    
     .post-contents-div {
         img {
             width: 100%;

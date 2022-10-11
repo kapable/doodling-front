@@ -25,10 +25,12 @@ const Post = () => {
     }, [postId]);
     
     useEffect(() => {
-        dispatch({
-            type: LOAD_POST_REQUEST,
-            data: postNum
-        });
+        if(postNum) {
+            dispatch({
+                type: LOAD_POST_REQUEST,
+                data: postNum
+            });
+        }
     }, [postNum]);
 
     return (
@@ -52,7 +54,6 @@ const Post = () => {
                 <CommentsCard comments={singlePost?.Comments}/>
                 <Divider />
                 <RecommendPosts />
-                {console.log(singlePost)}
             </div>
         </Fragment>
     );

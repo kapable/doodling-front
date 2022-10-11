@@ -86,6 +86,7 @@ export const initialState = {
         //     ]
         // }
     ],
+    categoriesColorObj: {'ENFJ':'#52ceb0', 'ENFP':'#ffa348', 'ENTJ':'#3462a3', 'ENTP':'#dd5843', 'ESFJ':'#ffcfcf', 'ESFP':'#e0707e', 'ESTJ':'#587a4b', 'ESTP':'#ff977b', 'INFJ':'#c2dbff', 'INFP':'#277a64', 'INTJ':'#b9b0ff', 'INTP':'#7fc2f4', 'ISFJ':'#ffcf73', 'ISFP':'#a6be6f', 'ISTJ':' #a6be6f', 'ISTP':'#4690b4'},
     addCategoryLoading: false,
     addCategoryDone: false,
     addCategoryError: false,

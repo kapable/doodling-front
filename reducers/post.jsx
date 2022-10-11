@@ -13,6 +13,9 @@ export const initialState = {
     loadPostLoading: false,
     loadPostDone: false,
     loadPostError: false,
+    likePostLoading: false,
+    likePostDone: false,
+    likePostError: false,
 };
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
@@ -26,6 +29,10 @@ export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';
 export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
 export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
 export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
+
+export const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST';
+export const LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS';
+export const LIKE_POST_FAILURE = 'LIKE_POST_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -71,6 +78,20 @@ const reducer = (state = initialState, action) => {
             case LOAD_POST_FAILURE:
                 draft.loadPostLoading = false;
                 draft.loadPostError = action.error;
+                break;
+            case LIKE_POST_REQUEST:
+                draft.likePostLoading = true;
+                draft.likePostDone = false;
+                draft.likePostError = null;
+                break;
+            case LIKE_POST_SUCCESS:
+                draft.singlePost = action.data;
+                draft.likePostDone = true;
+                draft.likePostLoading = false;
+                break;
+            case LIKE_POST_FAILURE:
+                draft.likePostLoading = false;
+                draft.likePostError = action.error;
                 break;
             default:
                 break;
