@@ -180,6 +180,11 @@ $red-color: #c86143;
 /* Post Contents */
 .post-contents-main-div {
     padding: 1.5rem;
+    .post-title-header-main-row {
+        p {
+            margin: 0.3rem 0;
+        }
+    }
     .post-title-p {
         // font-size: 1rem;
         font-weight: bolder;
@@ -187,6 +192,9 @@ $red-color: #c86143;
     .post-basic-info-row {
         p {
             margin-right: 1rem;
+            .post-like-btn-span {
+                cursor: pointer;
+            }
         }
     }
     .post-contents-div {

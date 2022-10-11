@@ -28,7 +28,7 @@ const Post = () => {
         dispatch({
             type: LOAD_POST_REQUEST,
             data: postNum
-        })
+        });
     }, [postNum]);
 
     return (
@@ -47,9 +47,9 @@ const Post = () => {
             <div className='post-contents-main-div'>
                 <PostTitleCard contents={singlePost}/>
                 <Divider />
-                <MainContentsCard contents={singlePost.text} />
+                <MainContentsCard contents={singlePost?.text} />
                 <Divider />
-                <CommentsCard comments={singlePost.Comments}/>
+                <CommentsCard comments={singlePost?.Comments}/>
                 <Divider />
                 <RecommendPosts />
                 {console.log(singlePost)}

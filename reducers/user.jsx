@@ -2,30 +2,30 @@ import produce from '../util/produce';
 
 export const initialState = {
     myInfo: {
-        id: null,
-        email: "",
-        nickname: "",
-        description: null,
-        mbti: "",
-        admin: false,
-        adsAdmin: null,
-        enabled: true,
-        Posts: [
-            {
-                id: 1,
-                title: "",
-                text: "",
-                noticeTop: null,
-                enabled: false,
-                views: null,
-                createdAt: "",
-                updatedAt: "",
-                SubCategoryId: null,
-                UserId: null
-            },
-        ],
-        Comments: [],
-        PostLiked: []
+        // id: null,
+        // email: "",
+        // nickname: "",
+        // description: null,
+        // mbti: "",
+        // admin: false,
+        // adsAdmin: null,
+        // enabled: true,
+        // Posts: [
+        //     {
+        //         id: 1,
+        //         title: "",
+        //         text: "",
+        //         noticeTop: null,
+        //         enabled: false,
+        //         views: null,
+        //         createdAt: "",
+        //         updatedAt: "",
+        //         SubCategoryId: null,
+        //         UserId: null
+        //     },
+        // ],
+        // Comments: [],
+        // PostLiked: []
     },
     logInLoading: false,
     logInDone: false,
@@ -49,6 +49,8 @@ export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
+
+// export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -96,6 +98,9 @@ const reducer = (state = initialState, action) => {
                 draft.signUpDone = false;
                 draft.signUpError = action.error;
                 break;
+            // case ADD_POST_TO_ME:
+            //     draft.myInfo.PostLiked.unshift({ id: action.data });
+            //     break;
             default:
                 break;
         };
