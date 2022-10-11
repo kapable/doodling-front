@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PostTitleCard from '../../components/Post/PostTitleCard';
 import MainContentsCard from '../../components/Post/MainContentsCard';
 import CommentsCard from '../../components/Post/CommentsCard';
@@ -9,29 +9,22 @@ import RecommendPosts from '../../components/Post/RecommendPosts';
 import NavigationBar from '../../components/NavigationBar';
 import { LOAD_POST_REQUEST } from '../../reducers/post';
 import { Divider } from 'antd';
+import axios from 'axios';
+import wrapper from '../../store/configureStore';
+import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
+import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
+import { END } from 'redux-saga';
 
 const Post = () => {
-    const dispatch = useDispatch();
     const { singlePost } = useSelector((state) => state.post);
     const router = useRouter();
     const { theme, postId } = router.query;
     const [subTheme, setSubTheme] = useState('');
-    const [postNum, setPostNum] = useState('');
 
     
     useEffect(() => {
         setSubTheme(postId ? postId[0] : null);
-        setPostNum(postId ? postId[1] : null);
     }, [postId]);
-    
-    useEffect(() => {
-        if(postNum) {
-            dispatch({
-                type: LOAD_POST_REQUEST,
-                data: postNum
-            });
-        }
-    }, [postNum]);
 
     return (
         <Fragment>
@@ -51,12 +44,33 @@ const Post = () => {
                 <Divider />
                 <MainContentsCard contents={singlePost?.text} />
                 <Divider />
-                <CommentsCard comments={singlePost?.Comments}/>
+                {/* <CommentsCard comments={singlePost?.Comments}/>
                 <Divider />
-                <RecommendPosts />
+                <RecommendPosts /> */}
             </div>
         </Fragment>
     );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async({ req, res, params }) => {
+    const cookie = req ? req.headers.cookie : '';
+    axios.defaults.headers.Cookie = '';
+    if(req && cookie) {
+        axios.defaults.headers.Cookie = cookie;
+    };
+    store.dispatch({
+        type: LOAD_CATEGORIES_REQUEST // 카테고리 가져오기
+    });
+    store.dispatch({
+        type: LOAD_MY_INFO_REQUEST // 로그인 했다면 유저 정보 가져오기
+    });
+    store.dispatch({
+        type: LOAD_POST_REQUEST, // 포스트 가져오기
+        data: params.postId[1]
+    });
+    store.dispatch(END);
+    
+    await store.sagaTask.toPromise();
+});
 
 export default Post;

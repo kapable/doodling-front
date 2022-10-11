@@ -16,6 +16,9 @@ export const initialState = {
     likePostLoading: false,
     likePostDone: false,
     likePostError: false,
+    unLikePostLoading: false,
+    unLikePostDone: false,
+    unLikePostError: false,
 };
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
@@ -33,6 +36,10 @@ export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
 export const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST';
 export const LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS';
 export const LIKE_POST_FAILURE = 'LIKE_POST_FAILURE';
+
+export const UNLIKE_POST_REQUEST = 'UNLIKE_POST_REQUEST';
+export const UNLIKE_POST_SUCCESS = 'UNLIKE_POST_SUCCESS';
+export const UNLIKE_POST_FAILURE = 'UNLIKE_POST_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -92,6 +99,20 @@ const reducer = (state = initialState, action) => {
             case LIKE_POST_FAILURE:
                 draft.likePostLoading = false;
                 draft.likePostError = action.error;
+                break;
+            case UNLIKE_POST_REQUEST:
+                draft.unLikePostLoading = true;
+                draft.unLikePostDone = false;
+                draft.unLikePostError = null;
+                break;
+            case UNLIKE_POST_SUCCESS:
+                draft.singlePost.PostLikers = draft.singlePost.PostLikers - 1;
+                draft.unLikePostDone = true;
+                draft.unLikePostLoading = false;
+                break;
+            case UNLIKE_POST_FAILURE:
+                draft.unLikePostLoading = false;
+                draft.unLikePostError = action.error;
                 break;
             default:
                 break;

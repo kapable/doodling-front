@@ -7,14 +7,15 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { LIKE_POST_REQUEST } from '../../reducers/post';
+import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post';
+import { LOAD_USER_INFO_REQUEST } from '../../reducers/user';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
 const PostTitleCard = ({ contents }) => {
     const dispatch = useDispatch();
-    const { myInfo } = useSelector((state) => state.user);
+    const { myInfo, userInfo, loadUserInfoDone } = useSelector((state) => state.user);
     const { categoriesColorObj } = useSelector((state) => state.category);
     const { title, createdAt, views, PostLikers, User } = contents;
     const [dateTime, setDateTime] = useState();
@@ -28,19 +29,40 @@ const PostTitleCard = ({ contents }) => {
     }, [createdAt]);
 
     useEffect(() => {
-        let likeClicked;
-        myInfo?.id // SSR needed
-        ? likeClicked = true // myInfo.PostLiked array contains this article id?
-        : likeClicked = false;
-        setLikeClick(likeClicked);
+        if(myInfo?.id) {
+            dispatch({
+                type: LOAD_USER_INFO_REQUEST,
+                data: myInfo.id,
+            });
+        }
     }, [myInfo]);
 
+    useEffect(() => {
+        // if the loaded user(user own)'s PostLiked list has the current post id
+        userInfo?.id && userInfo.PostLiked.length > 0 && userInfo.PostLiked.find((p) => p.id === contents.id)
+        ? setLikeClick(true)
+        : setLikeClick(false)
+    }, [userInfo, contents]);
+
     const onLikeClick = useCallback(() => {
+        if(!myInfo?.id) {
+            return alert('좋아요를 누르려면 로그인이 필요합니다!');
+        };
         dispatch({
             type: LIKE_POST_REQUEST,
-            data: { postId : contents.id, id: contents.UserId }
+            data: { postId : contents.id }
         });
-    }, [likeClick, contents]);
+    }, [contents, myInfo]);
+
+    const onUnLikeClick = useCallback(() => {
+        if(!myInfo?.id) {
+            return alert('로그인이 필요합니다!');
+        };
+        dispatch({
+            type: UNLIKE_POST_REQUEST,
+            data: { postId : contents.id }
+        });
+    }, [contents, myInfo]);
 
     const onReportClick = useCallback(() => {
         console.log('clickedReport');
@@ -58,9 +80,11 @@ const PostTitleCard = ({ contents }) => {
                     <Row className='post-basic-info-row'>
                         <p>{dateTime}</p>
                         <p>조회수 {views}</p>
-                        <p><span className='post-like-btn-span' onClick={onLikeClick}>
-                            {likeClick ? <LikeFilled /> : <LikeOutlined />}
-                        </span> {PostLikers}</p>
+                        <p>
+                            {likeClick
+                            ? <span className='post-like-btn-span' onClick={onUnLikeClick}><LikeFilled /></span>
+                            : <span className='post-like-btn-span' onClick={onLikeClick}><LikeOutlined /></span>}
+                        &nbsp;{PostLikers}</p>
                     </Row>
                 </Col>
                 <Col className='post-title-header-right-col' span={8}>
@@ -73,7 +97,6 @@ const PostTitleCard = ({ contents }) => {
                     <Row><p className='post-title-header-user'>{User?.nickname} <span style={{ backgroundColor : categoriesColorObj[User?.mbti]}} className='post-user-mbti-span'>{User?.mbti}</span></p></Row>
                 </Col>
             </Row>
-            {console.log(contents)}
         </Fragment>
     );
 };

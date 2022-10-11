@@ -4,7 +4,6 @@ import { Tabs } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { LOAD_CATEGORIES_REQUEST } from '../reducers/category';
 
 const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
     const dispatch = useDispatch();
@@ -43,12 +42,6 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
         setCurrentCategoryDomain(categoryDomain);
         setCurrentSubCategoryDomain(subCategoryDomain);
     }, [categoryDomain, subCategoryDomain]);
-
-    useEffect(() => {
-        dispatch({
-            type: LOAD_CATEGORIES_REQUEST
-        })
-    }, []);
 
     return (
         <Fragment>

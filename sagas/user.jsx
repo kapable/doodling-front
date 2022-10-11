@@ -8,8 +8,8 @@ import {
     // CHANGE_DESCRIPTION_REQUEST, CHANGE_DESCRIPTION_SUCCESS, CHANGE_DESCRIPTION_FAILURE,
     // FOLLOW_REQUEST ,FOLLOW_SUCCESS ,FOLLOW_FAILURE,
     // UNFOLLOW_REQUEST ,UNFOLLOW_SUCCESS ,UNFOLLOW_FAILURE,
-    // // LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOAD_MY_INFO_FAILURE,
-    // LOAD_USER_INFO_REQUEST, LOAD_USER_INFO_SUCCESS, LOAD_USER_INFO_FAILURE,
+    LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOAD_MY_INFO_FAILURE,
+    LOAD_USER_INFO_REQUEST, LOAD_USER_INFO_SUCCESS, LOAD_USER_INFO_FAILURE,
     // LOAD_FOLLOWER_LIST_REQUEST, LOAD_FOLLOWER_LIST_SUCCESS, LOAD_FOLLOWER_LIST_FAILURE,
     // LOAD_FOLLOWING_LIST_REQUEST, LOAD_FOLLOWING_LIST_SUCCESS, LOAD_FOLLOWING_LIST_FAILURE,
 } from '../reducers/user';
@@ -72,6 +72,46 @@ function* signUp(action) {
     };
 };
 
+function loadMyInfoAPI() {
+    return axios.get(`/user`);
+};
+
+function* loadMyInfo(action) {
+    try {
+        const result = yield call(loadMyInfoAPI, action.data);
+        yield put({
+            type: LOAD_MY_INFO_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: LOAD_MY_INFO_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
+function loadUserInfoAPI(data) {
+    return axios.get(`/user/${data}`);
+};
+
+function* loadUserInfo(action) {
+    try {
+        const result = yield call(loadUserInfoAPI, action.data);
+        yield put({
+            type: LOAD_USER_INFO_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: LOAD_USER_INFO_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
 function* watchLogin() {
     yield takeLatest(LOG_IN_REQUEST, logIn)
 };
@@ -80,6 +120,12 @@ function* watchLogout() {
 };
 function* watchSignUp() {
     yield takeLatest(SIGN_UP_REQUEST, signUp)
+};
+function* watchLoadMyInfo() {
+    yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo)
+};
+function* watchLoadUserInfo() {
+    yield takeLatest(LOAD_USER_INFO_REQUEST, loadUserInfo)
 };
 
 export default function* userSaga() {
@@ -91,8 +137,8 @@ export default function* userSaga() {
         // fork(watchChangeDescription),
         // fork(watchFollow),
         // fork(watchUnfollow),
-        // fork(watchLoadMyInfo),
-        // fork(watchLoadUserInfo),
+        fork(watchLoadMyInfo),
+        fork(watchLoadUserInfo),
         // fork(watchLoadFollowerList),
         // fork(watchLoadFollowingList),
     ]);
