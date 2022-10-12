@@ -51,9 +51,11 @@ const UploadEditor = ({ contents, isNewContents }) => {
 
     // for Edit mode
     useEffect(() => {
-        let selectedCategory = categories.find((c) => c.label === category);
-        setSubCategories(selectedCategory.SubCategories);
-    }, [category, categories]);
+        if(!isNew) {
+            let selectedCategory = categories.find((c) => c.label === category);
+            setSubCategories(selectedCategory.SubCategories);
+        }
+    }, [category, categories, isNew]);
 
     const onCategoryChange = useCallback((cat) => {
         setCategory(cat);
