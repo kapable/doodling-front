@@ -33,9 +33,9 @@ const CommentsList = ({ postId, comments, userId }) => {
     }, [reCommentText, postId, reCommentTargetId]);
 
     const onCommentLikeClick = (commentId) => useCallback(() => {
-        // if(!myInfo?.id) {
-        //     return alert('좋아요를 누르려면 로그인이 필요합니다!');
-        // };
+        if(!myInfo?.id) {
+            return alert('좋아요를 누르려면 로그인이 필요합니다!');
+        };
         commentLikeTargetId.includes(commentId)
         ? (
             dispatch({

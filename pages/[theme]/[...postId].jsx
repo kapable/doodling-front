@@ -15,12 +15,6 @@ import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { LOAD_MY_INFO_REQUEST, LOAD_USER_INFO_REQUEST } from '../../reducers/user';
 import { END } from 'redux-saga';
 import CommentsList from '../../components/Post/CommentsList';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/ko';
-
-dayjs.extend(relativeTime);
-dayjs.locale('ko');
 
 const Post = () => {
     const dispatch = useDispatch();

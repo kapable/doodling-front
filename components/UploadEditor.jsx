@@ -30,6 +30,7 @@ const UploadEditor = ({ contents, isNewContents }) => {
     const [isNew, setIsNew] = useState(isNewContents); // upload Or Edit
     const [title, onChangeTitle] = useInput(contents?.title || '');
     const [category, setCategory] = useState(contents?.SubCategory.Category.label || '');
+    const [categoryId, setCategoryId] = useState(contents?.SubCategory.Category.id || '');
     const [subCategories, setSubCategories] = useState([]);
     const [subCategory, setSubCategory] = useState(contents?.SubCategory.label || '');
     const [subCategoryId, setSubCategoryId] = useState(contents?.SubCategoryId || '');
@@ -60,6 +61,7 @@ const UploadEditor = ({ contents, isNewContents }) => {
     const onCategoryChange = useCallback((cat) => {
         setCategory(cat);
         let selectedCategory = categories.find((c) => c.label === cat);
+        setCategoryId(selectedCategory.id);
         setSubCategories(selectedCategory.SubCategories);
         if(selectedCategory.SubCategories.length > 0) {
             setSubCategory(selectedCategory.SubCategories[0].label)
@@ -92,6 +94,7 @@ const UploadEditor = ({ contents, isNewContents }) => {
                 data: {
                     title,
                     text,
+                    categoryId,
                     subCategoryId,
                 }
             })
@@ -103,11 +106,12 @@ const UploadEditor = ({ contents, isNewContents }) => {
                     postId: contents?.id,
                     title,
                     text,
+                    categoryId,
                     subCategoryId,
                 }
             })
         )
-    }, [title, text, subCategoryId, contents?.id]);
+    }, [title, text, categoryId, subCategoryId, contents?.id]);
     
 
     const imageHandler = () => {

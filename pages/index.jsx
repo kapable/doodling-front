@@ -1,12 +1,16 @@
 import React, { Fragment } from 'react';
 import Head from 'next/head';
-import HomeLayout from '../components/HomeLayout';
 import NavigationBar from '../components/NavigationBar';
 import wrapper from '../store/configureStore';
 import axios from 'axios';
 import { LOAD_CATEGORIES_REQUEST } from '../reducers/category';
 import { END } from 'redux-saga';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
+import { LOAD_CATEGORIES_NEW_POSTS_REQUEST } from '../reducers/posts';
+import NoticeRollingBanner from '../components/Home/NoticeRollingBanner';
+import TopPosts from '../components/Home/TopPosts';
+import CategoryNewPosts from '../components/Home/CategoryNewPosts';
+
 
 const Home = () => {
     return (
@@ -22,7 +26,9 @@ const Home = () => {
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
             <NavigationBar categoryDomain='main' />
-            <HomeLayout />
+            <NoticeRollingBanner />
+            <TopPosts />
+            <CategoryNewPosts />
         </Fragment>
     );
 };
@@ -35,6 +41,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     };
     store.dispatch({
         type: LOAD_CATEGORIES_REQUEST
+    });
+    store.dispatch({
+        type: LOAD_CATEGORIES_NEW_POSTS_REQUEST
     });
     store.dispatch({
         type: LOAD_MY_INFO_REQUEST

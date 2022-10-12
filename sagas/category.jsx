@@ -125,7 +125,7 @@ function* watchLoadCategories() {
     yield takeLatest(LOAD_CATEGORIES_REQUEST, loadCategories);
 };
 
-export default function* postSaga() {
+export default function* categorySaga() {
     yield all([
         fork(watchAddCategory),
         fork(watchAddSubCategory),
