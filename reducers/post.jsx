@@ -31,6 +31,15 @@ export const initialState = {
     addCommentLoading: false,
     addCommentDone: false,
     addCommentError: false,
+    addReCommentLoading: false,
+    addReCommentDone: false,
+    addReCommentError: false,
+    likeCommentLoading: false,
+    likeCommentDone: false,
+    likeCommentError: false,
+    unLikeCommentLoading: false,
+    unLikeCommentDone: false,
+    unLikeCommentError: false,
 };
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
@@ -68,6 +77,18 @@ export const ENABLE_POST_FAILURE = 'ENABLE_POST_FAILURE';
 export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
+
+export const ADD_RECOMMENT_REQUEST = 'ADD_RECOMMENT_REQUEST';
+export const ADD_RECOMMENT_SUCCESS = 'ADD_RECOMMENT_SUCCESS';
+export const ADD_RECOMMENT_FAILURE = 'ADD_RECOMMENT_FAILURE';
+
+export const LIKE_COMMENT_REQUEST = 'LIKE_COMMENT_REQUEST';
+export const LIKE_COMMENT_SUCCESS = 'LIKE_COMMENT_SUCCESS';
+export const LIKE_COMMENT_FAILURE = 'LIKE_COMMENT_FAILURE';
+
+export const UNLIKE_COMMENT_REQUEST = 'UNLIKE_COMMENT_REQUEST';
+export const UNLIKE_COMMENT_SUCCESS = 'UNLIKE_COMMENT_SUCCESS';
+export const UNLIKE_COMMENT_FAILURE = 'UNLIKE_COMMENT_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -196,6 +217,49 @@ const reducer = (state = initialState, action) => {
             case ADD_COMMENT_FAILURE:
                 draft.addCommentLoading = false;
                 draft.addCommentError = action.error;
+                break;
+            case ADD_RECOMMENT_REQUEST:
+                draft.addReCommentLoading = true;
+                draft.addReCommentDone = false;
+                draft.addReCommentError = null;
+                break;
+            case ADD_RECOMMENT_SUCCESS:
+                // action.data.unshift(draft.singlePost.Comments.find((comment) => comment.id === action.data.ReCommentId).ReComment);
+                draft.addReCommentDone = true;
+                draft.addReCommentLoading = false;
+                break;
+            case ADD_RECOMMENT_FAILURE:
+                draft.addReCommentLoading = false;
+                draft.addReCommentError = action.error;
+                break;
+            case LIKE_COMMENT_REQUEST:
+                draft.likeCommentLoading = true;
+                draft.likeCommentDone = false;
+                draft.likeCommentError = null;
+                break;
+            case LIKE_COMMENT_SUCCESS:
+                console.log(action.data)
+                draft.singlePost.Comments.find((c) => c.id === action.data.id).CommentLikers = action.data.likers;
+                draft.likeCommentDone = true;
+                draft.likeCommentLoading = false;
+                break;
+            case LIKE_COMMENT_FAILURE:
+                draft.likeCommentLoading = false;
+                draft.likeCommentError = action.error;
+                break;
+            case UNLIKE_COMMENT_REQUEST:
+                draft.unLikeCommentLoading = true;
+                draft.unLikeCommentDone = false;
+                draft.unLikeCommentError = null;
+                break;
+            case UNLIKE_COMMENT_SUCCESS:
+                draft.singlePost.Comments.find((c) => c.id === action.data.id).CommentLikers = action.data.likers;
+                draft.unLikeCommentDone = true;
+                draft.unLikeCommentLoading = false;
+                break;
+            case UNLIKE_COMMENT_FAILURE:
+                draft.unLikeCommentLoading = false;
+                draft.unLikeCommentError = action.error;
                 break;
             default:
                 break;

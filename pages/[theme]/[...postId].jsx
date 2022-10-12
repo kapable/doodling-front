@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PostTitleCard from '../../components/Post/PostTitleCard';
 import MainContentsCard from '../../components/Post/MainContentsCard';
 import CommentsCard from '../../components/Post/CommentsCard';
@@ -12,12 +12,20 @@ import { Divider } from 'antd';
 import axios from 'axios';
 import wrapper from '../../store/configureStore';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
-import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
+import { LOAD_MY_INFO_REQUEST, LOAD_USER_INFO_REQUEST } from '../../reducers/user';
 import { END } from 'redux-saga';
-import CommentsList from '../../components/CommentsList';
+import CommentsList from '../../components/Post/CommentsList';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ko';
+
+dayjs.extend(relativeTime);
+dayjs.locale('ko');
 
 const Post = () => {
+    const dispatch = useDispatch();
     const { singlePost } = useSelector((state) => state.post);
+    const { myInfo } = useSelector((state) => state.user);
     const router = useRouter();
     const { theme, postId } = router.query;
     const [subTheme, setSubTheme] = useState('');
@@ -33,6 +41,15 @@ const Post = () => {
             router.push('/');
         }
     }, [singlePost]);
+
+    useEffect(() => {
+        if(myInfo?.id) {
+            dispatch({
+                type: LOAD_USER_INFO_REQUEST,
+                data: myInfo.id,
+            });
+        }
+    }, [myInfo]);
 
     return (
         <Fragment>
@@ -55,7 +72,7 @@ const Post = () => {
                     <MainContentsCard contents={singlePost} categoryDomain={theme} subCategoryDomain={subTheme} />
                     <Divider />
                     <CommentsCard contents={singlePost}/>
-                    <CommentsList comments={singlePost?.Comments} />
+                    <CommentsList postId={singlePost?.id} comments={singlePost?.Comments} userId={singlePost?.User?.id} />
                     <Divider />
                     {/* <RecommendPosts /> */}
                 </div>

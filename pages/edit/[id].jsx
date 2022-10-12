@@ -35,7 +35,6 @@ const Edit = () => {
                 <meta name="description" content="두들링 - MBTI 기반 커뮤니티" />
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
-            Edit
             <UploadEditor contents={singlePost} isNewContents={false} />
         </Fragment>
     );

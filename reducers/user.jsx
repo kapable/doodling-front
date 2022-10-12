@@ -68,6 +68,9 @@ export const LOAD_USER_INFO_FAILURE = 'LOAD_USER_INFO_FAILURE';
 export const ADD_POST_LIKE_TO_ME = 'ADD_POST_LIKE_TO_ME';
 export const REMOVE_POST_LIKE_TO_ME = 'REMOVE_POST_LIKE_TO_ME';
 
+export const ADD_COMMENT_LIKE_TO_ME = 'ADD_COMMENT_LIKE_TO_ME';
+export const REMOVE_COMMENT_LIKE_TO_ME = 'REMOVE_COMMENT_LIKE_TO_ME';
+
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -150,6 +153,12 @@ const reducer = (state = initialState, action) => {
                 break;
             case REMOVE_POST_LIKE_TO_ME:
                 draft.userInfo.PostLiked = draft.userInfo.PostLiked.filter((v) => v.id !== action.data.id);
+                break;
+            case ADD_COMMENT_LIKE_TO_ME:
+                draft.userInfo.CommentLiked.unshift(action.data);
+                break;
+            case REMOVE_COMMENT_LIKE_TO_ME:
+                draft.userInfo.CommentLiked = draft.userInfo.CommentLiked.filter((v) => v.id !== action.data.id);
                 break;
             default:
                 break;

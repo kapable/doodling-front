@@ -60,7 +60,6 @@ const UploadEditor = ({ contents, isNewContents }) => {
     const onCategoryChange = useCallback((cat) => {
         setCategory(cat);
         let selectedCategory = categories.find((c) => c.label === cat);
-        console.log(selectedCategory.SubCategories);
         setSubCategories(selectedCategory.SubCategories);
         if(selectedCategory.SubCategories.length > 0) {
             setSubCategory(selectedCategory.SubCategories[0].label)
@@ -77,9 +76,6 @@ const UploadEditor = ({ contents, isNewContents }) => {
     }, [categories, subCategories]);
 
     const onSubmit = useCallback(() => {
-        // if(!userInfo) {
-        //     return alert('관리자 로그인이 필요합니다!');
-        // }
         if(!title || !title.trim()) {
             return alert('제목을 입력하세요!');
         };

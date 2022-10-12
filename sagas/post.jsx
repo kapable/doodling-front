@@ -5,6 +5,7 @@ import {
     ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
     EDIT_POST_REQUEST, EDIT_POST_SUCCESS, EDIT_POST_FAILURE,
     ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
+    ADD_RECOMMENT_REQUEST, ADD_RECOMMENT_SUCCESS, ADD_RECOMMENT_FAILURE,
     // REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
     UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_REQUEST,
     // UPLOAD_THUMBNAIL_SUCCESS, UPLOAD_THUMBNAIL_FAILURE, UPLOAD_THUMBNAIL_REQUEST,
@@ -12,11 +13,13 @@ import {
     // SET_POST_TITLE_REQUEST, SET_POST_TITLE_SUCCESS, SET_POST_TITLE_FAILURE,
     // SET_POST_TEXT_SUCCESS, SET_POST_TEXT_FAILURE, SET_POST_TEXT_REQUEST,
     LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE,
+    LIKE_COMMENT_REQUEST, LIKE_COMMENT_SUCCESS, LIKE_COMMENT_FAILURE,
     UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
+    UNLIKE_COMMENT_REQUEST, UNLIKE_COMMENT_SUCCESS, UNLIKE_COMMENT_FAILURE,
     VIEW_POST_REQUEST, VIEW_POST_SUCCESS, VIEW_POST_FAILURE,
     ENABLE_POST_REQUEST, ENABLE_POST_SUCCESS, ENABLE_POST_FAILURE,
 } from '../reducers/post';
-import { ADD_POST_LIKE_TO_ME, REMOVE_POST_LIKE_TO_ME } from '../reducers/user';
+import { ADD_POST_LIKE_TO_ME, REMOVE_POST_LIKE_TO_ME, ADD_COMMENT_LIKE_TO_ME, REMOVE_COMMENT_LIKE_TO_ME } from '../reducers/user';
 
 function addPostAPI(data) {
     return axios.post(`/post`, data);
@@ -126,6 +129,30 @@ function* likePost(action) {
     };
 };
 
+function likeCommentAPI(data) {
+    return axios.patch(`/comment/${data.commentId}/like`);
+}
+
+function* likeComment(action) {
+    try {
+        const result = yield call(likeCommentAPI, action.data);
+        yield put({
+            type: LIKE_COMMENT_SUCCESS,
+            data: result.data,
+        });
+        yield put({
+            type: ADD_COMMENT_LIKE_TO_ME,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log(err)
+        yield put({
+            type: LIKE_COMMENT_FAILURE,
+            error: err.response
+        })
+    };
+};
+
 function unLikePostAPI(data) {
     return axios.delete(`/post/${data.postId}/like`, data);
 }
@@ -145,6 +172,30 @@ function* unLikePost(action) {
         console.log(err)
         yield put({
             type: UNLIKE_POST_FAILURE,
+            error: err.response
+        })
+    };
+};
+
+function unLikeCommentAPI(data) {
+    return axios.delete(`/comment/${data.commentId}/like`);
+}
+
+function* unLikeComment(action) {
+    try {
+        const result = yield call(unLikeCommentAPI, action.data);
+        yield put({
+            type: UNLIKE_COMMENT_SUCCESS,
+            data: result.data,
+        });
+        yield put({
+            type: REMOVE_COMMENT_LIKE_TO_ME,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log(err)
+        yield put({
+            type: UNLIKE_COMMENT_FAILURE,
             error: err.response
         })
     };
@@ -209,6 +260,26 @@ function* addComment(action) {
     };
 };
 
+function addReCommentAPI(data) {
+    return axios.post(`/comment/${data.commentId}/reComment`, data);
+}
+
+function* addReComment(action) {
+    try {
+        const result = yield call(addReCommentAPI, action.data);
+        yield put({
+            type: ADD_RECOMMENT_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log(err)
+        yield put({
+            type: ADD_RECOMMENT_FAILURE,
+            error: err.response
+        })
+    };
+};
+
 function* watchUploadImages() {
     yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 };
@@ -224,8 +295,14 @@ function* watchLoadPost() {
 function* watchLikePost() {
     yield takeLatest(LIKE_POST_REQUEST, likePost);
 };
+function* watchLikeComment() {
+    yield takeLatest(LIKE_COMMENT_REQUEST, likeComment);
+};
 function* watchUnLikePost() {
     yield takeLatest(UNLIKE_POST_REQUEST, unLikePost);
+};
+function* watchUnLikeComment() {
+    yield takeLatest(UNLIKE_COMMENT_REQUEST, unLikeComment);
 };
 function* watchViewPost() {
     yield takeLatest(VIEW_POST_REQUEST, viewPost);
@@ -235,6 +312,9 @@ function* watchEnablePost() {
 };
 function* watchAddComment() {
     yield takeLatest(ADD_COMMENT_REQUEST, addComment);
+};
+function* watchAddReComment() {
+    yield takeLatest(ADD_RECOMMENT_REQUEST, addReComment);
 };
 
 export default function* postSaga() {
@@ -247,9 +327,12 @@ export default function* postSaga() {
         // fork(watchSetPostTitle),
         // fork(watchSetPostText),
         fork(watchAddComment),
+        fork(watchAddReComment),
         fork(watchUploadImages),
         fork(watchLikePost),
+        fork(watchLikeComment),
         fork(watchUnLikePost),
+        fork(watchUnLikeComment),
         fork(watchViewPost),
         fork(watchEnablePost),
     ]);

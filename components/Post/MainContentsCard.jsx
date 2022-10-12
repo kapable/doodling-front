@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post';
 import { Button } from 'antd';
-import { LOAD_USER_INFO_REQUEST } from '../../reducers/user';
 import { LikeFilled, LinkOutlined } from '@ant-design/icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -11,15 +10,6 @@ const MainContentsCard = ({ contents, categoryDomain, subCategoryDomain }) => {
     const dispatch = useDispatch();
     const { myInfo, userInfo } = useSelector((state) => state.user);
     const [likeClick, setLikeClick] = useState(false);
-
-    useEffect(() => {
-        if(myInfo?.id) {
-            dispatch({
-                type: LOAD_USER_INFO_REQUEST,
-                data: myInfo.id,
-            });
-        }
-    }, [myInfo]);
 
     useEffect(() => {
         // if the loaded user(user own)'s PostLiked list has the current post id

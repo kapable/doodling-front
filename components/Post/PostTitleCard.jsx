@@ -4,15 +4,9 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'antd';
 import { EditOutlined, LikeOutlined, LikeFilled, CommentOutlined, LinkOutlined, TagOutlined, BookOutlined, BookFilled, DeleteOutlined, LoadingOutlined, AlertOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/ko';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ENABLE_POST_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post';
-import { LOAD_USER_INFO_REQUEST } from '../../reducers/user';
-
-dayjs.extend(relativeTime);
-dayjs.locale('ko');
 
 const PostTitleCard = ({ contents }) => {
     const router = useRouter();
@@ -29,15 +23,6 @@ const PostTitleCard = ({ contents }) => {
         ? setDateTime(dayjs(createdAt).format('YYYY-MM-DD'))
         : setDateTime(dayjs(createdAt).fromNow())
     }, [createdAt]);
-
-    useEffect(() => {
-        if(myInfo?.id) {
-            dispatch({
-                type: LOAD_USER_INFO_REQUEST,
-                data: myInfo.id,
-            });
-        }
-    }, [myInfo]);
 
     useEffect(() => {
         // if the loaded user(user own)'s PostLiked list has the current post id
