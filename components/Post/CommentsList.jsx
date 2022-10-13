@@ -96,7 +96,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                         <Comment
                             key={`${item.id}-comment`}
                             actions={[
-                                <span onClick={() => onCommentLikeClick(item.id)} >{commentLikeTargetId.includes(item.id) ? <LikeFilled /> : <LikeOutlined />} {item.CommentLikers.length}</span>,
+                                <span onClick={onCommentLikeClick(item.id)} >{commentLikeTargetId.includes(item.id) ? <LikeFilled /> : <LikeOutlined />} {item.CommentLikers.length}</span>,
                                 // <span onClick={onReCommentClick(item.id)}>댓글달기</span>
                             ]}
                             author={[<p key="1-user">{item.UserId === userId ? <CheckCircleFilled /> : null} {item.User.nickname}<span style={{backgroundColor: categoriesColorObj[item.User.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{item.User.mbti}</span></p>]}

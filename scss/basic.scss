@@ -96,7 +96,8 @@
     }
 
     .new-posts-category-div {
-        padding: 1.5rem;
+        padding: 1.2rem 1.5rem 0;
+        border-bottom: $grey-color 0.5rem solid;
 
         .new-posts-post-row, .no-posts-row {
             border-bottom: $grey-color 0.15rem solid;
@@ -124,6 +125,7 @@
             margin: 0.5rem auto;
             color: grey;
             cursor: pointer;
+            vertical-align: middle;
         }
     }
 }

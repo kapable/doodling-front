@@ -24,6 +24,7 @@ const { Option } = Select;
 const UploadEditor = ({ contents, isNewContents }) => {
     const router = useRouter();
     const dispatch = useDispatch();
+    const { myInfo } = useSelector((state) => state.user);
     const { categories } = useSelector((state) => state.category);
     const { addPostDone, uploadedPost, addPostLoading } = useSelector((state) => state.post);
 
@@ -36,12 +37,6 @@ const UploadEditor = ({ contents, isNewContents }) => {
     const [subCategoryId, setSubCategoryId] = useState(contents?.SubCategoryId || '');
     const [text, setText] = useState(contents?.text || "");
     const quillRef = useRef(null);
-
-    useEffect(() => {
-        dispatch({
-            type: LOAD_CATEGORIES_REQUEST
-        });
-    }, []);
 
     useEffect(() => {
         if(addPostDone && uploadedPost) {
@@ -208,8 +203,14 @@ const UploadEditor = ({ contents, isNewContents }) => {
                     onChange={onCategoryChange}
                     value={category}
                     >
+                    {/* Filtering NOTICE category for admin user */}
                     {categories.map((cat) => {
-                        if(cat.domain !== '') {
+                        if(myInfo?.admin === true) {
+                            if(cat.domain !== '') {
+                                return <Option value={cat.label} key={cat.domain} />
+                            }
+                        }
+                        if(cat.domain !== '' && cat.domain !== 'notice') {
                             return <Option value={cat.label} key={cat.domain} />
                         }
                     })}

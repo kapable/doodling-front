@@ -36,7 +36,10 @@ const CategoryNewPosts = () => {
                     // if posts don't exists
                     : (<p className='no-posts-row'>신규 포스트가 없습니다.</p>)
                     }
-                    <div className='new-posts-more-div'>{"더보기 >"}</div>
+                    {/* Show More to Go to Category Main */}
+                    <Link href={`/${cat.domain}`}><a>
+                        <div className='new-posts-more-div'>{"더보기 >"}</div>
+                    </a></Link>
                 </div>
             ))}
         </div>
