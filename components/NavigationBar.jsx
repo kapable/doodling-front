@@ -46,7 +46,6 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
     return (
         <Fragment>
             {/* Categories Nav-Bar */}
-            {console.log('LEN DUB', categories)}
             <Tabs 
                 className='home-category-tab'
                 onChange={onChangeCategory}
