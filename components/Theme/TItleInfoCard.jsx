@@ -1,8 +1,12 @@
+import { Row } from 'antd';
 import React from 'react';
 
-const TItleInfoCard = () => {
+const TItleInfoCard = ({ categoryDomain }) => {
     return (
-        <div>TItleInfoCard</div>
+        <div>
+            <Row>{categoryDomain}</Row>
+            <Row></Row>
+        </div>
     );
 };
 
