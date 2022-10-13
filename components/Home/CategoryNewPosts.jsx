@@ -23,6 +23,7 @@ const CategoryNewPosts = () => {
                                 {/* Title and MBTI */}
                                 <Col span={18}>
                                     <span className='new-posts-title-span'>{post.title.length > 15 ? `${post.title.slice(0, 15)}...` : post.title}</span>
+                                    &nbsp;<span className='new-posts-nickname-span'>{post['User.nickname']}</span>
                                     &nbsp;<span className='new-posts-mbti-span' style={{ backgroundColor : categoriesColorObj[post['User.mbti']]}}>
                                         {post['User.mbti']}</span>
                                 </Col>

@@ -113,7 +113,7 @@
                 padding: 0 0.3rem;
             }
     
-            .new-posts-date-col {
+            .new-posts-date-col, .new-posts-nickname-span {
                 color: grey;
                 text-align: right;
             }
@@ -271,7 +271,7 @@
             width: 100%;
             max-width: 35rem;
             display: block;
-            margin: 0 auto
+            // margin: 0 auto;
         }
     }
     .post-contents-bottom-div {
