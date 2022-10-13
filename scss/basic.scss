@@ -130,6 +130,25 @@
     }
 }
 
+/* Category Main page */
+.category-main-title-info-div {
+    padding: 1.5rem;
+
+    h1 {
+        font-weight: bold;
+    }
+
+    span {
+        background-color: $point-color;
+        color: white;
+        padding: 0 0.3rem;
+    }
+}
+
+.category-new-15-posts-div {
+    padding: 1.5rem;
+}
+
 /* Signup */
 .signup-div {
     background-color: white;

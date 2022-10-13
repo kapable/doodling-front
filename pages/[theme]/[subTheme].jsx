@@ -9,10 +9,13 @@ import wrapper from '../../store/configureStore';
 import axios from 'axios';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { END } from 'redux-saga';
+import { useSelector } from 'react-redux';
 
 const SubTheme = () => {
     const router = useRouter();
     const { theme, subTheme } = router.query;
+    const { categories } = useSelector((state) => state.category);
+    const { categoryNewPosts } = useSelector((state) => state.posts);
 
     return (
         <Fragment>
@@ -26,9 +29,9 @@ const SubTheme = () => {
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
             <NavigationBar categoryDomain={theme} subCategoryDomain={subTheme} />
-            <TItleInfoCard />
+            <TItleInfoCard category={categories.find((cat) => cat.domain === theme)} subTheme={subTheme}/>
             <TopFivePosts />
-            <NewPosts />
+            {/* <NewPosts /> */}
         </Fragment>
     );
 };

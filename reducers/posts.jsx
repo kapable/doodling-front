@@ -9,6 +9,10 @@ export const LOAD_CATEGORIES_NEW_POSTS_REQUEST = 'LOAD_CATEGORIES_NEW_POSTS_REQU
 export const LOAD_CATEGORIES_NEW_POSTS_SUCCESS = 'LOAD_CATEGORIES_NEW_POSTS_SUCCESS';
 export const LOAD_CATEGORIES_NEW_POSTS_FAILURE = 'LOAD_CATEGORIES_NEW_POSTS_FAILURE';
 
+export const LOAD_CATEGORIES_NEW_15_POSTS_REQUEST = 'LOAD_CATEGORIES_NEW_15_POSTS_REQUEST';
+export const LOAD_CATEGORIES_NEW_15_POSTS_SUCCESS = 'LOAD_CATEGORIES_NEW_15_POSTS_SUCCESS';
+export const LOAD_CATEGORIES_NEW_15_POSTS_FAILURE = 'LOAD_CATEGORIES_NEW_15_POSTS_FAILURE';
+
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
         switch (action.type) {
@@ -25,6 +29,20 @@ const reducer = (state = initialState, action) => {
             case LOAD_CATEGORIES_NEW_POSTS_FAILURE:
                 draft.loadCategoriesNewPostsLoading = false;
                 draft.loadCategoriesNewPostsError = action.error;
+                break;
+            case LOAD_CATEGORIES_NEW_15_POSTS_REQUEST:
+                draft.loadCategoriesNew15PostsLoading = true;
+                draft.loadCategoriesNew15PostsDone = false;
+                draft.loadCategoriesNew15PostsError = null;
+                break;
+            case LOAD_CATEGORIES_NEW_15_POSTS_SUCCESS:
+                draft.loadCategoriesNew15PostsLoading = false;
+                draft.loadCategoriesNew15PostsDone = true;
+                draft.categoryNewPosts = action.data;
+                break;
+            case LOAD_CATEGORIES_NEW_15_POSTS_FAILURE:
+                draft.loadCategoriesNew15PostsLoading = false;
+                draft.loadCategoriesNew15PostsError = action.error;
                 break;
             default:
                 break;

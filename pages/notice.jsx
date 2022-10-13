@@ -9,6 +9,7 @@ const Notice = () => {
     return (
         <Fragment>
             <NavigationBar categoryDomain='notice' />
+            공지입니다
         </Fragment>
     );
 };
