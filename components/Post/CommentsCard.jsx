@@ -7,15 +7,20 @@ import { useCallback } from 'react';
 import { ADD_COMMENT_REQUEST } from '../../reducers/post';
 
 const CommentsCard = ({ contents }) => {
-    const { myInfo } = useSelector((state) => state.user);
+    const { myInfo, addCommentLoading } = useSelector((state) => state.user);
     const dispatch = useDispatch();
-    const [commentText, onChangeCommentText] = useInput('');
+    const [commentText, onChangeCommentText, setCommentText] = useInput('');
 
     const onSubmitComment = useCallback(() => {
-        dispatch({
-            type: ADD_COMMENT_REQUEST,
-            data: { postId: contents.id, text: commentText }
-        })
+        try {
+            dispatch({
+                type: ADD_COMMENT_REQUEST,
+                data: { postId: contents.id, text: commentText }
+            });
+            setCommentText('');
+        } catch {
+            return alert('댓글을 다는 중 에러가 발생했습니다 ㅠㅠ');
+        }
     }, [contents, commentText]);
 
     return (
@@ -40,6 +45,7 @@ const CommentsCard = ({ contents }) => {
                                 className='post-comment-submit-button'
                                 type='primary'
                                 htmlType='submit'
+                                loading={addCommentLoading}
                                 disabled={myInfo?.id ? false : true}
                             >등록</Button>
                         </Col>

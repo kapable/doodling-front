@@ -89,6 +89,45 @@
     margin-bottom: 0;
 }
 
+/* Index home */
+.home-category-new-posts-main-div {
+    h1 {
+        font-weight: bold;
+    }
+
+    .new-posts-category-div {
+        padding: 1.5rem;
+
+        .new-posts-post-row, .no-posts-row {
+            border-bottom: $grey-color 0.15rem solid;
+            padding: 0.3rem 0;
+
+            .new-posts-title-span {
+                color: black;
+                padding: 0 0.3rem;
+            }
+    
+            .new-posts-mbti-span {
+                color: white;
+                padding: 0 0.3rem;
+            }
+    
+            .new-posts-date-col {
+                color: grey;
+                text-align: right;
+            }
+        }
+    
+        .new-posts-more-div {
+            text-align: center;
+            width: 10rem;
+            margin: 0.5rem auto;
+            color: grey;
+            cursor: pointer;
+        }
+    }
+}
+
 /* Signup */
 .signup-div {
     background-color: white;
@@ -271,5 +310,12 @@
             margin: 0.1rem;
             padding: 0 0;
         }
+    }
+}
+
+
+@include desktop {
+    .new-posts-post-row, .no-posts-row {
+        padding: 0.5rem 0;
     }
 }

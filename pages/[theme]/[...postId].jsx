@@ -30,7 +30,7 @@ const Post = () => {
     }, [postId]);
 
     useEffect(() => {
-        if(!singlePost?.enabled) {
+        if(singlePost?.enabled === false) {
             alert('더이상 존재하지 않는 게시물입니다.');
             router.push('/');
         }
@@ -66,7 +66,7 @@ const Post = () => {
                     <MainContentsCard contents={singlePost} categoryDomain={theme} subCategoryDomain={subTheme} />
                     <Divider />
                     <CommentsCard contents={singlePost}/>
-                    <CommentsList postId={singlePost?.id} comments={singlePost?.Comments} userId={singlePost?.User?.id} />
+                    <CommentsList postId={singlePost?.id} comments={singlePost?.Comments} userId={singlePost?.User?.id} postComments={singlePost?.PostComments || 0}/>
                     <Divider />
                     {/* <RecommendPosts /> */}
                 </div>

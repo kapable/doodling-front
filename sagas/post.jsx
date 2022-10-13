@@ -5,6 +5,7 @@ import {
     ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
     EDIT_POST_REQUEST, EDIT_POST_SUCCESS, EDIT_POST_FAILURE,
     ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
+    LOAD_COMMENTS_REQUEST, LOAD_COMMENTS_SUCCESS, LOAD_COMMENTS_FAILURE,
     ADD_RECOMMENT_REQUEST, ADD_RECOMMENT_SUCCESS, ADD_RECOMMENT_FAILURE,
     // REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
     UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_REQUEST,
@@ -260,6 +261,26 @@ function* addComment(action) {
     };
 };
 
+function loadCommentsAPI(data) {
+    return axios.get(`/comment/${data.postId}?lastId=${data.lastId}`);
+}
+
+function* loadComments(action) {
+    try {
+        const result = yield call(loadCommentsAPI, action.data);
+        yield put({
+            type: LOAD_COMMENTS_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log(err)
+        yield put({
+            type: LOAD_COMMENTS_FAILURE,
+            error: err.response
+        })
+    };
+};
+
 function addReCommentAPI(data) {
     return axios.post(`/comment/${data.commentId}/reComment`, data);
 }
@@ -313,6 +334,9 @@ function* watchEnablePost() {
 function* watchAddComment() {
     yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 };
+function* watchLoadComments() {
+    yield takeLatest(LOAD_COMMENTS_REQUEST, loadComments);
+};
 function* watchAddReComment() {
     yield takeLatest(ADD_RECOMMENT_REQUEST, addReComment);
 };
@@ -327,6 +351,7 @@ export default function* postSaga() {
         // fork(watchSetPostTitle),
         // fork(watchSetPostText),
         fork(watchAddComment),
+        fork(watchLoadComments),
         fork(watchAddReComment),
         fork(watchUploadImages),
         fork(watchLikePost),

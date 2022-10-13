@@ -31,6 +31,9 @@ export const initialState = {
     addCommentLoading: false,
     addCommentDone: false,
     addCommentError: false,
+    loadCommentsLoading: false,
+    loadCommentsDone: false,
+    loadCommentsError: false,
     addReCommentLoading: false,
     addReCommentDone: false,
     addReCommentError: false,
@@ -40,6 +43,7 @@ export const initialState = {
     unLikeCommentLoading: false,
     unLikeCommentDone: false,
     unLikeCommentError: false,
+    hasMoreComments: false,
 };
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
@@ -77,6 +81,10 @@ export const ENABLE_POST_FAILURE = 'ENABLE_POST_FAILURE';
 export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
+
+export const LOAD_COMMENTS_REQUEST = 'LOAD_COMMENTS_REQUEST';
+export const LOAD_COMMENTS_SUCCESS = 'LOAD_COMMENTS_SUCCESS';
+export const LOAD_COMMENTS_FAILURE = 'LOAD_COMMENTS_FAILURE';
 
 export const ADD_RECOMMENT_REQUEST = 'ADD_RECOMMENT_REQUEST';
 export const ADD_RECOMMENT_SUCCESS = 'ADD_RECOMMENT_SUCCESS';
@@ -144,6 +152,7 @@ const reducer = (state = initialState, action) => {
                 draft.singlePost = action.data;
                 draft.loadPostDone = true;
                 draft.loadPostLoading = false;
+                draft.hasMoreComments = action.data.Comments.length === 10;
                 break;
             case LOAD_POST_FAILURE:
                 draft.loadPostLoading = false;
@@ -210,13 +219,28 @@ const reducer = (state = initialState, action) => {
                 draft.addCommentError = null;
                 break;
             case ADD_COMMENT_SUCCESS:
-                action.data.unshift(draft.singlePost.Comments);
+                draft.singlePost.Comments.unshift(action.data);
                 draft.addCommentDone = true;
                 draft.addCommentLoading = false;
                 break;
             case ADD_COMMENT_FAILURE:
                 draft.addCommentLoading = false;
                 draft.addCommentError = action.error;
+                break;
+            case LOAD_COMMENTS_REQUEST:
+                draft.loadCommentsLoading = true;
+                draft.loadCommentsDone = false;
+                draft.loadCommentsError = null;
+                break;
+            case LOAD_COMMENTS_SUCCESS:
+                draft.singlePost.Comments = draft.singlePost.Comments.concat(action.data);
+                draft.loadCommentsDone = true;
+                draft.loadCommentsLoading = false;
+                draft.hasMoreComments = action.data.length === 10;
+                break;
+            case LOAD_COMMENTS_FAILURE:
+                draft.loadCommentsLoading = false;
+                draft.loadCommentsError = action.error;
                 break;
             case ADD_RECOMMENT_REQUEST:
                 draft.addReCommentLoading = true;
@@ -238,7 +262,6 @@ const reducer = (state = initialState, action) => {
                 draft.likeCommentError = null;
                 break;
             case LIKE_COMMENT_SUCCESS:
-                console.log(action.data)
                 draft.singlePost.Comments.find((c) => c.id === action.data.id).CommentLikers = action.data.likers;
                 draft.likeCommentDone = true;
                 draft.likeCommentLoading = false;

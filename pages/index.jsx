@@ -10,9 +10,12 @@ import { LOAD_CATEGORIES_NEW_POSTS_REQUEST } from '../reducers/posts';
 import NoticeRollingBanner from '../components/Home/NoticeRollingBanner';
 import TopPosts from '../components/Home/TopPosts';
 import CategoryNewPosts from '../components/Home/CategoryNewPosts';
+import { useSelector } from 'react-redux';
 
 
 const Home = () => {
+    const { categories } = useSelector((state) => state.category);
+
     return (
         <Fragment>
             <Head>
@@ -25,7 +28,7 @@ const Home = () => {
                 <meta name="description" content="두들링 - MBTI 기반 커뮤니티" />
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
-            <NavigationBar categoryDomain='main' />
+            <NavigationBar categoryDomain={categories[0].domain} />
             <NoticeRollingBanner />
             <TopPosts />
             <CategoryNewPosts />
