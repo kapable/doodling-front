@@ -27,7 +27,7 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
             return router.push('/top100');
         } else if (domain === 'notice') { // NOTICE
             return router.push('/notice')
-        } else if (domain === 'main') { // HOME
+        } else if (domain === '') { // HOME
             return router.push('/')
         } else {
             return router.push(`/${domain}`);
@@ -46,6 +46,7 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
     return (
         <Fragment>
             {/* Categories Nav-Bar */}
+            {console.log('LEN DUB', categories)}
             <Tabs 
                 className='home-category-tab'
                 onChange={onChangeCategory}
