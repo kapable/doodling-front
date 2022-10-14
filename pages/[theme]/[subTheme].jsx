@@ -4,7 +4,7 @@ import Head from 'next/head';
 import NavigationBar from '../../components/NavigationBar';
 import TItleInfoCard from '../../components/Theme/TItleInfoCard';
 import TopFivePosts from '../../components/Theme/TopFivePosts';
-import NewPosts from '../../components/Theme/NewPosts';
+import NewSubPosts from '../../components/Theme/NewSubPosts';
 import wrapper from '../../store/configureStore';
 import axios from 'axios';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
@@ -15,7 +15,6 @@ const SubTheme = () => {
     const router = useRouter();
     const { theme, subTheme } = router.query;
     const { categories } = useSelector((state) => state.category);
-    const { categoryNewPosts } = useSelector((state) => state.posts);
 
     return (
         <Fragment>
@@ -31,7 +30,7 @@ const SubTheme = () => {
             <NavigationBar categoryDomain={theme} subCategoryDomain={subTheme} />
             <TItleInfoCard category={categories.find((cat) => cat.domain === theme)} subTheme={subTheme}/>
             <TopFivePosts />
-            {/* <NewPosts /> */}
+            <NewSubPosts />
         </Fragment>
     );
 };

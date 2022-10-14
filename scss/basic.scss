@@ -147,6 +147,23 @@
 
 .category-new-15-posts-div {
     padding: 1.5rem;
+
+    .new-15-each-post-row {
+        padding: 0.3rem 0;
+        border-bottom: $grey-color 0.15rem solid;
+        color: black;
+        font-size: 0.9rem;
+
+        .new-15-each-post-title-row-mbti {
+            color: white;
+            padding: 0 0.3rem;
+        }
+
+        .new-15-each-post-info-row {
+            font-size: 0.7rem;
+            color: grey;
+        }
+    }
 }
 
 /* Signup */

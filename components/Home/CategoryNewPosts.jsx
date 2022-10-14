@@ -10,7 +10,6 @@ const CategoryNewPosts = () => {
 
     return (
         <div className='home-category-new-posts-main-div'>
-            {typeof window !== 'undefined' ?  console.log(window.location.href) : null}
             {categoryNewPosts.slice().sort((a, b) => (parseFloat(a.id) - parseFloat(b.id))) // sorting by category ID ASC
             .map((cat) => (
                 <div className='new-posts-category-div' key={`${cat?.domain}-new-posts-main-div`}>
