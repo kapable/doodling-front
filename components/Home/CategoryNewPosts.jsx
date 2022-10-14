@@ -10,12 +10,13 @@ const CategoryNewPosts = () => {
 
     return (
         <div className='home-category-new-posts-main-div'>
+            {typeof window !== 'undefined' ?  console.log(window.location.href) : null}
             {categoryNewPosts.slice().sort((a, b) => (parseFloat(a.id) - parseFloat(b.id))) // sorting by category ID ASC
             .map((cat) => (
-                <div className='new-posts-category-div' key={`${cat.label}-div`}>
+                <div className='new-posts-category-div' key={`${cat?.domain}-new-posts-main-div`}>
                     {/* Main Category Title */}
                     <h1 key={`${cat.label}-title`}>{cat.label}</h1>
-                    {cat.posts.length > 0 // if posts exists
+                    {cat.posts && cat?.posts.length > 0 // if posts exists
                     ? (cat.posts.map((post, index) => (
                         // A post renderer start
                         <Link href={`/${cat.domain}/${post['SubCategory.domain']}/${post.id}`} key={`/${cat.domain}/${post['SubCategory.domain']}/${post.id}`}><a>

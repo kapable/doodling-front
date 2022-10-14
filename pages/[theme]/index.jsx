@@ -16,7 +16,6 @@ const Theme = () => {
     const router = useRouter();
     const { theme } = router.query;
     const { categories } = useSelector((state) => state.category);
-    const { categoryNewPosts } = useSelector((state) => state.posts);
 
     return (
         <Fragment>
@@ -32,7 +31,7 @@ const Theme = () => {
             <NavigationBar categoryDomain={theme} />
             <TItleInfoCard category={categories.find((cat) => cat.domain === theme)} />
             <TopFivePosts />
-            <NewPosts newPosts={categoryNewPosts}/>
+            <NewPosts />
         </Fragment>
     );
 };

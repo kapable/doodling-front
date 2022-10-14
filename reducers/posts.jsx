@@ -3,6 +3,7 @@ import produce from '../util/produce';
 export const initialState = {
     topPosts: [],
     categoryNewPosts: [],
+    categoryNew15Posts: [],
 };
 
 export const LOAD_CATEGORIES_NEW_POSTS_REQUEST = 'LOAD_CATEGORIES_NEW_POSTS_REQUEST';
@@ -38,7 +39,7 @@ const reducer = (state = initialState, action) => {
             case LOAD_CATEGORIES_NEW_15_POSTS_SUCCESS:
                 draft.loadCategoriesNew15PostsLoading = false;
                 draft.loadCategoriesNew15PostsDone = true;
-                draft.categoryNewPosts = action.data;
+                draft.categoryNew15Posts = action.data;
                 break;
             case LOAD_CATEGORIES_NEW_15_POSTS_FAILURE:
                 draft.loadCategoriesNew15PostsLoading = false;
