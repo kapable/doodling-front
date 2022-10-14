@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import UploadEditor from '../components/UploadEditor';
 import { LOAD_CATEGORIES_REQUEST } from '../reducers/category';
+import { INVALIDATE_UPLOADED_POST } from '../reducers/post';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 
@@ -50,6 +51,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     });
     store.dispatch({
         type: LOAD_MY_INFO_REQUEST
+    });
+    store.dispatch({
+        type: INVALIDATE_UPLOADED_POST
     });
     store.dispatch(END);
 

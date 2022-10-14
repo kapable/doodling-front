@@ -98,6 +98,8 @@ export const UNLIKE_COMMENT_REQUEST = 'UNLIKE_COMMENT_REQUEST';
 export const UNLIKE_COMMENT_SUCCESS = 'UNLIKE_COMMENT_SUCCESS';
 export const UNLIKE_COMMENT_FAILURE = 'UNLIKE_COMMENT_FAILURE';
 
+export const INVALIDATE_UPLOADED_POST = 'INVALIDATE_UPLOADED_POST';
+
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
         switch (action.type) {
@@ -283,6 +285,12 @@ const reducer = (state = initialState, action) => {
             case UNLIKE_COMMENT_FAILURE:
                 draft.unLikeCommentLoading = false;
                 draft.unLikeCommentError = action.error;
+                break;
+            case INVALIDATE_UPLOADED_POST:
+                draft.uploadedPost = {}
+                draft.addPostLoading = false;
+                draft.addPostDone = false;
+                draft.addPostError = false;
                 break;
             default:
                 break;

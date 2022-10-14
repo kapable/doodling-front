@@ -20,22 +20,22 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
     const [commentLikeTargetId, setCommentLikeTargetId] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const onReCommentClick = (commentId) => useCallback(() => {
+    const onReCommentClick = (commentId) => () => {
         if(!myInfo?.id) {
             return alert('로그인 후 댓글 입력이 가능합니다.');
         }
         setReCommentTargetId(commentId);
         setIsReCommentOpen(!isReCommentOpen);
-    }, [myInfo, isReCommentOpen]);
+    };
 
-    const onReCommentSubmit = (commentId) => useCallback(() => {
+    const onReCommentSubmit = (commentId) => () => {
         dispatch({
             type: ADD_RECOMMENT_REQUEST,
             data: { text: reCommentText, postId: postId, commentId: reCommentTargetId },
         });
-    }, [reCommentText, postId, reCommentTargetId]);
+    };
 
-    const onCommentLikeClick = (commentId) => useCallback(() => {
+    const onCommentLikeClick = (commentId) => () => {
         if(!myInfo?.id) {
             return alert('좋아요를 누르려면 로그인이 필요합니다!');
         };
@@ -53,7 +53,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
             })
         )
         
-    }, [myInfo, commentLikeTargetId]);
+    };
 
     useEffect(() => {
         // if the loaded user(user own)'s CommentLiked list has the current comment id
@@ -105,7 +105,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                                 ? dayjs(item.createdAt).format('YYYY-MM-DD')
                                 : dayjs(item.createdAt).fromNow()}
                         >
-                            {reCommentTargetId === item.id && isReCommentOpen
+                            {/* {reCommentTargetId === item.id && isReCommentOpen
                             ? (
                                 <Form onFinish={onReCommentSubmit}>
                                     <Form.Item>
@@ -134,7 +134,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                                     <p>* 타인에게 불쾌감을 주는 욕설, 모욕적인 표현 등은 표기 불가 텍스트로 지정되어 노출이 제한됩니다.</p>
                                 </Form>
                             )
-                            : (null)}
+                            : (null)} */}
                         </ Comment>
                     </li>
                 )}

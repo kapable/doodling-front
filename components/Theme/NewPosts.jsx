@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd';
+import { Col, Pagination, Row } from 'antd';
 import React from 'react';
 import dayjs from 'dayjs';
 import { LikeFilled } from '@ant-design/icons';
@@ -37,6 +37,7 @@ const NewPosts = () => {
                     </Row>
                 </a></Link>
             ))}
+            {/* <Pagination /> */}
         </div>
     );
 };
