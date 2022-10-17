@@ -9,12 +9,22 @@ import wrapper from '../../store/configureStore';
 import axios from 'axios';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { END } from 'redux-saga';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST } from '../../reducers/posts';
+import { useEffect } from 'react';
 
 const SubTheme = () => {
+    const dispatch = useDispatch();
     const router = useRouter();
     const { theme, subTheme } = router.query;
     const { categories } = useSelector((state) => state.category);
+
+    // useEffect(() => {
+    //     dispatch({
+    //         type: LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST,
+    //         data: { subTheme: subTheme, lastId: null }
+    //     })
+    // }, []);
 
     return (
         <Fragment>
@@ -30,12 +40,12 @@ const SubTheme = () => {
             <NavigationBar categoryDomain={theme} subCategoryDomain={subTheme} />
             <TItleInfoCard category={categories.find((cat) => cat.domain === theme)} subTheme={subTheme}/>
             <TopFivePosts />
-            <NewSubPosts />
+            <NewSubPosts subCategoryDomain={subTheme}/>
         </Fragment>
     );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async({ req, res }) => {
+export const getServerSideProps = wrapper.getServerSideProps((store) => async({ req, res, params }) => {
     const cookie = req ? req.headers.cookie : '';
     axios.defaults.headers.Cookie = '';
     if(req && cookie) {
@@ -43,6 +53,10 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     };
     store.dispatch({
         type: LOAD_CATEGORIES_REQUEST
+    });
+    store.dispatch({
+        type: LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST,
+        data: { subTheme: params.subTheme, lastId: null }
     });
     store.dispatch(END);
 

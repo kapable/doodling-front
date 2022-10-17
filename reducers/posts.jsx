@@ -4,6 +4,17 @@ export const initialState = {
     topPosts: [],
     categoryNewPosts: [],
     categoryNew15Posts: [],
+    subCategoryNewPosts: [],
+    loadCategoriesNewPostsLoading: false,
+    loadCategoriesNewPostsDone: false,
+    loadCategoriesNewPostsError: false,
+    loadCategoriesNew15PostsLoading: false,
+    loadCategoriesNew15PostsDone: false,
+    loadCategoriesNew15PostsError: false,
+    loadSubCategoriesNewPostsLoading: false,
+    loadSubCategoriesNewPostsDone: false,
+    loadSubCategoriesNewPostsError: false,
+    hasMorePosts: false,
 };
 
 export const LOAD_CATEGORIES_NEW_POSTS_REQUEST = 'LOAD_CATEGORIES_NEW_POSTS_REQUEST';
@@ -13,6 +24,10 @@ export const LOAD_CATEGORIES_NEW_POSTS_FAILURE = 'LOAD_CATEGORIES_NEW_POSTS_FAIL
 export const LOAD_CATEGORIES_NEW_15_POSTS_REQUEST = 'LOAD_CATEGORIES_NEW_15_POSTS_REQUEST';
 export const LOAD_CATEGORIES_NEW_15_POSTS_SUCCESS = 'LOAD_CATEGORIES_NEW_15_POSTS_SUCCESS';
 export const LOAD_CATEGORIES_NEW_15_POSTS_FAILURE = 'LOAD_CATEGORIES_NEW_15_POSTS_FAILURE';
+
+export const LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST = 'LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST';
+export const LOAD_SUBCATEGORIES_NEW_POSTS_SUCCESS = 'LOAD_SUBCATEGORIES_NEW_POSTS_SUCCESS';
+export const LOAD_SUBCATEGORIES_NEW_POSTS_FAILURE = 'LOAD_SUBCATEGORIES_NEW_POSTS_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -39,11 +54,27 @@ const reducer = (state = initialState, action) => {
             case LOAD_CATEGORIES_NEW_15_POSTS_SUCCESS:
                 draft.loadCategoriesNew15PostsLoading = false;
                 draft.loadCategoriesNew15PostsDone = true;
-                draft.categoryNew15Posts = action.data;
+                draft.categoryNew15Posts = draft.categoryNew15Posts.concat(action.data);
+                draft.hasMorePosts = action.data.length === 15;
                 break;
             case LOAD_CATEGORIES_NEW_15_POSTS_FAILURE:
                 draft.loadCategoriesNew15PostsLoading = false;
                 draft.loadCategoriesNew15PostsError = action.error;
+                break;
+            case LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST:
+                draft.loadSubCategoriesNewPostsLoading = true;
+                draft.loadSubCategoriesNewPostsDone = false;
+                draft.loadSubCategoriesNewPostsError = null;
+                break;
+            case LOAD_SUBCATEGORIES_NEW_POSTS_SUCCESS:
+                draft.loadSubCategoriesNewPostsLoading = false;
+                draft.loadSubCategoriesNewPostsDone = true;
+                draft.subCategoryNewPosts = draft.subCategoryNewPosts.concat(action.data);
+                draft.hasMorePosts = action.data.length === 15;
+                break;
+            case LOAD_SUBCATEGORIES_NEW_POSTS_FAILURE:
+                draft.loadSubCategoriesNewPostsLoading = false;
+                draft.loadSubCategoriesNewPostsError = action.error;
                 break;
             default:
                 break;

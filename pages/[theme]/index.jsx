@@ -31,7 +31,7 @@ const Theme = () => {
             <NavigationBar categoryDomain={theme} />
             <TItleInfoCard category={categories.find((cat) => cat.domain === theme)} />
             <TopFivePosts />
-            <NewPosts />
+            <NewPosts categoryDomain={theme}/>
         </Fragment>
     );
 };
@@ -47,7 +47,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     });
     store.dispatch({
         type: LOAD_CATEGORIES_NEW_15_POSTS_REQUEST,
-        data: params.theme
+        data: { theme: params.theme, lastId: null }
     });
     store.dispatch(END);
 

@@ -75,14 +75,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                 type: LOAD_COMMENTS_REQUEST,
                 data: { postId, lastId },
             });
-        }
-        // if(currentPage % 5 === 0 && hasMoreComments) {
-        //     const lastId = comments[comments.length - 1]?.id;
-        //     return () => dispatch({
-        //         type: LOAD_COMMENTS_REQUEST,
-        //         data: { postId, lastId },
-        //     });
-        // }
+        };
     }, [currentPage, comments, postId, hasMoreComments]);
 
     return (
