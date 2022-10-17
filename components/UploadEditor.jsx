@@ -16,7 +16,6 @@ import React, { useState, useMemo, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { backUrl } from '../config/config';
 import { useEffect } from 'react';
-import { LOAD_CATEGORIES_REQUEST } from '../reducers/category';
 import { ADD_POST_REQUEST, EDIT_POST_REQUEST } from '../reducers/post';
 
 const { Option } = Select;
@@ -57,10 +56,11 @@ const UploadEditor = ({ contents, isNewContents }) => {
         setCategory(cat);
         let selectedCategory = categories.find((c) => c.label === cat);
         setCategoryId(selectedCategory.id);
-        setSubCategories(selectedCategory.SubCategories);
-        if(selectedCategory.SubCategories.length > 0) {
-            setSubCategory(selectedCategory.SubCategories[0].label)
-            setSubCategoryId(selectedCategory.SubCategories[0].id)
+        let selectedSubCategory = selectedCategory.SubCategories.filter((s) => s.domain !== ''); // 각 서브카테고리의 main 주제(index) 필터링
+        setSubCategories(selectedSubCategory);
+        if(selectedSubCategory.length > 0) {
+            setSubCategory(selectedSubCategory[0].label)
+            setSubCategoryId(selectedSubCategory[0].id)
         };
     }, [categories]);
 
@@ -206,11 +206,11 @@ const UploadEditor = ({ contents, isNewContents }) => {
                     {/* Filtering NOTICE category for admin user */}
                     {categories.map((cat) => {
                         if(myInfo?.admin === true) {
-                            if(cat.domain !== '') {
+                            if(cat.domain !== '' && cat.domain !== 'top100') {
                                 return <Option value={cat.label} key={cat.domain} />
                             }
                         }
-                        if(cat.domain !== '' && cat.domain !== 'notice') {
+                        if(cat.domain !== '' && cat.domain !== 'notice' && cat.domain !== 'top100') {
                             return <Option value={cat.label} key={cat.domain} />
                         }
                     })}

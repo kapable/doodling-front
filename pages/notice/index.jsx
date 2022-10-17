@@ -1,9 +1,9 @@
 import axios from 'axios';
-import React, { Fragment } from 'react';
+import React, { Fragment } from 'react'
 import { END } from 'redux-saga';
-import NavigationBar from '../components/NavigationBar';
-import { LOAD_CATEGORIES_REQUEST } from '../reducers/category';
-import wrapper from '../store/configureStore';
+import NavigationBar from '../../components/NavigationBar';
+import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
+import wrapper from '../../store/configureStore';
 
 const Notice = () => {
     return (
@@ -11,10 +11,12 @@ const Notice = () => {
             <NavigationBar categoryDomain='notice' />
             공지입니다
         </Fragment>
-    );
-};
+    )
+}
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async({ req, res }) => {
+export default Notice;
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async({ req, res, params }) => {
     const cookie = req ? req.headers.cookie : '';
     axios.defaults.headers.Cookie = '';
     if(req && cookie) {
@@ -27,5 +29,3 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
 
     await store.sagaTask.toPromise();
 });
-
-export default Notice
