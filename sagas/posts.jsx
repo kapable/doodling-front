@@ -4,6 +4,7 @@ import {
     LOAD_CATEGORIES_NEW_POSTS_REQUEST, LOAD_CATEGORIES_NEW_POSTS_SUCCESS, LOAD_CATEGORIES_NEW_POSTS_FAILURE,
     LOAD_CATEGORIES_NEW_15_POSTS_REQUEST, LOAD_CATEGORIES_NEW_15_POSTS_SUCCESS, LOAD_CATEGORIES_NEW_15_POSTS_FAILURE,
     LOAD_SUBCATEGORIES_NEW_POSTS_SUCCESS, LOAD_SUBCATEGORIES_NEW_POSTS_FAILURE, LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST,
+    LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_REQUEST, LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_SUCCESS, LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_FAILURE,
 } from '../reducers/posts';
 
 function loadCategoriesNewPostsAPI() {
@@ -66,6 +67,26 @@ function* loadSubCategoriesNewPosts(action) {
     };
 };
 
+function loadCategoryEachSubCategoryNewPostsAPI(data) {
+    return axios.get(`/posts/${data}/new5SubCategoryPosts`);
+};
+
+function* loadCategoryEachSubCategoryNewPosts(action) {
+    try {
+        const result = yield call(loadCategoryEachSubCategoryNewPostsAPI, action.data);
+        yield put({
+            type: LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_FAILURE,
+            error: err.response
+        });
+    };
+};
+
 
 function* watchLoadCategoriesNewPosts() {
     yield takeLatest(LOAD_CATEGORIES_NEW_POSTS_REQUEST, loadCategoriesNewPosts);
@@ -76,11 +97,15 @@ function* watchLoadCategoriesNew15Posts() {
 function* watchLoadSubCategoriesNewPosts() {
     yield takeLatest(LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST, loadSubCategoriesNewPosts);
 };
+function* watchLoadCategoryEachSubCategoryNewPosts() {
+    yield takeLatest(LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_REQUEST, loadCategoryEachSubCategoryNewPosts);
+};
 
 export default function* postsSaga() {
     yield all([
         fork(watchLoadCategoriesNewPosts),
         fork(watchLoadCategoriesNew15Posts),
         fork(watchLoadSubCategoriesNewPosts),
+        fork(watchLoadCategoryEachSubCategoryNewPosts),
     ]);
 };

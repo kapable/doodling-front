@@ -9,22 +9,13 @@ import wrapper from '../../store/configureStore';
 import axios from 'axios';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { END } from 'redux-saga';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST } from '../../reducers/posts';
-import { useEffect } from 'react';
 
 const SubTheme = () => {
-    const dispatch = useDispatch();
     const router = useRouter();
     const { theme, subTheme } = router.query;
     const { categories } = useSelector((state) => state.category);
-
-    // useEffect(() => {
-    //     dispatch({
-    //         type: LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST,
-    //         data: { subTheme: subTheme, lastId: null }
-    //     })
-    // }, []);
 
     return (
         <Fragment>

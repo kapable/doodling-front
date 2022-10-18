@@ -1,15 +1,27 @@
 import axios from 'axios';
+import Head from 'next/head';
 import React, { Fragment } from 'react'
 import { END } from 'redux-saga';
+import CategoryNewPosts from '../../components/Home/CategoryNewPosts';
 import NavigationBar from '../../components/NavigationBar';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
+import { LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_REQUEST } from '../../reducers/posts';
 import wrapper from '../../store/configureStore';
 
 const Notice = () => {
     return (
         <Fragment>
+            <Head>
+                <title>{`공지 - 두들링`}</title>
+                <link rel='shortcut icon' href='/doodling-favicon.png'/>
+                <meta charSet='utf-8'/>
+                <meta name="language" content="Korean" />
+                <meta name="author" content="쿠키로켓" />
+                <meta name="description" content="두들링 - MBTI 기반 커뮤니티" />
+                <meta name="keywords" content="MBTI, 커뮤니티" />
+            </Head>
             <NavigationBar categoryDomain='notice' />
-            공지입니다
+            <CategoryNewPosts category={'notice'} />
         </Fragment>
     )
 }
@@ -24,6 +36,10 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     };
     store.dispatch({
         type: LOAD_CATEGORIES_REQUEST
+    });
+    store.dispatch({
+        type: LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_REQUEST,
+        data: 'notice'
     });
     store.dispatch(END);
 

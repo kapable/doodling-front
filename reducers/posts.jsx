@@ -5,6 +5,7 @@ export const initialState = {
     categoryNewPosts: [],
     categoryNew15Posts: [],
     subCategoryNewPosts: [],
+    eachSubCategoryNewPosts: [],
     loadCategoriesNewPostsLoading: false,
     loadCategoriesNewPostsDone: false,
     loadCategoriesNewPostsError: false,
@@ -14,6 +15,9 @@ export const initialState = {
     loadSubCategoriesNewPostsLoading: false,
     loadSubCategoriesNewPostsDone: false,
     loadSubCategoriesNewPostsError: false,
+    loadCategoryEachSubcategoryNewPostsLoading: false,
+    loadCategoryEachSubcategoryNewPostsDone: false,
+    loadCategoryEachSubcategoryNewPostsError: false,
     hasMorePosts: false,
 };
 
@@ -28,6 +32,10 @@ export const LOAD_CATEGORIES_NEW_15_POSTS_FAILURE = 'LOAD_CATEGORIES_NEW_15_POST
 export const LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST = 'LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST';
 export const LOAD_SUBCATEGORIES_NEW_POSTS_SUCCESS = 'LOAD_SUBCATEGORIES_NEW_POSTS_SUCCESS';
 export const LOAD_SUBCATEGORIES_NEW_POSTS_FAILURE = 'LOAD_SUBCATEGORIES_NEW_POSTS_FAILURE';
+
+export const LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_REQUEST = 'LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_REQUEST';
+export const LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_SUCCESS = 'LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_SUCCESS';
+export const LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_FAILURE = 'LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -75,6 +83,20 @@ const reducer = (state = initialState, action) => {
             case LOAD_SUBCATEGORIES_NEW_POSTS_FAILURE:
                 draft.loadSubCategoriesNewPostsLoading = false;
                 draft.loadSubCategoriesNewPostsError = action.error;
+                break;
+            case LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_REQUEST:
+                draft.loadCategoryEachSubcategoryNewPostsLoading = true;
+                draft.loadCategoryEachSubcategoryNewPostssDone = false;
+                draft.loadCategoryEachSubcategoryNewPostssError = null;
+                break;
+            case LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_SUCCESS:
+                draft.loadCategoryEachSubcategoryNewPostsLoading = false;
+                draft.loadCategoryEachSubcategoryNewPostssDone = true;
+                draft.eachSubCategoryNewPosts = action.data;
+                break;
+            case LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_FAILURE:
+                draft.loadCategoryEachSubcategoryNewPostsLoading = false;
+                draft.loadCategoryEachSubcategoryNewPostssError = action.error;
                 break;
             default:
                 break;

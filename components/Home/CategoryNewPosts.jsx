@@ -1,16 +1,19 @@
 import { Col, Row } from 'antd';
-import React from 'react';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 
-const CategoryNewPosts = () => {
-    const { categoryNewPosts } = useSelector((state) => state.posts);
+const CategoryNewPosts = ({ category }) => {
+    const { categoryNewPosts, eachSubCategoryNewPosts } = useSelector((state) => state.posts);
     const { categoriesColorObj } = useSelector((state) => state.category);
+    const [posts, setPosts] = useState(category ? eachSubCategoryNewPosts : categoryNewPosts); // main home vs notice page
 
     return (
         <div className='home-category-new-posts-main-div'>
-            {categoryNewPosts.slice().sort((a, b) => (parseFloat(a.id) - parseFloat(b.id))) // sorting by category ID ASC
+            {posts
+            .slice().sort((a, b) => (parseFloat(a.id) - parseFloat(b.id))) // sorting by category ID ASC
             .map((cat) => (
                 <div className='new-posts-category-div' key={`${cat?.domain}-new-posts-main-div`}>
                     {/* Main Category Title */}
@@ -18,7 +21,12 @@ const CategoryNewPosts = () => {
                     {cat.posts && cat?.posts.length > 0 // if posts exists
                     ? (cat.posts.map((post, index) => (
                         // A post renderer start
-                        <Link href={`/${cat.domain}/${post['SubCategory.domain']}/${post.id}`} key={`/${cat.domain}/${post['SubCategory.domain']}/${post.id}`}><a>
+                        <Link href={category
+                                ? `/${post['Category.domain']}/${post['SubCategory.domain']}/${post.id}`
+                                : `/${cat.domain}/${post['SubCategory.domain']}/${post.id}`}
+                            key={category
+                                ? `/${post['Category.domain']}/${post['SubCategory.domain']}/${post.id}`
+                                : `/${cat.domain}/${post['SubCategory.domain']}/${post.id}`}><a>
                             <Row className='new-posts-post-row' key={`${cat.label}-contents-${index}`}>
                                 {/* Title and MBTI */}
                                 <Col span={18}>
@@ -38,13 +46,17 @@ const CategoryNewPosts = () => {
                     : (<p className='no-posts-row'>신규 포스트가 없습니다.</p>)
                     }
                     {/* Show More to Go to Category Main */}
-                    <Link href={`/${cat.domain}`}><a>
+                    <Link href={category ? `/${category}/${cat.domain}` : `/${cat.domain}`}><a>
                         <div className='new-posts-more-div'>{"더보기 >"}</div>
                     </a></Link>
                 </div>
             ))}
         </div>
     );
+};
+
+CategoryNewPosts.propTypes = {
+    category: PropTypes.string,
 };
 
 export default CategoryNewPosts;
