@@ -9,7 +9,7 @@ import NewPosts from '../../components/Theme/NewPosts';
 import TItleInfoCard from '../../components/Theme/TItleInfoCard';
 import TopFivePosts from '../../components/Theme/TopFivePosts';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
-import { LOAD_CATEGORIES_NEW_15_POSTS_REQUEST } from '../../reducers/posts';
+import { LOAD_CATEGORIES_NEW_15_POSTS_REQUEST, LOAD_CATEGORY_REALTIME_TOP_5_REQUEST } from '../../reducers/posts';
 import wrapper from '../../store/configureStore';
 
 const Theme = () => {
@@ -49,6 +49,10 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
         type: LOAD_CATEGORIES_NEW_15_POSTS_REQUEST,
         data: { theme: params.theme, lastId: null }
     });
+    store.dispatch({
+        type: LOAD_CATEGORY_REALTIME_TOP_5_REQUEST,
+        data: params.theme
+    })
     store.dispatch(END);
 
     await store.sagaTask.toPromise();
