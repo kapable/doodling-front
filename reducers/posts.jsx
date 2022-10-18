@@ -6,6 +6,7 @@ export const initialState = {
     categoryNew15Posts: [],
     subCategoryNewPosts: [],
     eachSubCategoryNewPosts: [],
+    realtimeTop10Posts: [],
     loadCategoriesNewPostsLoading: false,
     loadCategoriesNewPostsDone: false,
     loadCategoriesNewPostsError: false,
@@ -18,6 +19,9 @@ export const initialState = {
     loadCategoryEachSubcategoryNewPostsLoading: false,
     loadCategoryEachSubcategoryNewPostsDone: false,
     loadCategoryEachSubcategoryNewPostsError: false,
+    loadRealtimeTop10Loading: false,
+    loadRealtimeTop10Done: false,
+    loadRealtimeTop10Error: false,
     hasMorePosts: false,
 };
 
@@ -36,6 +40,10 @@ export const LOAD_SUBCATEGORIES_NEW_POSTS_FAILURE = 'LOAD_SUBCATEGORIES_NEW_POST
 export const LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_REQUEST = 'LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_REQUEST';
 export const LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_SUCCESS = 'LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_SUCCESS';
 export const LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_FAILURE = 'LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_FAILURE';
+
+export const LOAD_REALTIME_TOP_10_REQUEST = 'LOAD_REALTIME_TOP_10_REQUEST';
+export const LOAD_REALTIME_TOP_10_SUCCESS = 'LOAD_REALTIME_TOP_10_SUCCESS';
+export const LOAD_REALTIME_TOP_10_FAILURE = 'LOAD_REALTIME_TOP_10_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -97,6 +105,20 @@ const reducer = (state = initialState, action) => {
             case LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_FAILURE:
                 draft.loadCategoryEachSubcategoryNewPostsLoading = false;
                 draft.loadCategoryEachSubcategoryNewPostssError = action.error;
+                break;
+            case LOAD_REALTIME_TOP_10_REQUEST:
+                draft.loadRealtimeTop10Loading = true;
+                draft.loadRealtimeTop10Done = false;
+                draft.loadRealtimeTop10Error = null;
+                break;
+            case LOAD_REALTIME_TOP_10_SUCCESS:
+                draft.loadRealtimeTop10Loading = false;
+                draft.loadRealtimeTop10Done = true;
+                draft.realtimeTop10Posts = action.data;
+                break;
+            case LOAD_REALTIME_TOP_10_FAILURE:
+                draft.loadRealtimeTop10Loading = false;
+                draft.loadRealtimeTop10Error = action.error;
                 break;
             default:
                 break;

@@ -6,7 +6,7 @@ import axios from 'axios';
 import { LOAD_CATEGORIES_REQUEST } from '../reducers/category';
 import { END } from 'redux-saga';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
-import { LOAD_CATEGORIES_NEW_15_POSTS_REQUEST, LOAD_CATEGORIES_NEW_POSTS_REQUEST } from '../reducers/posts';
+import { LOAD_CATEGORIES_NEW_15_POSTS_REQUEST, LOAD_CATEGORIES_NEW_POSTS_REQUEST, LOAD_REALTIME_TOP_10_REQUEST } from '../reducers/posts';
 import NoticeRollingBanner from '../components/Home/NoticeRollingBanner';
 import TopPosts from '../components/Home/TopPosts';
 import CategoryNewPosts from '../components/Home/CategoryNewPosts';
@@ -55,6 +55,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     store.dispatch({
         type: LOAD_CATEGORIES_NEW_15_POSTS_REQUEST,
         data: { theme: 'notice', lastId: null }
+    });
+    store.dispatch({
+        type: LOAD_REALTIME_TOP_10_REQUEST
     });
     store.dispatch(END);
 

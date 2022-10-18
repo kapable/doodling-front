@@ -25,7 +25,7 @@ const NoticeRollingBanner = () => {
                     disableDotsControls={true}
                     disableButtonsControls={true}
                     items={
-                        categoryNew15Posts
+                        categoryNew15Posts // if categoryNew15Posts' post exist
                         ? (categoryNew15Posts.map((post) => (
                             <Link href={`notice/${post?.SubCategory?.domain}/${post.id}`}><a>
                                 <p>{post.title}</p>
