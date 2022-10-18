@@ -49,8 +49,8 @@ const NewSubPosts = ({ subCategoryDomain }) => {
                         </Col>
                         <Col span={6}>
                             <Row justify={'end'}>{dayjs(post.createdAt).diff(dayjs(), 'hours') < -240
-                                        ? dayjs(post.createdAt).format('YYYY-MM-DD')
-                                        : dayjs(post.createdAt).fromNow()}
+                                    ? dayjs(post.createdAt).format('YYYY-MM-DD')
+                                    : dayjs(post.createdAt).fromNow()}
                             </Row>
                         </Col>
                     </Row>

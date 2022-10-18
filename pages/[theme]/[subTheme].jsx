@@ -10,7 +10,7 @@ import axios from 'axios';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { END } from 'redux-saga';
 import { useSelector } from 'react-redux';
-import { LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST } from '../../reducers/posts';
+import { LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST, LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST } from '../../reducers/posts';
 
 const SubTheme = () => {
     const router = useRouter();
@@ -30,7 +30,7 @@ const SubTheme = () => {
             </Head>
             <NavigationBar categoryDomain={theme} subCategoryDomain={subTheme} />
             <TItleInfoCard category={categories.find((cat) => cat.domain === theme)} subTheme={subTheme}/>
-            <TopFivePosts />
+            <TopFivePosts isSubCategory={true}/>
             <NewSubPosts subCategoryDomain={subTheme}/>
         </Fragment>
     );
@@ -48,6 +48,10 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     store.dispatch({
         type: LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST,
         data: { subTheme: params.subTheme, lastId: null }
+    });
+    store.dispatch({
+        type: LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST,
+        data: params.subTheme
     });
     store.dispatch(END);
 

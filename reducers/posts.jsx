@@ -8,6 +8,7 @@ export const initialState = {
     eachSubCategoryNewPosts: [],
     realtimeTop10Posts: [],
     categoryRealtimeTop5Posts: [],
+    subCategoryRealtimeTop5Posts: [],
     loadCategoriesNewPostsLoading: false,
     loadCategoriesNewPostsDone: false,
     loadCategoriesNewPostsError: false,
@@ -26,6 +27,9 @@ export const initialState = {
     loadCategoryRealtimeTop5Loading: false,
     loadCategoryRealtimeTop5Done: false,
     loadCategoryRealtimeTop5Error: false,
+    loadSubCategoryRealtimeTop5Loading: false,
+    loadSubCategoryRealtimeTop5Done: false,
+    loadSubCategoryRealtimeTop5Error: false,
     hasMorePosts: false,
 };
 
@@ -52,6 +56,10 @@ export const LOAD_REALTIME_TOP_10_FAILURE = 'LOAD_REALTIME_TOP_10_FAILURE';
 export const LOAD_CATEGORY_REALTIME_TOP_5_REQUEST = 'LOAD_CATEGORY_REALTIME_TOP_5_REQUEST';
 export const LOAD_CATEGORY_REALTIME_TOP_5_SUCCESS = 'LOAD_CATEGORY_REALTIME_TOP_5_SUCCESS';
 export const LOAD_CATEGORY_REALTIME_TOP_5_FAILURE = 'LOAD_CATEGORY_REALTIME_TOP_5_FAILURE';
+
+export const LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST = 'LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST';
+export const LOAD_SUBCATEGORY_REALTIME_TOP_5_SUCCESS = 'LOAD_SUBCATEGORY_REALTIME_TOP_5_SUCCESS';
+export const LOAD_SUBCATEGORY_REALTIME_TOP_5_FAILURE = 'LOAD_SUBCATEGORY_REALTIME_TOP_5_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -141,6 +149,20 @@ const reducer = (state = initialState, action) => {
             case LOAD_CATEGORY_REALTIME_TOP_5_FAILURE:
                 draft.loadCategoryRealtimeTop5Loading = false;
                 draft.loadCategoryRealtimeTop5Error = action.error;
+                break;
+            case LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST:
+                draft.loadSubCategoryRealtimeTop5Loading = true;
+                draft.loadSubCategoryRealtimeTop5Done = false;
+                draft.loadSubCategoryRealtimeTop5Error = null;
+                break;
+            case LOAD_SUBCATEGORY_REALTIME_TOP_5_SUCCESS:
+                draft.loadSubCategoryRealtimeTop5Loading = false;
+                draft.loadSubCategoryRealtimeTop5Done = true;
+                draft.subCategoryRealtimeTop5Posts = action.data;
+                break;
+            case LOAD_SUBCATEGORY_REALTIME_TOP_5_FAILURE:
+                draft.loadSubCategoryRealtimeTop5Loading = false;
+                draft.loadSubCategoryRealtimeTop5Error = action.error;
                 break;
             default:
                 break;

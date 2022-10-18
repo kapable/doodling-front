@@ -1,19 +1,20 @@
 import { Col, Row } from 'antd';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import { CommentOutlined, LikeFilled } from '@ant-design/icons';
 
-const TopFivePosts = () => {
-    const { categoryRealtimeTop5Posts } = useSelector((state) => state.posts);
+const TopFivePosts = ({ isSubCategory }) => {
+    const { categoryRealtimeTop5Posts, subCategoryRealtimeTop5Posts } = useSelector((state) => state.posts);
     const { categoriesColorObj } = useSelector((state) => state.category);
+    const [posts, setPosts] = useState(isSubCategory ? subCategoryRealtimeTop5Posts : categoryRealtimeTop5Posts);
 
     return (
         <div className='category-realtime-top5-posts-div'>
-            {categoryRealtimeTop5Posts
+            {posts && posts
             .slice().sort((a, b) => (parseFloat(a.realTimeRank) - parseFloat(b.realTimeRank))) // sorting by category ID ASC
-            .map((post, index) => (
+            .map((post) => (
                 <Link href={`/${post.Post.Category.domain}/${post.Post.SubCategory.domain}/${post.PostId}`} key={`${post.Post.title}-link`}><a>
                     <Row className='top5-posts-row'>
                         <Col span={14}>
@@ -44,8 +45,7 @@ const TopFivePosts = () => {
                         </Col>
                     </Row>
                 </a></Link>
-            ))
-            }
+            ))}
         </div>
     );
 };
