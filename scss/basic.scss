@@ -90,6 +90,28 @@
 }
 
 /* Index home */
+.home-notice-rolling-banner {
+    margin-left: 1.5rem;
+    margin-bottom: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+
+    button {
+        margin: 0.7rem 0;
+        background-color: white;
+        border: 0.1rem solid grey;
+        font-weight: bold;
+        width: 5rem;
+        letter-spacing: 0.2rem;
+        position: absolute;
+    }
+
+    p {
+        color: black;
+        padding-left: 6rem;
+        margin: 1rem 0;
+    }
+}
 .home-category-new-posts-main-div {
     h1 {
         font-weight: bold;
