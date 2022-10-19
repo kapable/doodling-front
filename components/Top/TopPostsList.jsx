@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Col, Row } from 'antd';
+import { Col, Pagination, Row } from 'antd';
 import dayjs from 'dayjs';
 import { CommentOutlined, LikeFilled } from '@ant-design/icons';
 import Link from 'next/link';
@@ -11,6 +11,11 @@ const TopPostsList = ({ topPeriod }) => {
     const { topPosts } = useSelector((state) => state.posts);
     const { categoriesColorObj } = useSelector((state) => state.category);
     const [posts, setPosts] = useState(topPosts);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const onPageChange = useCallback((e) => {
+        setCurrentPage(e);
+    }, []);
 
     useEffect(() => {
         let periodRank = 'realTimeRank';
@@ -66,8 +71,52 @@ const TopPostsList = ({ topPeriod }) => {
                 ))}
             </div>
             <div className='top-rest-main-div'>
-
+                {posts && posts.slice(3, 15)
+                .map((post, index) => (
+                    <Link
+                        href={`/${post.Post.Category.domain}/${post.Post.SubCategory.domain}/${post.PostId}`}
+                        key={`/${post.Post.Category.domain}/${post.Post.SubCategory.domain}/${post.PostId}-link`}><a>
+                        <Row className='rest-main-row'>
+                            <Col xs={{ span: 16 }} lg={{ span: 20 }}>
+                                <Row>
+                                    <Col className='rest-index-col' xs={{ span: 5 }} lg={{ span: 2 }}>
+                                        <span className='rest-index-span'>{index+3}</span>
+                                    </Col>
+                                    <Col xs={{ span: 19 }} lg={{ span: 22 }}>
+                                        <Row>
+                                            <span className='rest-title-span'>{post.Post.title}</span> &nbsp;
+                                            <span className='rest-mbti-span' style={{ backgroundColor : categoriesColorObj[post.Post.User.mbti]}}>{post.Post.User.mbti}</span>
+                                        </Row>
+                                        <Row className='rest-info-row'>
+                                            <span className='rest-views-span'>조회수 {post.Post.views}</span>&nbsp;|&nbsp;
+                                            <span className='rest-likes-span'><LikeFilled /> {post.Post.likes}</span>&nbsp;|&nbsp;
+                                            <span className='rest-nickname-span'>{post.Post.User.nickname}</span>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </Col>
+                            <Col xs={{ span: 8 }} lg={{ span: 4 }}>
+                                <Row className='top3-right-row' justify={'end'}>
+                                    {/* DateTime */}
+                                    {dayjs(post.Post.createdAt).diff(dayjs(), 'hours') < -240
+                                        ? dayjs(post.Post.createdAt).format('YYYY-MM-DD')
+                                        : dayjs(post.Post.createdAt).fromNow()} &nbsp;
+                                    {/* Comments */}
+                                    <span className='top5-comments-span'><CommentOutlined />&nbsp;{post.Post.comments}</span>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </a></Link>
+                ))}
             </div>
+            <Pagination
+                style={{width: "fit-content", margin: "1.5rem auto"}}
+                className='post-page-comments-pagination'
+                current={currentPage}
+                showSizeChanger={false}
+                total={posts.length}
+                onChange={onPageChange}
+                defaultPageSize={15} />
         </div>
     );
 };

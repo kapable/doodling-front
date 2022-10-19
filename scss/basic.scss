@@ -245,27 +245,40 @@
 /* TOP 100 */
 .top100-posts-main-div {
     
-    .top3-main-div {
+    .top3-main-div, .top-rest-main-div {
         padding: 1.5rem;
         background-color: $grey-color;
 
-        .top3-main-row {
+        .top3-main-row, .rest-main-row {
             padding: 0.5rem 0;
             border-bottom: 0.1rem solid rgba(169, 169, 169, .5);
 
-            .top3-title-span {
+            .rest-index-col {
+                text-align: center;
+                padding-top: 0.5rem;
+
+                .rest-index-span {
+                    font-size: 1rem;
+                    background-color: $point-color;
+                    padding: 0.35rem 0.5rem;
+                    color: white;
+                }
+            }
+
+
+            .top3-title-span, .rest-title-span {
                 color: black;
             }
-            .top3-mbti-span {
+            .top3-mbti-span, .rest-mbti-span {
                 color: white;
                 padding: 0 0.3rem;
             }
 
-            .top3-info-row {
+            .top3-info-row, .rest-info-row {
                 font-size: 0.7rem;
                 color: grey;
             }
-            .top3-right-row {
+            .top3-right-row, .rest-right-row {
                 font-size: 0.8rem;
                 color: $point-color;
             }
@@ -273,7 +286,7 @@
     }
 
     .top-rest-main-div {
-        padding: 1.5rem;
+        background-color: white;
     }
 }
 
