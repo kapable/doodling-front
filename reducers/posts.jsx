@@ -9,6 +9,7 @@ export const initialState = {
     realtimeTop10Posts: [],
     categoryRealtimeTop5Posts: [],
     subCategoryRealtimeTop5Posts: [],
+    topPosts: [],
     loadCategoriesNewPostsLoading: false,
     loadCategoriesNewPostsDone: false,
     loadCategoriesNewPostsError: false,
@@ -60,6 +61,10 @@ export const LOAD_CATEGORY_REALTIME_TOP_5_FAILURE = 'LOAD_CATEGORY_REALTIME_TOP_
 export const LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST = 'LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST';
 export const LOAD_SUBCATEGORY_REALTIME_TOP_5_SUCCESS = 'LOAD_SUBCATEGORY_REALTIME_TOP_5_SUCCESS';
 export const LOAD_SUBCATEGORY_REALTIME_TOP_5_FAILURE = 'LOAD_SUBCATEGORY_REALTIME_TOP_5_FAILURE';
+
+export const LOAD_TOP_100_REQUEST = 'LOAD_TOP_100_REQUEST';
+export const LOAD_TOP_100_SUCCESS = 'LOAD_TOP_100_SUCCESS';
+export const LOAD_TOP_100_FAILURE = 'LOAD_TOP_100_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -163,6 +168,20 @@ const reducer = (state = initialState, action) => {
             case LOAD_SUBCATEGORY_REALTIME_TOP_5_FAILURE:
                 draft.loadSubCategoryRealtimeTop5Loading = false;
                 draft.loadSubCategoryRealtimeTop5Error = action.error;
+                break;
+            case LOAD_TOP_100_REQUEST:
+                draft.loadTop100Loading = true;
+                draft.loadTop100Done = false;
+                draft.loadTop100Error = null;
+                break;
+            case LOAD_TOP_100_SUCCESS:
+                draft.loadTop100Loading = false;
+                draft.loadTop100Done = true;
+                draft.topPosts = action.data;
+                break;
+            case LOAD_TOP_100_FAILURE:
+                draft.loadTop100Loading = false;
+                draft.loadTop100Error = action.error;
                 break;
             default:
                 break;

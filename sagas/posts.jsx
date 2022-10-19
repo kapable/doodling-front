@@ -8,6 +8,7 @@ import {
     LOAD_REALTIME_TOP_10_REQUEST, LOAD_REALTIME_TOP_10_SUCCESS, LOAD_REALTIME_TOP_10_FAILURE,
     LOAD_CATEGORY_REALTIME_TOP_5_REQUEST, LOAD_CATEGORY_REALTIME_TOP_5_SUCCESS, LOAD_CATEGORY_REALTIME_TOP_5_FAILURE,
     LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST, LOAD_SUBCATEGORY_REALTIME_TOP_5_SUCCESS, LOAD_SUBCATEGORY_REALTIME_TOP_5_FAILURE,
+    LOAD_TOP_100_REQUEST, LOAD_TOP_100_SUCCESS, LOAD_TOP_100_FAILURE,
 } from '../reducers/posts';
 
 function loadCategoriesNewPostsAPI() {
@@ -150,6 +151,26 @@ function* loadSubCategoryRealtimeTop5(action) {
     };
 };
 
+function loadTop100API(data) {
+    return axios.get(`/posts/top100/${data}`);
+};
+
+function* loadTop100(action) {
+    try {
+        const result = yield call(loadTop100API, action.data);
+        yield put({
+            type: LOAD_TOP_100_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: LOAD_TOP_100_FAILURE,
+            error: err.response
+        });
+    };
+};
+
 
 function* watchLoadCategoriesNewPosts() {
     yield takeLatest(LOAD_CATEGORIES_NEW_POSTS_REQUEST, loadCategoriesNewPosts);
@@ -172,6 +193,9 @@ function* watchLoadCategoryRealtimeTop5() {
 function* watchLoadSubCategoryRealtimeTop5() {
     yield takeLatest(LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST, loadSubCategoryRealtimeTop5);
 };
+function* watchLoadTop100() {
+    yield takeLatest(LOAD_TOP_100_REQUEST, loadTop100);
+};
 
 export default function* postsSaga() {
     yield all([
@@ -182,5 +206,6 @@ export default function* postsSaga() {
         fork(watchLoadRealtimeTop10),
         fork(watchLoadCategoryRealtimeTop5),
         fork(watchLoadSubCategoryRealtimeTop5),
+        fork(watchLoadTop100),
     ]);
 };

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import { CommentOutlined, LikeFilled } from '@ant-design/icons';
+import PropTypes from 'prop-types';
 
 const TopFivePosts = ({ isSubCategory }) => {
     const { categoryRealtimeTop5Posts, subCategoryRealtimeTop5Posts } = useSelector((state) => state.posts);
@@ -48,6 +49,10 @@ const TopFivePosts = ({ isSubCategory }) => {
             ))}
         </div>
     );
+};
+
+TopFivePosts.propTypes = {
+    isSubCategory: PropTypes.bool,
 };
 
 export default TopFivePosts;

@@ -21,4 +21,7 @@ module.exports = withBundleAnalyzer({
     sassOptions: {
         includePaths: [path.join(__dirname, 'scss')],
     },
+    images: {
+        domains: ['images.doodling.kr']
+    }
 });

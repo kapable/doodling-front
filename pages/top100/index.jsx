@@ -7,11 +7,9 @@ import wrapper from '../../store/configureStore';
 import axios from 'axios';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { END } from 'redux-saga';
+import { LOAD_TOP_100_REQUEST } from '../../reducers/posts';
 
 const Top100Now = () => {
-    const router = useRouter();
-
-    const topPeriod = 'realTime';
 
     return (
         <Fragment>
@@ -25,7 +23,7 @@ const Top100Now = () => {
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
             <NavigationBar categoryDomain='top100' />
-            <TopPostsList topPeriod={topPeriod} />
+            <TopPostsList topPeriod={'realtime'}/>
         </Fragment>
     );
 };
@@ -38,6 +36,10 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     };
     store.dispatch({
         type: LOAD_CATEGORIES_REQUEST
+    });
+    store.dispatch({
+        type: LOAD_TOP_100_REQUEST,
+        data: 'realtime'
     });
     store.dispatch(END);
 

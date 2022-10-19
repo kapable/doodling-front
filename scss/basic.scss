@@ -242,6 +242,41 @@
     }
 }
 
+/* TOP 100 */
+.top100-posts-main-div {
+    
+    .top3-main-div {
+        padding: 1.5rem;
+        background-color: $grey-color;
+
+        .top3-main-row {
+            padding: 0.5rem 0;
+            border-bottom: 0.1rem solid rgba(169, 169, 169, .5);
+
+            .top3-title-span {
+                color: black;
+            }
+            .top3-mbti-span {
+                color: white;
+                padding: 0 0.3rem;
+            }
+
+            .top3-info-row {
+                font-size: 0.7rem;
+                color: grey;
+            }
+            .top3-right-row {
+                font-size: 0.8rem;
+                color: $point-color;
+            }
+        }
+    }
+
+    .top-rest-main-div {
+        padding: 1.5rem;
+    }
+}
+
 /* Signup */
 .signup-div {
     background-color: white;

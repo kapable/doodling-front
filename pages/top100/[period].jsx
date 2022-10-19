@@ -7,6 +7,7 @@ import wrapper from '../../store/configureStore';
 import axios from 'axios';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { END } from 'redux-saga';
+import { LOAD_TOP_100_REQUEST } from '../../reducers/posts';
 
 const Top100 = () => {
     const router = useRouter();
@@ -47,7 +48,7 @@ const Top100 = () => {
     );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async({ req, res }) => {
+export const getServerSideProps = wrapper.getServerSideProps((store) => async({ req, res, params }) => {
     const cookie = req ? req.headers.cookie : '';
     axios.defaults.headers.Cookie = '';
     if(req && cookie) {
@@ -55,6 +56,14 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     };
     store.dispatch({
         type: LOAD_CATEGORIES_REQUEST
+    });
+    let period = 'weekly';
+    if(params.period === 'top100Monthly') { // in case of /top100
+        period = 'monthly'
+    };
+    store.dispatch({
+        type: LOAD_TOP_100_REQUEST,
+        data: period,
     });
     store.dispatch(END);
 
