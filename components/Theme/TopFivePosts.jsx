@@ -21,7 +21,7 @@ const TopFivePosts = ({ isSubCategory }) => {
                         <Col span={14}>
                             <Row>
                                 {/* Title */}
-                                <span className='top5-posts-title'>{post.Post?.title?.length > 15 ? `${post.Post.title.slice(15)}...` : post.Post.title}</span>&nbsp;
+                                <span className='top5-posts-title'>{post.Post?.title?.length > 10 ? `${post.Post.title.slice(0, 10)}...` : post.Post.title}</span>&nbsp;
                                 {/* MBTI */}
                                 <span className='top5-posts-mbti' style={{ backgroundColor : categoriesColorObj[post.Post.User.mbti]}}>{post.Post.User.mbti}</span>
                             </Row>

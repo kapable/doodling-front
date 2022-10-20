@@ -37,7 +37,7 @@ const NewPosts = ({ categoryDomain }) => {
                     <Row className='new-15-each-post-row' key={`${post.id}-newPost`}>
                         <Col span={18}>
                             <Row className='new-15-each-post-title-row'>
-                                <span>{post?.title?.length > 15 ? `${post.title.slice(15)}...` : post.title}</span> &nbsp;
+                                <span>{post?.title?.length > 10 ? `${post.title.slice(0, 10)}...` : post.title}</span> &nbsp;
                                 <span className='new-15-each-post-title-row-mbti' style={{ backgroundColor : categoriesColorObj[post.User?.mbti]}}>
                                     {post.User?.mbti}
                                 </span>

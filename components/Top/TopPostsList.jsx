@@ -5,17 +5,12 @@ import { Col, Pagination, Row } from 'antd';
 import dayjs from 'dayjs';
 import { CommentOutlined, LikeFilled } from '@ant-design/icons';
 import Link from 'next/link';
-import Image from 'next/image';
-import top100_1 from '../../public/top100-1.png';
-import top100_2 from '../../public/top100-2.png';
-import top100_3 from '../../public/top100-3.png';
 
 const TopPostsList = ({ topPeriod }) => {
     const { topPosts } = useSelector((state) => state.posts);
     const { categoriesColorObj } = useSelector((state) => state.category);
     const [posts, setPosts] = useState(topPosts);
     const [currentPage, setCurrentPage] = useState(1);
-    const top100Logos = { 1: top100_1, 2:top100_2, 3:top100_3 };
 
     const onPageChange = useCallback((e) => {
         setCurrentPage(e);
@@ -49,7 +44,7 @@ const TopPostsList = ({ topPeriod }) => {
                                     </Col>
                                     <Col xs={{ span: 19 }} lg={{ span: 22 }}>
                                         <Row>
-                                            <span className='top3-title-span'>{post.Post.title}</span> &nbsp;
+                                            <span className='top3-title-span'>{post.Post?.title?.length > 10 ? `${post.Post.title.slice(0, 10)}...` : post.Post.title}</span> &nbsp;
                                             <span className='top3-mbti-span' style={{ backgroundColor : categoriesColorObj[post.Post.User.mbti]}}>{post.Post.User.mbti}</span>
                                         </Row>
                                         <Row className='top3-info-row'>
