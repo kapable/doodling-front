@@ -45,10 +45,7 @@ const TopPostsList = ({ topPeriod }) => {
                             <Col xs={{ span: 16 }} lg={{ span: 20 }}>
                                 <Row>
                                     <Col xs={{ span: 5 }} lg={{ span: 2 }}>
-                                        <Image src={top100Logos[index+1]} alt={`rank-${index+1}`}
-                                        // width='50' height='50' 
-                                        placeholder="blur"
-                                        />
+                                        <img src={`https://images.doodling.kr/basic/top100-${index+1}.png`} alt={`rank-${index+1}`} width='50' />
                                     </Col>
                                     <Col xs={{ span: 19 }} lg={{ span: 22 }}>
                                         <Row>
