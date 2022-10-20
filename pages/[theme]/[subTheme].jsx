@@ -11,6 +11,7 @@ import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { END } from 'redux-saga';
 import { useSelector } from 'react-redux';
 import { LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST, LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST } from '../../reducers/posts';
+import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 
 const SubTheme = () => {
     const router = useRouter();
@@ -44,6 +45,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     };
     store.dispatch({
         type: LOAD_CATEGORIES_REQUEST
+    });
+    store.dispatch({
+        type: LOAD_MY_INFO_REQUEST // 로그인 했다면 유저 정보 가져오기
     });
     store.dispatch({
         type: LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST,

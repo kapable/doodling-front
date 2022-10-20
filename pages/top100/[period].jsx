@@ -8,6 +8,7 @@ import axios from 'axios';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { END } from 'redux-saga';
 import { LOAD_TOP_100_REQUEST } from '../../reducers/posts';
+import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 
 const Top100 = () => {
     const router = useRouter();
@@ -64,6 +65,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     store.dispatch({
         type: LOAD_TOP_100_REQUEST,
         data: period,
+    });
+    store.dispatch({
+        type: LOAD_MY_INFO_REQUEST // 로그인 했다면 유저 정보 가져오기
     });
     store.dispatch(END);
 

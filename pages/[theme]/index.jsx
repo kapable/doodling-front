@@ -10,6 +10,7 @@ import TItleInfoCard from '../../components/Theme/TItleInfoCard';
 import TopFivePosts from '../../components/Theme/TopFivePosts';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { LOAD_CATEGORIES_NEW_15_POSTS_REQUEST, LOAD_CATEGORY_REALTIME_TOP_5_REQUEST } from '../../reducers/posts';
+import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 
 const Theme = () => {
@@ -52,7 +53,10 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     store.dispatch({
         type: LOAD_CATEGORY_REALTIME_TOP_5_REQUEST,
         data: params.theme
-    })
+    });
+    store.dispatch({
+        type: LOAD_MY_INFO_REQUEST // 로그인 했다면 유저 정보 가져오기
+    });
     store.dispatch(END);
 
     await store.sagaTask.toPromise();

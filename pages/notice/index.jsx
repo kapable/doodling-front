@@ -6,6 +6,7 @@ import CategoryNewPosts from '../../components/Home/CategoryNewPosts';
 import NavigationBar from '../../components/NavigationBar';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_REQUEST } from '../../reducers/posts';
+import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 
 const Notice = () => {
@@ -40,6 +41,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     store.dispatch({
         type: LOAD_CATEGORY_EACH_SUBCATEGORY_NEW_POSTS_REQUEST,
         data: 'notice'
+    });
+    store.dispatch({
+        type: LOAD_MY_INFO_REQUEST // 로그인 했다면 유저 정보 가져오기
     });
     store.dispatch(END);
 
