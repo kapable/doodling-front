@@ -23,7 +23,7 @@ const TopPosts = () => {
                                 {/* Category */}
                                 <span className='each-realtime-post-category'>{post.Post.Category.label}</span> &nbsp;
                                 {/* Title */}
-                                <span className='each-realtime-post-title'>{post.Post.title.length > 15 ? `${post.Post.title.slice(0, 15)}...` : post.Post.title}</span> &nbsp;
+                                <span className='each-realtime-post-title'>{post.Post.title.length > 10 ? `${post.Post.title.slice(0, 10)}...` : post.Post.title}</span> &nbsp;
                                 {/* MBTI */}
                                 <span style={{ backgroundColor : categoriesColorObj[post.Post.User.mbti]}} className='each-realtime-post-mbti'>{post.Post.User.mbti}</span>
                             </Col>

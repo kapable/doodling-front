@@ -6,12 +6,16 @@ import dayjs from 'dayjs';
 import { CommentOutlined, LikeFilled } from '@ant-design/icons';
 import Link from 'next/link';
 import Image from 'next/image';
+import top100_1 from '../../public/top100-1.png';
+import top100_2 from '../../public/top100-2.png';
+import top100_3 from '../../public/top100-3.png';
 
 const TopPostsList = ({ topPeriod }) => {
     const { topPosts } = useSelector((state) => state.posts);
     const { categoriesColorObj } = useSelector((state) => state.category);
     const [posts, setPosts] = useState(topPosts);
     const [currentPage, setCurrentPage] = useState(1);
+    const top100Logos = { 1: top100_1, 2:top100_2, 3:top100_3 };
 
     const onPageChange = useCallback((e) => {
         setCurrentPage(e);
@@ -41,7 +45,10 @@ const TopPostsList = ({ topPeriod }) => {
                             <Col xs={{ span: 16 }} lg={{ span: 20 }}>
                                 <Row>
                                     <Col xs={{ span: 5 }} lg={{ span: 2 }}>
-                                        <Image src={`https://images.doodling.kr/basic/top100-${index+1}.png`} alt={`rank-${index+1}`} width='50' height='50'/>
+                                        <Image src={top100Logos[index+1]} alt={`rank-${index+1}`}
+                                        // width='50' height='50' 
+                                        placeholder="blur"
+                                        />
                                     </Col>
                                     <Col xs={{ span: 19 }} lg={{ span: 22 }}>
                                         <Row>
