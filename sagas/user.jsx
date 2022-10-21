@@ -10,6 +10,9 @@ import {
     // UNFOLLOW_REQUEST ,UNFOLLOW_SUCCESS ,UNFOLLOW_FAILURE,
     LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOAD_MY_INFO_FAILURE,
     LOAD_USER_INFO_REQUEST, LOAD_USER_INFO_SUCCESS, LOAD_USER_INFO_FAILURE,
+    CHANGE_NICKNAME_AND_MBTI_REQUEST, CHANGE_NICKNAME_AND_MBTI_SUCCESS, CHANGE_NICKNAME_AND_MBTI_FAILURE,
+    CHECK_NICKNAME_DOUBLED_REQUEST, CHECK_NICKNAME_DOUBLED_SUCCESS, CHECK_NICKNAME_DOUBLED_FAILURE,
+    CHECK_IS_FOLLOWING_REQUEST, CHECK_IS_FOLLOWING_SUCCESS, CHECK_IS_FOLLOWING_FAILURE,
     // LOAD_FOLLOWER_LIST_REQUEST, LOAD_FOLLOWER_LIST_SUCCESS, LOAD_FOLLOWER_LIST_FAILURE,
     // LOAD_FOLLOWING_LIST_REQUEST, LOAD_FOLLOWING_LIST_SUCCESS, LOAD_FOLLOWING_LIST_FAILURE,
 } from '../reducers/user';
@@ -112,6 +115,66 @@ function* loadUserInfo(action) {
     };
 };
 
+function changeNicknameAndMbtiAPI(data) {
+    return axios.patch(`/user/userInfo/`, data);
+};
+
+function* changeNicknameAndMbti(action) {
+    try {
+        const result = yield call(changeNicknameAndMbtiAPI, action.data);
+        yield put({
+            type: CHANGE_NICKNAME_AND_MBTI_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: CHANGE_NICKNAME_AND_MBTI_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
+function checkNicknameDoubledAPI(data) {
+    return axios.post(`/user/nicknameCheck`, data);
+};
+
+function* checkNicknameDoubled(action) {
+    try {
+        const result = yield call(checkNicknameDoubledAPI, action.data);
+        yield put({
+            type: CHECK_NICKNAME_DOUBLED_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: CHECK_NICKNAME_DOUBLED_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
+function checkIsFollowingAPI(data) {
+    return axios.post(`/user/isFollowing`, data);
+};
+
+function* checkIsFollowing(action) {
+    try {
+        const result = yield call(checkIsFollowingAPI, action.data);
+        yield put({
+            type: CHECK_IS_FOLLOWING_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: CHECK_IS_FOLLOWING_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
 function* watchLogin() {
     yield takeLatest(LOG_IN_REQUEST, logIn)
 };
@@ -127,6 +190,15 @@ function* watchLoadMyInfo() {
 function* watchLoadUserInfo() {
     yield takeLatest(LOAD_USER_INFO_REQUEST, loadUserInfo)
 };
+function* watchChangeNicknameAndMbti() {
+    yield takeLatest(CHANGE_NICKNAME_AND_MBTI_REQUEST, changeNicknameAndMbti)
+};
+function* watchCheckNicknameDoubled() {
+    yield takeLatest(CHECK_NICKNAME_DOUBLED_REQUEST, checkNicknameDoubled)
+};
+function* watchIsFollowing() {
+    yield takeLatest(CHECK_IS_FOLLOWING_REQUEST, checkIsFollowing)
+};
 
 export default function* userSaga() {
     yield all([
@@ -139,6 +211,9 @@ export default function* userSaga() {
         // fork(watchUnfollow),
         fork(watchLoadMyInfo),
         fork(watchLoadUserInfo),
+        fork(watchChangeNicknameAndMbti),
+        fork(watchCheckNicknameDoubled),
+        fork(watchIsFollowing),
         // fork(watchLoadFollowerList),
         // fork(watchLoadFollowingList),
     ]);

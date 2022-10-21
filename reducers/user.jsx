@@ -1,33 +1,10 @@
 import produce from '../util/produce';
 
 export const initialState = {
-    myInfo: {
-        // id: null,
-        // email: "",
-        // nickname: "",
-        // description: null,
-        // mbti: "",
-        // admin: false,
-        // adsAdmin: null,
-        // enabled: true,
-        // Posts: [
-        //     {
-        //         id: 1,
-        //         title: "",
-        //         text: "",
-        //         noticeTop: null,
-        //         enabled: false,
-        //         views: null,
-        //         createdAt: "",
-        //         updatedAt: "",
-        //         SubCategoryId: null,
-        //         UserId: null
-        //     },
-        // ],
-        // Comments: [],
-        // PostLiked: []
-    },
+    myInfo: {},
     userInfo: {},
+    nicnameExist: null,
+    isFollowing: false,
     logInLoading: false,
     logInDone: false,
     logInError: false,
@@ -43,6 +20,12 @@ export const initialState = {
     loadUserInfoLoading: false,
     loadUserInfoDone: false,
     loadUserInfoError: false,
+    changeNicknameAndMbtiLoading: false,
+    changeNicknameAndMbtiDone: false,
+    changeNicknameAndMbtiError: false,
+    checkNicknameDoubledLoading: false,
+    checkNicknameDoubledDone: false,
+    checkNicknameDoubledError: false,
 };
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
@@ -64,6 +47,18 @@ export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE';
 export const LOAD_USER_INFO_REQUEST = 'LOAD_USER_INFO_REQUEST';
 export const LOAD_USER_INFO_SUCCESS = 'LOAD_USER_INFO_SUCCESS';
 export const LOAD_USER_INFO_FAILURE = 'LOAD_USER_INFO_FAILURE';
+
+export const CHANGE_NICKNAME_AND_MBTI_REQUEST = 'CHANGE_NICKNAME_AND_MBTI_REQUEST';
+export const CHANGE_NICKNAME_AND_MBTI_SUCCESS = 'CHANGE_NICKNAME_AND_MBTI_SUCCESS';
+export const CHANGE_NICKNAME_AND_MBTI_FAILURE = 'CHANGE_NICKNAME_AND_MBTI_FAILURE';
+
+export const CHECK_NICKNAME_DOUBLED_REQUEST = 'CHECK_NICKNAME_DOUBLED_REQUEST';
+export const CHECK_NICKNAME_DOUBLED_SUCCESS = 'CHECK_NICKNAME_DOUBLED_SUCCESS';
+export const CHECK_NICKNAME_DOUBLED_FAILURE = 'CHECK_NICKNAME_DOUBLED_FAILURE';
+
+export const CHECK_IS_FOLLOWING_REQUEST = 'CHECK_IS_FOLLOWING_REQUEST';
+export const CHECK_IS_FOLLOWING_SUCCESS = 'CHECK_IS_FOLLOWING_SUCCESS';
+export const CHECK_IS_FOLLOWING_FAILURE = 'CHECK_IS_FOLLOWING_FAILURE';
 
 export const ADD_POST_LIKE_TO_ME = 'ADD_POST_LIKE_TO_ME';
 export const REMOVE_POST_LIKE_TO_ME = 'REMOVE_POST_LIKE_TO_ME';
@@ -147,6 +142,52 @@ const reducer = (state = initialState, action) => {
                 draft.loadUserInfoLoading = false;
                 draft.loadUserInfoDone = false;
                 draft.loadUserInfoError = action.error;
+                break;
+            case CHANGE_NICKNAME_AND_MBTI_REQUEST:
+                draft.changeNicknameAndMbtiLoading = true;
+                draft.changeNicknameAndMbtiDone = false;
+                draft.changeNicknameAndMbtiError = null;
+                break;
+            case CHANGE_NICKNAME_AND_MBTI_SUCCESS:
+                draft.userInfo.nickname = action?.data.nickname || null;
+                draft.userInfo.mbti = action?.data.mbti || null;
+                draft.changeNicknameAndMbtiLoading = false;
+                draft.changeNicknameAndMbtiDone = true;
+                break;
+            case CHANGE_NICKNAME_AND_MBTI_FAILURE:
+                draft.changeNicknameAndMbtiLoading = false;
+                draft.changeNicknameAndMbtiDone = false;
+                draft.changeNicknameAndMbtiError = action.error;
+                break;
+            case CHECK_NICKNAME_DOUBLED_REQUEST:
+                draft.checkNicknameDoubledLoading = true;
+                draft.checkNicknameDoubledDone = false;
+                draft.checkNicknameDoubledError = null;
+                break;
+            case CHECK_NICKNAME_DOUBLED_SUCCESS:
+                draft.nicnameExist = action.data.exist;
+                draft.checkNicknameDoubledLoading = false;
+                draft.checkNicknameDoubledDone = true;
+                break;
+            case CHECK_NICKNAME_DOUBLED_FAILURE:
+                draft.checkNicknameDoubledLoading = false;
+                draft.checkNicknameDoubledDone = false;
+                draft.checkNicknameDoubledError = action.error;
+                break;
+            case CHECK_IS_FOLLOWING_REQUEST:
+                draft.checkIsFollowingLoading = true;
+                draft.checkIsFollowingDone = false;
+                draft.checkIsFollowingError = null;
+                break;
+            case CHECK_IS_FOLLOWING_SUCCESS:
+                draft.isFollowing = action.data.isFollowing;
+                draft.checkIsFollowingLoading = false;
+                draft.checkIsFollowingDone = true;
+                break;
+            case CHECK_IS_FOLLOWING_FAILURE:
+                draft.checkIsFollowingLoading = false;
+                draft.checkIsFollowingDone = false;
+                draft.checkIsFollowingError = action.error;
                 break;
             case ADD_POST_LIKE_TO_ME:
                 draft.userInfo.PostLiked.unshift(action.data);

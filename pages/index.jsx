@@ -29,7 +29,7 @@ const Home = () => {
                 <meta name="description" content="두들링 - MBTI 기반 커뮤니티" />
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
-            <NavigationBar categoryDomain={categories[0].domain} />
+            <NavigationBar categoryDomain={categories[0]?.domain} />
             <NoticeRollingBanner />
             <TopPosts />
             <CategoryNewPosts />

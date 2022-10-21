@@ -450,6 +450,42 @@
     }
 }
 
+/* Profile */
+.profile-basic-info-main-row {
+    padding: 1.5rem;
+    padding-bottom: 0;
+
+    .info-span {
+        color: grey;
+        .nickname-span {
+            font-size: 1.2rem;
+        }
+        .mbti-span {
+            color: white;
+            padding: 0 0.3rem;
+        }
+    }
+
+    .edit-btn {
+        color: black;
+    }
+
+    .follower-span {
+        text-align: center;
+        padding: 0 0.65rem;
+        border-right: $grey-color solid 0.1rem;
+    }
+    .following-span {
+        text-align: center;
+        padding: 0 0.65rem;
+        border-left: $grey-color solid 0.1rem;
+    }
+
+    .logout-btn {
+        margin: 0.5rem 0;
+    }
+}
+
 /* 404 */
 .main-404-div {
     width: 15rem;

@@ -3,10 +3,9 @@ import { useRouter } from 'next/router';
 import { Tabs } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
-    const dispatch = useDispatch();
     const router = useRouter();
     const { categories } = useSelector((state) => state.category);
 
@@ -26,9 +25,9 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
         if(domain === 'top100') { // TOP100
             return router.push('/top100');
         } else if (domain === 'notice') { // NOTICE
-            return router.push('/notice')
+            return router.push('/notice');
         } else if (domain === '') { // HOME
-            return router.push('/')
+            return router.push('/');
         } else {
             return router.push(`/${domain}`);
         };
@@ -80,7 +79,7 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
 };
 
 NavigationBar.propTypes = {
-    categoryDomain: PropTypes.string.isRequired,
+    categoryDomain: PropTypes.string,
     subCategoryDomain: PropTypes.string,
 };
 

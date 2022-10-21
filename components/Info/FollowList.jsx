@@ -26,11 +26,11 @@ const FollowList = ({ userList, type }) => {
 
 FollowList.propTypes = {
     userList: PropTypes.arrayOf(PropTypes.shape({
-        userId: PropTypes.number.isRequired,
-        nickname: PropTypes.string.isRequired,
-        mbti: PropTypes.string.isRequired,
-    })).isRequired,
-    type: PropTypes.string.isRequired,
+        userId: PropTypes.number,
+        nickname: PropTypes.string,
+        mbti: PropTypes.string,
+    })),
+    type: PropTypes.string,
 };
 
 export default withRouter(FollowList);
