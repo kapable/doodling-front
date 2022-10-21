@@ -30,7 +30,8 @@ const TopPostsList = ({ topPeriod }) => {
 
     return (
         <div className='top100-posts-main-div'>
-            <div className='top3-main-div'>
+            {currentPage === 1 ? ( // In case of the Page is 1, Top 3 Render
+                <div className='top3-main-div'>
                 {posts && posts.slice(0, 3) // for top 3
                 .map((post, index) => (
                     <Link
@@ -69,8 +70,13 @@ const TopPostsList = ({ topPeriod }) => {
                     </a></Link>
                 ))}
             </div>
+            ) : null}
             <div className='top-rest-main-div'>
-                {posts && posts.slice(3, 15)
+                {posts &&
+                posts.slice( // split page1 and other pages
+                    currentPage === 1 ? 3 : (currentPage-1)*15,
+                    currentPage === 1 ? 15 : (currentPage-1)*15+15
+                )
                 .map((post, index) => (
                     <Link
                         href={`/${post.Post.Category.domain}/${post.Post.SubCategory.domain}/${post.PostId}`}
