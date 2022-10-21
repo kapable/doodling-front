@@ -5,11 +5,16 @@ import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import { CommentOutlined, LikeFilled } from '@ant-design/icons';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 
 const TopFivePosts = ({ isSubCategory }) => {
     const { categoryRealtimeTop5Posts, subCategoryRealtimeTop5Posts } = useSelector((state) => state.posts);
     const { categoriesColorObj } = useSelector((state) => state.category);
-    const [posts, setPosts] = useState(isSubCategory ? subCategoryRealtimeTop5Posts : categoryRealtimeTop5Posts);
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        isSubCategory ? setPosts(subCategoryRealtimeTop5Posts) : setPosts (categoryRealtimeTop5Posts);
+    }, [isSubCategory, subCategoryRealtimeTop5Posts, categoryRealtimeTop5Posts]);
 
     return (
         <div className='category-realtime-top5-posts-div'>
