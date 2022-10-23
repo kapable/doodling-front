@@ -1,6 +1,6 @@
-import { CommentOutlined, EditOutlined } from '@ant-design/icons';
-import { Col, Input, Row } from 'antd';
-import React, { useCallback, useState } from 'react';
+import { CloseOutlined, CommentOutlined, EditOutlined } from '@ant-design/icons';
+import { Button, Col, Input, Row } from 'antd';
+import React, { Fragment, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../../hooks/useInput';
 import { CHANGE_DESCRIPTION_REQUEST } from '../../reducers/user';
@@ -30,20 +30,30 @@ const DescriptionCard = () => {
             <Col span={16} className='description-row'>
                 {editMode && myInfo?.id === userInfo?.id
                 ?  (
-                    <Input.Search
-                        className='user-description-edit-input'
-                        value={description}
-                        onChange={onChangeDescription}
-                        addonBefore="소개"
-                        enterButton="수정"
-                        onSearch={onEditSubmit}
-                    />
+                    <Fragment>
+                        <Input.TextArea
+                            value={description}
+                            onChange={onChangeDescription}
+                            placeholder="멋진 소개를 해주세요!"
+                            autoSize={{ minRows: 3, maxRows: 5, }}
+                            maxLength={100}
+                            // showCount
+                            bordered
+                            
+                        />
+                        <Button style={{ float: 'right'}} onClick={onEditSubmit} type='primary'>수정 완료</Button>
+                    </Fragment>
                 )
                 : <p className='description-p'>{description || `멋진 소개가 필요해요!`}</p>
                 }
             </Col>
             {myInfo?.id === userInfo?.id
-            ? <Col span={4} className='edit-row'><EditOutlined onClick={onEditClick} className='edit-icon'/></Col>
+            ? <Col span={4} className='edit-row'>
+                {editMode
+                ? <CloseOutlined onClick={onEditClick} className='edit-icon'/>
+                : <EditOutlined onClick={onEditClick} className='edit-icon'/>
+                }
+                </Col>
             : <Col span={4}></Col>}
         </Row>
     );

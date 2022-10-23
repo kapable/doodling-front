@@ -83,7 +83,7 @@ const RegisterForm = () => {
     return (
         <div className='signup-div'>
             <div className='signup-header'>
-                <img src={'https://d3edqqquyf396f.cloudfront.net/basic/doodling-logo.png'} alt='케이퍼니' />
+                <img src={'https://images.doodling.kr/basic/doodling-logo.png'} alt='케이퍼니' />
                 <p>두들링은 MBTI 성향이 다른 서로에게<br />궁금한 점을 물어보거나 소통하는<br />MBTI 커뮤니티 사이트입니다.</p>
             </div>
             <Form onFinish={onSubmit} layout="vertical" className='signup-form'>
