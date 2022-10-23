@@ -57,7 +57,7 @@ const MyPosts = () => {
             {myPosts && myPosts.length > 1
             ? (
                 myPosts.map((post) => (
-                    <Link href={`/${post.SubCategory.Category.domain}/${post.SubCategory.domain}/${post.id}`}>
+                    <Link key={`${post.id}-link`} href={`/${post.SubCategory.Category.domain}/${post.SubCategory.domain}/${post.id}`}>
                         <Row className='profile-my-post-main-row' key={`${post.id}-row`}>
                             <Col span={18}>
                                 <Row><span>{post.title}</span>&nbsp;<span>{post.User.mbti}</span></Row>
