@@ -27,6 +27,7 @@ const UserInfo = () => {
             <BasicInfoCard />
             <Divider />
             <DescriptionCard />
+            <Divider />
             <MyPosts />
         </Fragment>
     );
@@ -43,7 +44,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     });
     store.dispatch({
         type: LOAD_USER_INFO_REQUEST,
-        data: params.userId
+        data: params.userNickname
     });
     store.dispatch(END);
 

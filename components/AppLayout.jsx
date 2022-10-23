@@ -20,7 +20,7 @@ const AppLayout = ({ children }) => {
                     {myInfo?.id
                         ? (
                             <Fragment>
-                                <div className='applayout-nav-right-div'><Link href={`/info/${myInfo?.id}`}><a className='applayout-nav-right-div-a'>내 정보</a></Link></div>
+                                <div className='applayout-nav-right-div'><Link href={`/info/${myInfo?.nickname}`}><a className='applayout-nav-right-div-a'>내 정보</a></Link></div>
                                 <div className='applayout-nav-left-div'><Link href='/upload'><a className='applayout-nav-left-div-a'>글쓰기</a></Link></div>
                             </Fragment>
                         )

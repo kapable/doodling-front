@@ -64,6 +64,7 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
                             onTabClick={onSubCategoryTabClick}
                             className='home-subcategory-tab' tabPosition='top' size='default' type='line'
                             onChange={onChangeSubCategory}
+                            animated={false}
                             tabBarGutter={20} tabBarStyle={{backgroundColor: 'white', height:'2.7rem'}} moreIcon={<EllipsisOutlined />} />
                         : null
                     }
@@ -73,7 +74,8 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
                 tabPosition='top' size='default' type='line'
                 tabBarGutter={20}
                 tabBarStyle={{backgroundColor: 'white', height:'2.7rem'}}
-                moreIcon={<EllipsisOutlined />} />
+                moreIcon={<EllipsisOutlined />}
+                animated={false} />
         </Fragment>
     );
 };

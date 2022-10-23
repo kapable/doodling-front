@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 const BasicInfoCard = () => {
     const router = useRouter();
     const dispatch = useDispatch();
-    const { myInfo, userInfo, nicnameExist, isFollowing, checkNicknameDoubledLoading, checkNicknameDoubledDone } = useSelector((state) => state.user);
+    const { myInfo, userInfo, nicnameExist, isFollowing, checkNicknameDoubledLoading, checkNicknameDoubledDone, changeNicknameAndMbtiDone } = useSelector((state) => state.user);
     const { categoriesColorObj } = useSelector((state) => state.category);
     const [editMode, setEditMode] = useState(false);
     const [nickname, onChangeNickname, setNickname] = useInput(userInfo.nickname);
@@ -95,6 +95,18 @@ const BasicInfoCard = () => {
         });
         setEditMode(false);
     }, [mbti, nickname, userInfo.nickname, nickDoubleChecked]);
+
+    useEffect(() => { // if user nickname edited, change the current route
+        if(changeNicknameAndMbtiDone && editMode === false && router.query.userNickname !== nickname) {
+            router.replace(`/info/${nickname}`);
+        };
+    }, [changeNicknameAndMbtiDone, editMode, router, nickname]);
+
+    useEffect(() => { // route to 404 if the user not exists
+        if(!userInfo?.id) {
+            router.replace(`/404`);
+        };
+    }, [userInfo]);
 
     const onEditCancel = useCallback(() => {
         setEditMode(false);

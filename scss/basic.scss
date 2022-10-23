@@ -468,6 +468,7 @@
 
     .edit-btn {
         color: black;
+        margin: 1rem 0 0 0;
     }
 
     .follower-span {
@@ -482,7 +483,34 @@
     }
 
     .logout-btn {
-        margin: 0.5rem 0;
+        margin: 1.5rem 0 0 0;
+    }
+}
+
+.profile-description-main-row {
+    padding: 1.5rem;
+    padding-bottom: 0;
+
+    .icon-row {
+        text-align: center;
+        color: $point-color;
+
+        .description-icon {
+            font-size: 1.7rem;
+        }
+    }
+
+    .description-p {
+        padding: 0 0.5rem;
+    }
+
+    .edit-row {
+        text-align: center;
+        color: grey;
+
+        .edit-icon {
+            font-size: 1.2rem;
+        }
     }
 }
 
