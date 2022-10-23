@@ -159,7 +159,7 @@ const BasicInfoCard = () => {
                     <Col className='following-span'>{userInfo.followings}<br />팔로잉</Col>
                 </Row>
                 <Row justify='center' align='bottom'>
-                    {myInfo?.id ? <Button className='logout-btn' onClick={onClickLogoutButton}>로그아웃</Button> : null}
+                    {myInfo?.id && myInfo?.id === userInfo?.id ? <Button className='logout-btn' onClick={onClickLogoutButton}>로그아웃</Button> : null}
                 </Row>
             </Col>
         </Row>
