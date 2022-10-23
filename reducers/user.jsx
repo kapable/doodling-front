@@ -23,9 +23,18 @@ export const initialState = {
     changeNicknameAndMbtiLoading: false,
     changeNicknameAndMbtiDone: false,
     changeNicknameAndMbtiError: false,
+    changeDescriptionLoading: false,
+    changeDescriptionDone: false,
+    changeDescriptionError: false,
     checkNicknameDoubledLoading: false,
     checkNicknameDoubledDone: false,
     checkNicknameDoubledError: false,
+    unFollowLoading: false,
+    unFollowDone: false,
+    unFollowError: false,
+    followLoading: false,
+    followDone: false,
+    followError: false,
 };
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
@@ -52,6 +61,10 @@ export const CHANGE_NICKNAME_AND_MBTI_REQUEST = 'CHANGE_NICKNAME_AND_MBTI_REQUES
 export const CHANGE_NICKNAME_AND_MBTI_SUCCESS = 'CHANGE_NICKNAME_AND_MBTI_SUCCESS';
 export const CHANGE_NICKNAME_AND_MBTI_FAILURE = 'CHANGE_NICKNAME_AND_MBTI_FAILURE';
 
+export const CHANGE_DESCRIPTION_REQUEST = 'CHANGE_DESCRIPTION_REQUEST';
+export const CHANGE_DESCRIPTION_SUCCESS = 'CHANGE_DESCRIPTION_SUCCESS';
+export const CHANGE_DESCRIPTION_FAILURE = 'CHANGE_DESCRIPTION_FAILURE';
+
 export const CHECK_NICKNAME_DOUBLED_REQUEST = 'CHECK_NICKNAME_DOUBLED_REQUEST';
 export const CHECK_NICKNAME_DOUBLED_SUCCESS = 'CHECK_NICKNAME_DOUBLED_SUCCESS';
 export const CHECK_NICKNAME_DOUBLED_FAILURE = 'CHECK_NICKNAME_DOUBLED_FAILURE';
@@ -59,6 +72,14 @@ export const CHECK_NICKNAME_DOUBLED_FAILURE = 'CHECK_NICKNAME_DOUBLED_FAILURE';
 export const CHECK_IS_FOLLOWING_REQUEST = 'CHECK_IS_FOLLOWING_REQUEST';
 export const CHECK_IS_FOLLOWING_SUCCESS = 'CHECK_IS_FOLLOWING_SUCCESS';
 export const CHECK_IS_FOLLOWING_FAILURE = 'CHECK_IS_FOLLOWING_FAILURE';
+
+export const FOLLOW_REQUEST = 'FOLLOW_REQUEST';
+export const FOLLOW_SUCCESS = 'FOLLOW_SUCCESS';
+export const FOLLOW_FAILURE = 'FOLLOW_FAILURE';
+
+export const UNFOLLOW_REQUEST = 'UNFOLLOW_REQUEST';
+export const UNFOLLOW_SUCCESS = 'UNFOLLOW_SUCCESS';
+export const UNFOLLOW_FAILURE = 'UNFOLLOW_FAILURE';
 
 export const ADD_POST_LIKE_TO_ME = 'ADD_POST_LIKE_TO_ME';
 export const REMOVE_POST_LIKE_TO_ME = 'REMOVE_POST_LIKE_TO_ME';
@@ -159,6 +180,21 @@ const reducer = (state = initialState, action) => {
                 draft.changeNicknameAndMbtiDone = false;
                 draft.changeNicknameAndMbtiError = action.error;
                 break;
+            case CHANGE_DESCRIPTION_REQUEST:
+                draft.changeDescriptionLoading = true;
+                draft.changeDescriptionDone = false;
+                draft.changeDescriptionError = null;
+                break;
+            case CHANGE_DESCRIPTION_SUCCESS:
+                draft.userInfo.description = action?.data.description || null;
+                draft.changeDescriptionLoading = false;
+                draft.changeDescriptionDone = true;
+                break;
+            case CHANGE_DESCRIPTION_FAILURE:
+                draft.changeDescriptionLoading = false;
+                draft.changeDescriptionDone = false;
+                draft.changeDescriptionError = action.error;
+                break;
             case CHECK_NICKNAME_DOUBLED_REQUEST:
                 draft.checkNicknameDoubledLoading = true;
                 draft.checkNicknameDoubledDone = false;
@@ -188,6 +224,38 @@ const reducer = (state = initialState, action) => {
                 draft.checkIsFollowingLoading = false;
                 draft.checkIsFollowingDone = false;
                 draft.checkIsFollowingError = action.error;
+                break;
+            case UNFOLLOW_REQUEST:
+                draft.unFollowLoading = true;
+                draft.unFollowDone = false;
+                draft.unFollowError = null;
+                break;
+            case UNFOLLOW_SUCCESS:
+                draft.isFollowing = action.data.isFollowing;
+                draft.userInfo.followings = draft.userInfo.followings -1;
+                draft.unFollowLoading = false;
+                draft.unFollowDone = true;
+                break;
+            case UNFOLLOW_FAILURE:
+                draft.unFollowLoading = false;
+                draft.unFollowDone = false;
+                draft.unFollowError = action.error;
+                break;
+            case FOLLOW_REQUEST:
+                draft.followLoading = true;
+                draft.followDone = false;
+                draft.followError = null;
+                break;
+            case FOLLOW_SUCCESS:
+                draft.isFollowing = action.data.isFollowing;
+                draft.userInfo.followings = draft.userInfo.followings +1;
+                draft.followLoading = false;
+                draft.followDone = true;
+                break;
+            case FOLLOW_FAILURE:
+                draft.followLoading = false;
+                draft.followDone = false;
+                draft.followError = action.error;
                 break;
             case ADD_POST_LIKE_TO_ME:
                 draft.userInfo.PostLiked.unshift(action.data);

@@ -7,6 +7,7 @@ import { ADD_RECOMMENT_REQUEST, LIKE_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST, UNL
 import { useState } from 'react';
 import useInput from '../../hooks/useInput';
 import { CheckCircleFilled, LikeFilled, LikeOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 
 const CommentsList = ({ postId, comments, userId, postComments }) => {
     const dispatch = useDispatch();
@@ -92,7 +93,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                                 <span onClick={onCommentLikeClick(item.id)} >{commentLikeTargetId.includes(item.id) ? <LikeFilled /> : <LikeOutlined />} {item.CommentLikers.length}</span>,
                                 // <span onClick={onReCommentClick(item.id)}>댓글달기</span>
                             ]}
-                            author={[<p key="1-user">{item.UserId === userId ? <CheckCircleFilled /> : null} {item.User.nickname}<span style={{backgroundColor: categoriesColorObj[item.User.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{item.User.mbti}</span></p>]}
+                            author={[<Link href={`/info/${item.User.nickname}`} key={`${item.User.nickname}-link`}><p key="1-user">{item.UserId === userId ? <CheckCircleFilled /> : null} {item.User.nickname}<span style={{backgroundColor: categoriesColorObj[item.User.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{item.User.mbti}</span></p></Link>]}
                             content={item.text}
                             datetime={dayjs(item.createdAt).diff(dayjs(), 'hours') < -24
                                 ? dayjs(item.createdAt).format('YYYY-MM-DD')

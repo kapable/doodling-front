@@ -471,6 +471,10 @@
         margin: 1rem 0 0 0;
     }
 
+    .follow-btn {
+        margin: 1rem 0 0;
+    }
+
     .follower-span {
         text-align: center;
         padding: 0 0.65rem;
@@ -511,6 +515,14 @@
         .edit-icon {
             font-size: 1.2rem;
         }
+    }
+}
+
+.profile-my-post-main-div {
+    padding: 0 1.5rem 0;
+
+    .profile-my-post-main-row {
+        cursor: pointer;
     }
 }
 

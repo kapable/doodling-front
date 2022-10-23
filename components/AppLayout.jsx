@@ -15,7 +15,7 @@ const AppLayout = ({ children }) => {
         <Layout className='applayout'>
             <Header className='applayout-header'>
                 {/* Top Nav-bar */}
-                <Link href='/'><a><img src={'https://d3edqqquyf396f.cloudfront.net/basic/doodling-logo.png'} alt='두들링' /></a></Link>
+                <Link href='/'><a><img src={'https://images.doodling.kr/basic/doodling-logo.png'} alt='두들링' /></a></Link>
                 <div className='applayout-nav'>
                     {myInfo?.id
                         ? (

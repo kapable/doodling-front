@@ -1,6 +1,6 @@
 import { Button, Col, Dropdown, Form, Input, Menu, Row, Space } from 'antd';
 import React, { useCallback, useState } from 'react';
-import { CHANGE_NICKNAME_AND_MBTI_REQUEST, CHECK_IS_FOLLOWING_REQUEST, CHECK_NICKNAME_DOUBLED_REQUEST, LOG_OUT_REQUEST } from '../../reducers/user';
+import { CHANGE_NICKNAME_AND_MBTI_REQUEST, CHECK_IS_FOLLOWING_REQUEST, CHECK_NICKNAME_DOUBLED_REQUEST, FOLLOW_REQUEST, LOG_OUT_REQUEST, UNFOLLOW_REQUEST } from '../../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { DownOutlined, EditOutlined, UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons';
@@ -75,12 +75,18 @@ const BasicInfoCard = () => {
     );
 
     const onFollowClick = useCallback(() => {
-        console.log('Follow Click');
-    }, []);
+        dispatch({
+            type: FOLLOW_REQUEST,
+            data: userInfo.id,
+        });
+    }, [userInfo.id]);
 
     const onUnFollowClick = useCallback(() => {
-        console.log('UNFO');
-    }, []);
+        dispatch({
+            type: UNFOLLOW_REQUEST,
+            data: userInfo.id,
+        });
+    }, [userInfo.id]);
 
     const onEditSubmit = useCallback(() => {
         if(userInfo.nickname !== nickname && !nickDoubleChecked) { // if nickname changed but NOT doubleChecked
@@ -101,12 +107,6 @@ const BasicInfoCard = () => {
             router.replace(`/info/${nickname}`);
         };
     }, [changeNicknameAndMbtiDone, editMode, router, nickname]);
-
-    useEffect(() => { // route to 404 if the user not exists
-        if(!userInfo?.id) {
-            router.replace(`/404`);
-        };
-    }, [userInfo]);
 
     const onEditCancel = useCallback(() => {
         setEditMode(false);

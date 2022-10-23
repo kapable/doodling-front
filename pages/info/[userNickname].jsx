@@ -9,6 +9,7 @@ import axios from 'axios';
 import { LOAD_MY_INFO_REQUEST, LOAD_USER_INFO_REQUEST } from '../../reducers/user';
 import { END } from 'redux-saga';
 import { Divider } from 'antd';
+import { LOAD_MY_WRITE_POSTS_REQUEST } from '../../reducers/posts';
 
 const UserInfo = () => {
     const { userInfo, logOutDone } = useSelector((state) => state.user);
@@ -45,6 +46,10 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     store.dispatch({
         type: LOAD_USER_INFO_REQUEST,
         data: params.userNickname
+    });
+    store.dispatch({
+        type: LOAD_MY_WRITE_POSTS_REQUEST,
+        data: { userNickname: params.userNickname }
     });
     store.dispatch(END);
 

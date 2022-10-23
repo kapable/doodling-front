@@ -6,11 +6,12 @@ import {
     SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
     // CHANGE_NICKNAME_REQUEST, CHANGE_NICKNAME_SUCCESS, CHANGE_NICKNAME_FAILURE,
     // CHANGE_DESCRIPTION_REQUEST, CHANGE_DESCRIPTION_SUCCESS, CHANGE_DESCRIPTION_FAILURE,
-    // FOLLOW_REQUEST ,FOLLOW_SUCCESS ,FOLLOW_FAILURE,
-    // UNFOLLOW_REQUEST ,UNFOLLOW_SUCCESS ,UNFOLLOW_FAILURE,
+    FOLLOW_REQUEST ,FOLLOW_SUCCESS ,FOLLOW_FAILURE,
+    UNFOLLOW_REQUEST ,UNFOLLOW_SUCCESS ,UNFOLLOW_FAILURE,
     LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOAD_MY_INFO_FAILURE,
     LOAD_USER_INFO_REQUEST, LOAD_USER_INFO_SUCCESS, LOAD_USER_INFO_FAILURE,
     CHANGE_NICKNAME_AND_MBTI_REQUEST, CHANGE_NICKNAME_AND_MBTI_SUCCESS, CHANGE_NICKNAME_AND_MBTI_FAILURE,
+    CHANGE_DESCRIPTION_REQUEST, CHANGE_DESCRIPTION_SUCCESS, CHANGE_DESCRIPTION_FAILURE,
     CHECK_NICKNAME_DOUBLED_REQUEST, CHECK_NICKNAME_DOUBLED_SUCCESS, CHECK_NICKNAME_DOUBLED_FAILURE,
     CHECK_IS_FOLLOWING_REQUEST, CHECK_IS_FOLLOWING_SUCCESS, CHECK_IS_FOLLOWING_FAILURE,
     // LOAD_FOLLOWER_LIST_REQUEST, LOAD_FOLLOWER_LIST_SUCCESS, LOAD_FOLLOWER_LIST_FAILURE,
@@ -135,6 +136,26 @@ function* changeNicknameAndMbti(action) {
     };
 };
 
+function changeDescriptionAPI(data) {
+    return axios.patch(`/user/description/`, data);
+};
+
+function* changeDescription(action) {
+    try {
+        const result = yield call(changeDescriptionAPI, action.data);
+        yield put({
+            type: CHANGE_DESCRIPTION_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: CHANGE_DESCRIPTION_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
 function checkNicknameDoubledAPI(data) {
     return axios.post(`/user/nicknameCheck`, data);
 };
@@ -175,6 +196,46 @@ function* checkIsFollowing(action) {
     };
 };
 
+function followAPI(data) {
+    return axios.patch(`/user/${data}/follow`);
+};
+
+function* follow(action) {
+    try {
+        const result = yield call(followAPI, action.data);
+        yield put({
+            type: FOLLOW_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: FOLLOW_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
+function unFollowAPI(data) {
+    return axios.delete(`/user/${data}/unfollow`);
+};
+
+function* unFollow(action) {
+    try {
+        const result = yield call(unFollowAPI, action.data);
+        yield put({
+            type: UNFOLLOW_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: UNFOLLOW_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
 function* watchLogin() {
     yield takeLatest(LOG_IN_REQUEST, logIn)
 };
@@ -193,11 +254,20 @@ function* watchLoadUserInfo() {
 function* watchChangeNicknameAndMbti() {
     yield takeLatest(CHANGE_NICKNAME_AND_MBTI_REQUEST, changeNicknameAndMbti)
 };
+function* watchChangeDescription() {
+    yield takeLatest(CHANGE_DESCRIPTION_REQUEST, changeDescription)
+};
 function* watchCheckNicknameDoubled() {
     yield takeLatest(CHECK_NICKNAME_DOUBLED_REQUEST, checkNicknameDoubled)
 };
 function* watchIsFollowing() {
     yield takeLatest(CHECK_IS_FOLLOWING_REQUEST, checkIsFollowing)
+};
+function* watchFollow() {
+    yield takeLatest(FOLLOW_REQUEST, follow)
+};
+function* watchUnFollow() {
+    yield takeLatest(UNFOLLOW_REQUEST, unFollow)
 };
 
 export default function* userSaga() {
@@ -207,11 +277,12 @@ export default function* userSaga() {
         fork(watchSignUp),
         // fork(watchChangeNickname),
         // fork(watchChangeDescription),
-        // fork(watchFollow),
-        // fork(watchUnfollow),
+        fork(watchFollow),
+        fork(watchUnFollow),
         fork(watchLoadMyInfo),
         fork(watchLoadUserInfo),
         fork(watchChangeNicknameAndMbti),
+        fork(watchChangeDescription),
         fork(watchCheckNicknameDoubled),
         fork(watchIsFollowing),
         // fork(watchLoadFollowerList),

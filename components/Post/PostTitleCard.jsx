@@ -51,8 +51,8 @@ const PostTitleCard = ({ contents }) => {
         });
     }, [contents, myInfo]);
 
-    const onUserClick = (userId) => useCallback(() => {
-        router.push(`/info/${userId}`);
+    const onUserClick = (userNickname) => useCallback(() => {
+        router.push(`/info/${userNickname}`);
     }, [])
 
     const onReportClick = useCallback(() => {
@@ -97,7 +97,7 @@ const PostTitleCard = ({ contents }) => {
                             }
                         </p></Row>
                     <Row><p className='post-title-header-user'>
-                        <span className='post-user-nickname-span' onClick={onUserClick(User?.id)}>{User?.nickname}</span>&nbsp;
+                        <span className='post-user-nickname-span' onClick={onUserClick(User?.nickname)}>{User?.nickname}</span>&nbsp;
                         <span style={{ backgroundColor : categoriesColorObj[User?.mbti]}} className='post-user-mbti-span'>{User?.mbti}</span>
                         </p></Row>
                 </Col>

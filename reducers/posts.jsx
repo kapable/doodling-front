@@ -10,6 +10,7 @@ export const initialState = {
     categoryRealtimeTop5Posts: [],
     subCategoryRealtimeTop5Posts: [],
     topPosts: [],
+    myPosts: [],
     loadCategoriesNewPostsLoading: false,
     loadCategoriesNewPostsDone: false,
     loadCategoriesNewPostsError: false,
@@ -31,6 +32,15 @@ export const initialState = {
     loadSubCategoryRealtimeTop5Loading: false,
     loadSubCategoryRealtimeTop5Done: false,
     loadSubCategoryRealtimeTop5Error: false,
+    loadMyWritePostsLoading: false,
+    loadMyWritePostsDone: false,
+    loadMyWritePostsError: false,
+    loadMyCommentPostsLoading: false,
+    loadMyCommentPostsDone: false,
+    loadMyCommentPostsError: false,
+    loadMyLikePostsLoading: false,
+    loadMyLikePostsDone: false,
+    loadMyLikePostsError: false,
     hasMorePosts: false,
 };
 
@@ -61,6 +71,18 @@ export const LOAD_CATEGORY_REALTIME_TOP_5_FAILURE = 'LOAD_CATEGORY_REALTIME_TOP_
 export const LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST = 'LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST';
 export const LOAD_SUBCATEGORY_REALTIME_TOP_5_SUCCESS = 'LOAD_SUBCATEGORY_REALTIME_TOP_5_SUCCESS';
 export const LOAD_SUBCATEGORY_REALTIME_TOP_5_FAILURE = 'LOAD_SUBCATEGORY_REALTIME_TOP_5_FAILURE';
+
+export const LOAD_MY_WRITE_POSTS_REQUEST = 'LOAD_MY_WRITE_POSTS_REQUEST';
+export const LOAD_MY_WRITE_POSTS_SUCCESS = 'LOAD_MY_WRITE_POSTS_SUCCESS';
+export const LOAD_MY_WRITE_POSTS_FAILURE = 'LOAD_MY_WRITE_POSTS_FAILURE';
+
+export const LOAD_MY_COMMENT_POSTS_REQUEST = 'LOAD_MY_COMMENT_POSTS_REQUEST';
+export const LOAD_MY_COMMENT_POSTS_SUCCESS = 'LOAD_MY_COMMENT_POSTS_SUCCESS';
+export const LOAD_MY_COMMENT_POSTS_FAILURE = 'LOAD_MY_COMMENT_POSTS_FAILURE';
+
+export const LOAD_MY_LIKE_POSTS_REQUEST = 'LOAD_MY_LIKE_POSTS_REQUEST';
+export const LOAD_MY_LIKE_POSTS_SUCCESS = 'LOAD_MY_LIKE_POSTS_SUCCESS';
+export const LOAD_MY_LIKE_POSTS_FAILURE = 'LOAD_MY_LIKE_POSTS_FAILURE';
 
 export const LOAD_TOP_100_REQUEST = 'LOAD_TOP_100_REQUEST';
 export const LOAD_TOP_100_SUCCESS = 'LOAD_TOP_100_SUCCESS';
@@ -168,6 +190,51 @@ const reducer = (state = initialState, action) => {
             case LOAD_SUBCATEGORY_REALTIME_TOP_5_FAILURE:
                 draft.loadSubCategoryRealtimeTop5Loading = false;
                 draft.loadSubCategoryRealtimeTop5Error = action.error;
+                break;
+            case LOAD_MY_WRITE_POSTS_REQUEST:
+                draft.loadMyWritePostsLoading = true;
+                draft.loadMyWritePostsDone = false;
+                draft.loadMyWritePostsError = null;
+                break;
+            case LOAD_MY_WRITE_POSTS_SUCCESS:
+                draft.loadMyWritePostsLoading = false;
+                draft.loadMyWritePostsDone = true;
+                draft.myPosts = action.data;
+                draft.hasMorePosts = action.data.length === 15;
+                break;
+            case LOAD_MY_WRITE_POSTS_FAILURE:
+                draft.loadMyWritePostsLoading = false;
+                draft.loadMyWritePostsError = action.error;
+                break;
+            case LOAD_MY_COMMENT_POSTS_REQUEST:
+                draft.loadMyCommentPostsLoading = true;
+                draft.loadMyCommentPostsDone = false;
+                draft.loadMyCommentPostsError = null;
+                break;
+            case LOAD_MY_COMMENT_POSTS_SUCCESS:
+                draft.loadMyCommentPostsLoading = false;
+                draft.loadMyCommentPostsDone = true;
+                draft.myPosts = action.data;
+                draft.hasMorePosts = action.data.length === 15;
+                break;
+            case LOAD_MY_COMMENT_POSTS_FAILURE:
+                draft.loadMyCommentPostsLoading = false;
+                draft.loadMyCommentPostsError = action.error;
+                break;
+            case LOAD_MY_LIKE_POSTS_REQUEST:
+                draft.loadMyLikePostsLoading = true;
+                draft.loadMyLikePostsDone = false;
+                draft.loadMyLikePostsError = null;
+                break;
+            case LOAD_MY_LIKE_POSTS_SUCCESS:
+                draft.loadMyLikePostsLoading = false;
+                draft.loadMyLikePostsDone = true;
+                draft.myPosts = action.data;
+                draft.hasMorePosts = action.data.length === 15;
+                break;
+            case LOAD_MY_LIKE_POSTS_FAILURE:
+                draft.loadMyLikePostsLoading = false;
+                draft.loadMyLikePostsError = action.error;
                 break;
             case LOAD_TOP_100_REQUEST:
                 draft.loadTop100Loading = true;
