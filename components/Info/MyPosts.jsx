@@ -54,7 +54,7 @@ const MyPosts = () => {
                 animated={false}
             />
             {/* Posts Rendering */}
-            {myPosts && myPosts.length > 1
+            {myPosts && myPosts.length > 0
             ? (
                 myPosts.map((post) => (
                     <Link key={`${post.id}-link`} href={`/${post.SubCategory.Category.domain}/${post.SubCategory.domain}/${post.id}`}>
@@ -89,7 +89,6 @@ const MyPosts = () => {
                 // total={categoryNew15Posts.length}
                 // onChange={onPageChange}
                 defaultPageSize={15} />
-            {console.log(myPosts)}
         </div>
     );
 };
