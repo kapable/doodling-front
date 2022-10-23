@@ -80,9 +80,9 @@ function loadMyInfoAPI() {
     return axios.get(`/user`);
 };
 
-function* loadMyInfo(action) {
+function* loadMyInfo() {
     try {
-        const result = yield call(loadMyInfoAPI, action.data);
+        const result = yield call(loadMyInfoAPI);
         yield put({
             type: LOAD_MY_INFO_SUCCESS,
             data: result?.data || null
@@ -97,7 +97,7 @@ function* loadMyInfo(action) {
 };
 
 function loadUserInfoAPI(data) {
-    return axios.get(`/user/${data}`);
+    return axios.get(`/user/${encodeURIComponent(data)}`);
 };
 
 function* loadUserInfo(action) {
@@ -157,7 +157,7 @@ function* changeDescription(action) {
 };
 
 function checkNicknameDoubledAPI(data) {
-    return axios.post(`/user/nicknameCheck`, data);
+    return axios.post(`/user/nicknameCheck`, encodeURIComponent(data));
 };
 
 function* checkNicknameDoubled(action) {

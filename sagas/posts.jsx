@@ -175,7 +175,7 @@ function* loadTop100(action) {
 };
 
 function loadMyWritePostsAPI(data) {
-    return axios.get(`/posts/${data.userNickname}/write?lastId=${data.lastId}`);
+    return axios.get(`/posts/${encodeURIComponent(data.userNickname)}/write?lastId=${data.lastId}`);
 };
 
 function* loadMyWritePosts(action) {
@@ -195,7 +195,7 @@ function* loadMyWritePosts(action) {
 };
 
 function loadMyCommentPostsAPI(data) {
-    return axios.get(`/posts/${data.userNickname}/comment?lastId=${data.lastId}`);
+    return axios.get(`/posts/${encodeURIComponent(data.userNickname)}/comment?lastId=${data.lastId}`);
 };
 
 function* loadMyCommentPosts(action) {
@@ -215,7 +215,7 @@ function* loadMyCommentPosts(action) {
 };
 
 function loadMyLikePostsAPI(data) {
-    return axios.get(`/posts/${data.userNickname}/like?lastId=${data.lastId}`);
+    return axios.get(`/posts/${encodeURIComponent(data.userNickname)}/like?lastId=${data.lastId}`);
 };
 
 function* loadMyLikePosts(action) {
