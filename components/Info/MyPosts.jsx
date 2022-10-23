@@ -89,6 +89,7 @@ const MyPosts = () => {
                 // total={categoryNew15Posts.length}
                 // onChange={onPageChange}
                 defaultPageSize={15} />
+            {console.log(myPosts)}
         </div>
     );
 };
