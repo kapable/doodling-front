@@ -75,11 +75,14 @@ const BasicInfoCard = () => {
     );
 
     const onFollowClick = useCallback(() => {
+        if(!myInfo.id) {
+            return alert('팔로우를 하기 위해서는 로그인이 필요합니다!');
+        };
         dispatch({
             type: FOLLOW_REQUEST,
             data: userInfo.id,
         });
-    }, [userInfo.id]);
+    }, [userInfo.id, myInfo]);
 
     const onUnFollowClick = useCallback(() => {
         dispatch({
