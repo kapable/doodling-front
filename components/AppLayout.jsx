@@ -3,7 +3,6 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
 
 const { Header, Content, Footer } = Layout;
 
@@ -45,6 +44,10 @@ const AppLayout = ({ children }) => {
                 <a href='https://ktestone.com/' target="_blank" rel='noreferrer noopener'>🔗 케이테스트</a><br></br>
                 <a href='https://niair.xyz/' target="_blank" rel='noreferrer noopener'>🔗 케이퍼니</a><br></br>
                 <a href='https://jellinggame.com/' target="_blank" rel='noreferrer noopener'>🔗 젤링게임즈</a><br></br>
+                <br></br>
+                <Link href={`/policy/privacy`}><a>개인정보처리방침</a></Link>&nbsp;|&nbsp;
+                <Link href={`/policy/terms`}><a>이용약관</a></Link>&nbsp;|&nbsp;
+                <Link href={`/policy/youthProtection`}><a>청소년보호정책</a></Link>
                 <br></br>
                 Disclaimer:<br></br>
                 All content is provided for fun and entertainment purposes only<br></br>
