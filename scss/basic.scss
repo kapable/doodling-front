@@ -523,6 +523,24 @@
 
     .profile-my-post-main-row {
         cursor: pointer;
+        border-bottom: $grey-color solid 0.1rem;
+        padding: 0.5rem 0;
+
+        .my-post-mbti-span {
+            color: white;
+            padding: 0 0.3rem;
+            margin-left: 0.2rem;
+        }
+
+        .my-post-info-row {
+            font-size: 0.7rem;
+            color: grey;
+        }
+
+        .my-post-right-info-row {
+            color: grey;
+            font-size: 0.8rem;
+        }
     }
 }
 

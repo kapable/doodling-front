@@ -40,7 +40,7 @@ const Post = () => {
         if(myInfo?.id) {
             dispatch({
                 type: LOAD_USER_INFO_REQUEST,
-                data: myInfo.id,
+                data: myInfo.nickname,
             });
         }
     }, [myInfo]);

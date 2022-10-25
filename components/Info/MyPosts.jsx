@@ -10,6 +10,7 @@ const MyPosts = () => {
     const dispatch = useDispatch();
     const { userInfo } = useSelector((state) => state.user);
     const { myPosts } = useSelector((state) => state.posts);
+    const { categoriesColorObj } = useSelector((state) => state.category);
 
     const tabItems = [
         { label: '작성한 글', key: 'write' },
@@ -60,17 +61,17 @@ const MyPosts = () => {
                     <Link key={`${post.id}-link`} href={`/${post.SubCategory.Category.domain}/${post.SubCategory.domain}/${post.id}`}>
                         <Row className='profile-my-post-main-row' key={`${post.id}-row`}>
                             <Col span={18}>
-                                <Row><span>{post.title}</span>&nbsp;<span>{post.User.mbti}</span></Row>
-                                <Row><span>
+                                <Row><span>{post.title}</span>&nbsp;<span className='my-post-mbti-span' style={{ backgroundColor : categoriesColorObj[post.User?.mbti]}}>{post.User.mbti}</span></Row>
+                                <Row className='my-post-info-row'><span>
                                     <span>{post.views}</span>&nbsp;|&nbsp;
                                     <span>{post.likes}</span>&nbsp;|&nbsp;
                                     <span>{post.User.nickname}</span>
                                 </span></Row>
                             </Col>
                             <Col span={6}>
-                                <Row justify={'end'}><span>{dayjs(post.createdAt).diff(dayjs(), 'hours') < -240
+                                <Row justify={'end'} className='my-post-right-info-row'><span>{dayjs(post.createdAt).diff(dayjs(), 'hours') < -240
                                         ? dayjs(post.createdAt).format('YYYY-MM-DD')
-                                        : dayjs(post.createdAt).fromNow()}</span>
+                                        : dayjs(post.createdAt).fromNow()}</span>&nbsp;
                                     <span><CommentOutlined /> {post.comments}</span>
                                 </Row>
                             </Col>

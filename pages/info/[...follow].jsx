@@ -81,7 +81,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     });
     store.dispatch({
         type: LOAD_USER_INFO_REQUEST,
-        data: params.follow[0]
+        data: params.follow[0] // conver to userNickename
     });
     store.dispatch(END);
 
