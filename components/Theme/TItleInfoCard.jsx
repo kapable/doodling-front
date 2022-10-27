@@ -7,7 +7,6 @@ const TItleInfoCard = ({ category, subTheme }) => {
             <Row><h1>{category?.label}
                 {subTheme ? ` - ${category.SubCategories.find((sub) => sub.domain === subTheme).label}` : null}
             </h1></Row>
-            <Row><span>HOT</span></Row>
         </div>
     );
 };

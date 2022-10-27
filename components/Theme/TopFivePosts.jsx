@@ -18,6 +18,7 @@ const TopFivePosts = ({ isSubCategory }) => {
 
     return (
         <div className='category-realtime-top5-posts-div'>
+            <h3 className='category-realtime-top5-posts-title'>베스트 게시물</h3>
             {posts && posts
             .slice().sort((a, b) => (parseFloat(a.realTimeRank) - parseFloat(b.realTimeRank))) // sorting by category ID ASC
             .map((post) => (

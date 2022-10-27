@@ -51,7 +51,7 @@ const CommentsCard = ({ contents }) => {
                         </Col>
                     </Row>
                 </Form.Item>
-                <p>* 타인에게 불쾌감을 주는 욕설, 모욕적인 표현 등은 표기 불가 텍스트로 지정되어 노출이 제한됩니다.</p>
+                <p className='post-comment-form-comment'>* 타인에게 불쾌감을 주는 욕설, 모욕적인 표현 등은 표기 불가 텍스트로 지정되어 노출이 제한됩니다.</p>
             </Form>
         </div>
     );

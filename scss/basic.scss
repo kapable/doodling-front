@@ -426,6 +426,7 @@
     
     
     .post-contents-div {
+        margin-bottom: 85px;
         img {
             width: 100%;
             max-width: 35rem;
@@ -434,6 +435,8 @@
         }
     }
     .post-contents-bottom-div {
+        text-align: center;
+
         button {
             margin-right: 0.5rem;
             color: grey;
@@ -447,6 +450,11 @@
         width: 100%;
         max-width: 5rem;
         margin: 0 auto;;
+    }
+
+    .post-comment-form-comment {
+        color: #cecece;
+        font-size: 0.7rem;
     }
 }
 
