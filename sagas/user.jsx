@@ -13,6 +13,7 @@ import {
     CHANGE_NICKNAME_AND_MBTI_REQUEST, CHANGE_NICKNAME_AND_MBTI_SUCCESS, CHANGE_NICKNAME_AND_MBTI_FAILURE,
     CHANGE_DESCRIPTION_REQUEST, CHANGE_DESCRIPTION_SUCCESS, CHANGE_DESCRIPTION_FAILURE,
     CHECK_NICKNAME_DOUBLED_REQUEST, CHECK_NICKNAME_DOUBLED_SUCCESS, CHECK_NICKNAME_DOUBLED_FAILURE,
+    CHECK_EMAIL_DOUBLED_REQUEST, CHECK_EMAIL_DOUBLED_SUCCESS, CHECK_EMAIL_DOUBLED_FAILURE,
     CHECK_IS_FOLLOWING_REQUEST, CHECK_IS_FOLLOWING_SUCCESS, CHECK_IS_FOLLOWING_FAILURE,
     LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWERS_SUCCESS, LOAD_FOLLOWERS_FAILURE,
     LOAD_FOLLOWINGS_REQUEST, LOAD_FOLLOWINGS_SUCCESS, LOAD_FOLLOWINGS_FAILURE,
@@ -157,7 +158,7 @@ function* changeDescription(action) {
 };
 
 function checkNicknameDoubledAPI(data) {
-    return axios.post(`/user/nicknameCheck`, encodeURIComponent(data));
+    return axios.post(`/user/nicknameCheck`, encodeURIComponent(data.nickname));
 };
 
 function* checkNicknameDoubled(action) {
@@ -171,6 +172,26 @@ function* checkNicknameDoubled(action) {
         console.log(err);
         yield put({
             type: CHECK_NICKNAME_DOUBLED_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
+function checkEmailDoubledAPI(data) {
+    return axios.post(`/user/emailCheck`, data);
+};
+
+function* checkEmailDoubled(action) {
+    try {
+        const result = yield call(checkEmailDoubledAPI, action.data);
+        yield put({
+            type: CHECK_EMAIL_DOUBLED_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: CHECK_EMAIL_DOUBLED_FAILURE,
             error: err.response.data
         });
     };
@@ -300,6 +321,9 @@ function* watchChangeDescription() {
 function* watchCheckNicknameDoubled() {
     yield takeLatest(CHECK_NICKNAME_DOUBLED_REQUEST, checkNicknameDoubled)
 };
+function* watchCheckEmailDoubled() {
+    yield takeLatest(CHECK_EMAIL_DOUBLED_REQUEST, checkEmailDoubled)
+};
 function* watchLoadFollowers() {
     yield takeLatest(LOAD_FOLLOWERS_REQUEST, loadFollowers)
 };
@@ -330,6 +354,7 @@ export default function* userSaga() {
         fork(watchChangeNicknameAndMbti),
         fork(watchChangeDescription),
         fork(watchCheckNicknameDoubled),
+        fork(watchCheckEmailDoubled),
         fork(watchIsFollowing),
         fork(watchLoadFollowers),
         fork(watchLoadFollowings),

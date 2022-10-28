@@ -6,6 +6,7 @@ export const initialState = {
     followerList: [],
     followingList: [],
     nicnameExist: null,
+    emailExist: null,
     isFollowing: false,
     logInLoading: false,
     logInDone: false,
@@ -31,6 +32,9 @@ export const initialState = {
     checkNicknameDoubledLoading: false,
     checkNicknameDoubledDone: false,
     checkNicknameDoubledError: false,
+    checkEmailDoubledLoading: false,
+    checkEmailDoubledDone: false,
+    checkEmailDoubledError: false,
     loadFollowersLoading: false,
     loadFollowersDone: false,
     loadFollowersError: false,
@@ -77,6 +81,10 @@ export const CHANGE_DESCRIPTION_FAILURE = 'CHANGE_DESCRIPTION_FAILURE';
 export const CHECK_NICKNAME_DOUBLED_REQUEST = 'CHECK_NICKNAME_DOUBLED_REQUEST';
 export const CHECK_NICKNAME_DOUBLED_SUCCESS = 'CHECK_NICKNAME_DOUBLED_SUCCESS';
 export const CHECK_NICKNAME_DOUBLED_FAILURE = 'CHECK_NICKNAME_DOUBLED_FAILURE';
+
+export const CHECK_EMAIL_DOUBLED_REQUEST = 'CHECK_EMAIL_DOUBLED_REQUEST';
+export const CHECK_EMAIL_DOUBLED_SUCCESS = 'CHECK_EMAIL_DOUBLED_SUCCESS';
+export const CHECK_EMAIL_DOUBLED_FAILURE = 'CHECK_EMAIL_DOUBLED_FAILURE';
 
 export const CHECK_IS_FOLLOWING_REQUEST = 'CHECK_IS_FOLLOWING_REQUEST';
 export const CHECK_IS_FOLLOWING_SUCCESS = 'CHECK_IS_FOLLOWING_SUCCESS';
@@ -226,6 +234,21 @@ const reducer = (state = initialState, action) => {
                 draft.checkNicknameDoubledLoading = false;
                 draft.checkNicknameDoubledDone = false;
                 draft.checkNicknameDoubledError = action.error;
+                break;
+            case CHECK_EMAIL_DOUBLED_REQUEST:
+                draft.checkEmailDoubledLoading = true;
+                draft.checkEmailDoubledDone = false;
+                draft.checkEmailDoubledError = null;
+                break;
+            case CHECK_EMAIL_DOUBLED_SUCCESS:
+                draft.emailExist = action.data.exist;
+                draft.checkEmailDoubledLoading = false;
+                draft.checkEmailDoubledDone = true;
+                break;
+            case CHECK_EMAIL_DOUBLED_FAILURE:
+                draft.checkEmailDoubledLoading = false;
+                draft.checkEmailDoubledDone = false;
+                draft.checkEmailDoubledError = action.error;
                 break;
             case CHECK_IS_FOLLOWING_REQUEST:
                 draft.checkIsFollowingLoading = true;
