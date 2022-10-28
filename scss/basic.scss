@@ -379,44 +379,40 @@
 .post-contents-main-div {
     padding: 1.5rem;
     .post-title-header-main-row {
-        p {
-            margin: 0.3rem 0;
-        }
         .post-title-p {
             font-size: 1.2rem;
             font-weight: bolder;
         }
-        .post-basic-info-row {
-            position: absolute;
-            bottom: 0;
+        .post-basic-info-col {
             font-size: 0.7rem;
             color: grey;
-            p {
-                margin-right: 1rem;
+            .post-basic-info-span {
+                margin-right: 0.4rem;
                 .post-like-btn-span {
                     cursor: pointer;
+                    margin-right: 0.1rem;
                 }
             }
         }
         .post-edit-btn-span {
-            border: grey solid 0.15rem;
-            padding: 0.15rem 0.3rem;
+            border: grey solid 0.12rem;
+            padding: 0.05rem 0.2rem;
             cursor: pointer;
             margin-right: 0.5rem;
         }  
         .post-report-btn-span, .post-delete-btn-span {
             color: $red-color;
-            border: $red-color solid 0.15rem;
-            padding: 0.15rem 0.3rem;
+            border: $red-color solid 0.12rem;
+            padding: 0.05rem 0.2rem;
             cursor: pointer;
         }
         .post-user-nickname-span {
             cursor: pointer;
+            margin-left: 0.2rem;
         }
         .post-user-mbti-span {
             color: white;
             padding: 0 0.3rem;
-            margin-left: 0.2rem;
         }
         .post-title-header-user {
             font-size: 1rem;

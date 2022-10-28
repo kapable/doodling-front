@@ -73,33 +73,37 @@ const PostTitleCard = ({ contents }) => {
     return (
         <Fragment>
             <Row className='post-title-header-main-row'>
-                <Col className='post-title-header-left-col' span={16}>
+                <Col span={24}>
                     <Row><p className='post-title-p'>{title}</p></Row>
-                    <Row className='post-basic-info-row'>
-                        <p>{dateTime}</p>
-                        <p>조회수 {views}</p>
-                        <p>
-                            {likeClick
-                            ? <span className='post-like-btn-span' onClick={onUnLikeClick}><LikeFilled /></span>
-                            : <span className='post-like-btn-span' onClick={onLikeClick}><LikeOutlined /></span>}
-                        &nbsp;{PostLikers}</p>
+                    <Row align='middle'>
+                        <Col span={8}>
+                            <Row justify='start' >
+                                <span style={{ backgroundColor : categoriesColorObj[User?.mbti]}} className='post-user-mbti-span'>{User?.mbti}</span>
+                                <span className='post-user-nickname-span' onClick={onUserClick(User?.nickname)}>{User?.nickname}</span>&nbsp;
+                            </Row>
+                        </Col>
+                        <Col span={16}  className='post-basic-info-col'>
+                            <Row align='middle' justify='end' >
+                                <span className='post-basic-info-span'>{dateTime}</span>
+                                <span className='post-basic-info-span'>조회수 {views}</span>
+                                <span className='post-basic-info-span'>
+                                    {likeClick
+                                    ? <span className='post-like-btn-span' onClick={onUnLikeClick}><LikeFilled /></span>
+                                    : <span className='post-like-btn-span' onClick={onLikeClick}><LikeOutlined /></span>}
+                                {PostLikers}</span>
+                                <span className='post-title-header-alert'>
+                                    {myInfo?.id === User?.id
+                                    ? (
+                                        <>
+                                            <span className='post-edit-btn-span' onClick={onEditClick}><EditOutlined /> 수정</span>
+                                            <span className='post-delete-btn-span' onClick={onDeleteClick}><DeleteOutlined /> 삭제</span>
+                                        </>)
+                                    : <span className='post-report-btn-span' onClick={onReportClick}><AlertOutlined /> 신고</span>
+                                    }
+                                </span>
+                            </Row>
+                        </Col>
                     </Row>
-                </Col>
-                <Col className='post-title-header-right-col' span={8}>
-                    <Row><p className='post-title-header-alert'>
-                            {myInfo?.id === User?.id
-                            ? (
-                                <>
-                                    <span className='post-edit-btn-span' onClick={onEditClick}><EditOutlined /> 수정하기</span>
-                                    <span className='post-delete-btn-span' onClick={onDeleteClick}><DeleteOutlined /> 삭제하기</span>
-                                </>)
-                            : <span className='post-report-btn-span' onClick={onReportClick}><AlertOutlined /> 신고하기</span>
-                            }
-                        </p></Row>
-                    <Row><p className='post-title-header-user'>
-                        <span className='post-user-nickname-span' onClick={onUserClick(User?.nickname)}>{User?.nickname}</span>&nbsp;
-                        <span style={{ backgroundColor : categoriesColorObj[User?.mbti]}} className='post-user-mbti-span'>{User?.mbti}</span>
-                        </p></Row>
                 </Col>
             </Row>
         </Fragment>
