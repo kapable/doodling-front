@@ -72,6 +72,8 @@ export const LOAD_SUBCATEGORY_REALTIME_TOP_5_REQUEST = 'LOAD_SUBCATEGORY_REALTIM
 export const LOAD_SUBCATEGORY_REALTIME_TOP_5_SUCCESS = 'LOAD_SUBCATEGORY_REALTIME_TOP_5_SUCCESS';
 export const LOAD_SUBCATEGORY_REALTIME_TOP_5_FAILURE = 'LOAD_SUBCATEGORY_REALTIME_TOP_5_FAILURE';
 
+export const INITIALIZE_MY_POSTS = 'INITIALIZE_MY_POSTS';
+
 export const LOAD_MY_WRITE_POSTS_REQUEST = 'LOAD_MY_WRITE_POSTS_REQUEST';
 export const LOAD_MY_WRITE_POSTS_SUCCESS = 'LOAD_MY_WRITE_POSTS_SUCCESS';
 export const LOAD_MY_WRITE_POSTS_FAILURE = 'LOAD_MY_WRITE_POSTS_FAILURE';
@@ -191,6 +193,9 @@ const reducer = (state = initialState, action) => {
                 draft.loadSubCategoryRealtimeTop5Loading = false;
                 draft.loadSubCategoryRealtimeTop5Error = action.error;
                 break;
+            case INITIALIZE_MY_POSTS:
+                draft.myPosts = [];
+                break;
             case LOAD_MY_WRITE_POSTS_REQUEST:
                 draft.loadMyWritePostsLoading = true;
                 draft.loadMyWritePostsDone = false;
@@ -199,7 +204,7 @@ const reducer = (state = initialState, action) => {
             case LOAD_MY_WRITE_POSTS_SUCCESS:
                 draft.loadMyWritePostsLoading = false;
                 draft.loadMyWritePostsDone = true;
-                draft.myPosts = action.data;
+                draft.myPosts = draft.myPosts.concat(action.data);
                 draft.hasMorePosts = action.data.length === 15;
                 break;
             case LOAD_MY_WRITE_POSTS_FAILURE:
@@ -214,7 +219,7 @@ const reducer = (state = initialState, action) => {
             case LOAD_MY_COMMENT_POSTS_SUCCESS:
                 draft.loadMyCommentPostsLoading = false;
                 draft.loadMyCommentPostsDone = true;
-                draft.myPosts = action.data;
+                draft.myPosts = draft.myPosts.concat(action.data);
                 draft.hasMorePosts = action.data.length === 15;
                 break;
             case LOAD_MY_COMMENT_POSTS_FAILURE:
@@ -229,7 +234,7 @@ const reducer = (state = initialState, action) => {
             case LOAD_MY_LIKE_POSTS_SUCCESS:
                 draft.loadMyLikePostsLoading = false;
                 draft.loadMyLikePostsDone = true;
-                draft.myPosts = action.data;
+                draft.myPosts = draft.myPosts.concat(action.data);
                 draft.hasMorePosts = action.data.length === 15;
                 break;
             case LOAD_MY_LIKE_POSTS_FAILURE:

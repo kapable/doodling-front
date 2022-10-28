@@ -3,14 +3,20 @@ import Link from 'next/link';
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
-import { LOAD_MY_COMMENT_POSTS_REQUEST, LOAD_MY_LIKE_POSTS_REQUEST, LOAD_MY_WRITE_POSTS_REQUEST } from '../../reducers/posts';
-import { CommentOutlined } from '@ant-design/icons';
+import { INITIALIZE_MY_POSTS, LOAD_MY_COMMENT_POSTS_REQUEST, LOAD_MY_LIKE_POSTS_REQUEST, LOAD_MY_WRITE_POSTS_REQUEST } from '../../reducers/posts';
+import { CommentOutlined, LikeFilled } from '@ant-design/icons';
 
 const MyPosts = () => {
     const dispatch = useDispatch();
     const { userInfo } = useSelector((state) => state.user);
-    const { myPosts } = useSelector((state) => state.posts);
+    const { myPosts, hasMorePosts } = useSelector((state) => state.posts);
     const { categoriesColorObj } = useSelector((state) => state.category);
+    const [postsLength, setPostsLength] = useState(userInfo?.posts);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const onPageChange = useCallback((e) => {
+        setCurrentPage(e);
+    }, []);
 
     const tabItems = [
         { label: '작성한 글', key: 'write' },
@@ -25,22 +31,56 @@ const MyPosts = () => {
     useEffect(() => {
         // const lastId = myPosts[myPosts?.length - 1]?.id || null;
         if(userInfo.nickname && currentMode === 'write') {
+            setPostsLength(userInfo?.posts);
+            dispatch({
+                type: INITIALIZE_MY_POSTS
+            });
             dispatch({
                 type: LOAD_MY_WRITE_POSTS_REQUEST,
                 data: { userNickname: userInfo.nickname },
             });
         } else if(userInfo.nickname && currentMode === 'comment') {
+            setPostsLength(userInfo?.comments);
             dispatch({
-                type: LOAD_MY_WRITE_POSTS_REQUEST,
-                data: { userNickname:userInfo?.nickname },
+            type: INITIALIZE_MY_POSTS
+        });
+            dispatch({
+                type: LOAD_MY_COMMENT_POSTS_REQUEST,
+                data: { userId:userInfo?.id },
             });
         } else if (userInfo.nickname && currentMode === 'like') {
+            setPostsLength(userInfo?.postLikes);
             dispatch({
-                type: LOAD_MY_WRITE_POSTS_REQUEST,
-                data: { userNickname:userInfo?.nickname },
+            type: INITIALIZE_MY_POSTS
+        });
+            dispatch({
+                type: LOAD_MY_LIKE_POSTS_REQUEST,
+                data: { userId: userInfo.id },
             });
         }
-    }, [currentMode, userInfo.nickname]);
+    }, [currentMode, userInfo]);
+
+    useEffect(() => { // for loading more posts with pagenation
+        if(currentPage % 3 === 0 && hasMorePosts) {
+            const lastId = myPosts[myPosts.length - 1]?.id;
+            if(userInfo.nickname && currentMode === 'write') {
+                dispatch({
+                    type: LOAD_MY_WRITE_POSTS_REQUEST,
+                    data: { userNickname: userInfo.nickname, lastId },
+                });
+            } else if(userInfo.nickname && currentMode === 'comment') {
+                dispatch({
+                    type: LOAD_MY_COMMENT_POSTS_REQUEST,
+                    data: { userId: userInfo.id, lastId },
+                });
+            } else if (userInfo.nickname && currentMode === 'like') {
+                dispatch({
+                    type: LOAD_MY_LIKE_POSTS_REQUEST,
+                    data: { userId: userInfo.id, lastId },
+                });
+            }
+        };
+    }, [currentPage, hasMorePosts, userInfo]);
 
     return (
         <div className='profile-my-post-main-div'>
@@ -57,19 +97,21 @@ const MyPosts = () => {
             {/* Posts Rendering */}
             {myPosts && myPosts.length > 0
             ? (
-                myPosts.map((post) => (
+                myPosts
+                .slice((currentPage-1)*5, (currentPage-1)*5+5)
+                .map((post) => (
                     <Link key={`${post.id}-link`} href={`/${post.SubCategory.Category.domain}/${post.SubCategory.domain}/${post.id}`}>
                         <Row className='profile-my-post-main-row' key={`${post.id}-row`}>
                             <Col span={18}>
                                 <Row><span>{post.title}</span>&nbsp;<span className='my-post-mbti-span' style={{ backgroundColor : categoriesColorObj[post.User?.mbti]}}>{post.User.mbti}</span></Row>
                                 <Row className='my-post-info-row'><span>
-                                    <span>{post.views}</span>&nbsp;|&nbsp;
-                                    <span>{post.likes}</span>&nbsp;|&nbsp;
+                                    <span>조회수 {post.views}</span>&nbsp;|&nbsp;
+                                    <span><LikeFilled /> {post.likes}</span>&nbsp;|&nbsp;
                                     <span>{post.User.nickname}</span>
                                 </span></Row>
                             </Col>
                             <Col span={6}>
-                                <Row justify={'end'} className='my-post-right-info-row'><span>{dayjs(post.createdAt).diff(dayjs(), 'hours') < -240
+                                <Row justify={'end'} className='my-post-right-info-row'><span>{dayjs(post.createdAt).diff(dayjs(), 'days') < -240
                                         ? dayjs(post.createdAt).format('YYYY-MM-DD')
                                         : dayjs(post.createdAt).fromNow()}</span>&nbsp;
                                     <span><CommentOutlined /> {post.comments}</span>
@@ -85,11 +127,11 @@ const MyPosts = () => {
             <Pagination
                 style={{width: "fit-content", margin: "1.5rem auto"}}
                 className='post-page-comments-pagination'
-                // current={currentPage}
+                current={currentPage}
                 showSizeChanger={false}
-                // total={categoryNew15Posts.length}
-                // onChange={onPageChange}
-                defaultPageSize={15} />
+                total={postsLength}
+                onChange={onPageChange}
+                defaultPageSize={5} />
         </div>
     );
 };
