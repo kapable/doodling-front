@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
-// import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
+import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 import Head from 'next/head';
 import Router from 'next/router';
@@ -10,6 +10,7 @@ import CreateSubCategory from '../../components/Admin/Category/CreateSubCategory
 import SetCategoryList from '../../components/Admin/Category/SetCategoryList';
 import { useEffect } from 'react';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
+import axios from 'axios';
 
 const Category = () => {
     const dispatch = useDispatch();
@@ -66,5 +67,19 @@ const Category = () => {
         </div>
     );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async({ req, res, params }) => {
+    const cookie = req ? req.headers.cookie : '';
+    axios.defaults.headers.Cookie = '';
+    if(req && cookie) {
+        axios.defaults.headers.Cookie = cookie;
+    };
+    store.dispatch({
+        type: LOAD_MY_INFO_REQUEST
+    });
+    store.dispatch(END);
+
+    await store.sagaTask.toPromise();
+});
 
 export default Category;

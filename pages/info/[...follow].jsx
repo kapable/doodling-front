@@ -6,19 +6,24 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import wrapper from '../../store/configureStore';
 import axios from 'axios';
-import { LOAD_MY_INFO_REQUEST, LOAD_USER_INFO_REQUEST } from '../../reducers/user';
+import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, LOAD_MY_INFO_REQUEST, LOAD_USER_INFO_REQUEST } from '../../reducers/user';
 import { END } from 'redux-saga';
+import { useDispatch } from 'react-redux';
+import { Col, Row } from 'antd';
+import Link from 'next/link';
+import { LeftOutlined } from '@ant-design/icons';
 
 const Follow = () => {
+    const dispatch = useDispatch();
     const router = useRouter();
     const { follow } = router.query;
 
-    const [ userId, setUserId ] = useState('');
+    const [ userNickname, setUserNickname ] = useState('');
     const [ followType, setFollowType ] = useState('');
 
     // set user info from the query
     useEffect(() => {
-        setUserId(follow ? follow[0] : null);
+        setUserNickname(follow ? follow[0] : null);
         setFollowType(follow ? follow[1] : null);
     }, [follow]);
 
@@ -29,35 +34,25 @@ const Follow = () => {
         }
     }, [followType]);
 
-    const followList = [
-        {
-            "id": 2,
-            "nickname": "good boy",
-            "mbti": "ENPJ",
-            "Follow": {
-                "createdAt": "2022-09-26T20:02:50.000Z",
-                "updatedAt": "2022-09-26T20:02:50.000Z",
-                "FollowingId": 1,
-                "FollowerId": 2
-            }
-        },
-        {
-            "id": 3,
-            "nickname": "bad boy",
-            "mbti": "ENTP",
-            "Follow": {
-                "createdAt": "2022-09-26T20:02:50.000Z",
-                "updatedAt": "2022-09-26T20:02:50.000Z",
-                "FollowingId": 1,
-                "FollowerId": 2
-            }
+    // get userList depends on follow type(follower || following)
+    useEffect(() => {
+        if(followType === 'follower') {
+            dispatch({
+                type: LOAD_FOLLOWERS_REQUEST,
+                data: { userNickname }
+            });
+        } else if(followType === 'following') {
+            dispatch({
+                type: LOAD_FOLLOWINGS_REQUEST,
+                data: { userNickname }
+            });
         }
-    ];
+    }, [followType, userNickname]);
 
     return (
         <Fragment>
             <Head>
-                <title>{`${userId} 님의 ${followType}`}</title>
+                <title>{`${userNickname} 님의 ${followType}`}</title>
                 <link rel='shortcut icon' href='/doodling-favicon.png'/>
                 <meta charSet='utf-8'/>
                 <meta name="language" content="Korean" />
@@ -65,7 +60,14 @@ const Follow = () => {
                 <meta name="description" content="두들링 - MBTI 기반 커뮤니티" />
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
-            <FollowList userList={followList} type={followType} />
+            {/* go to profile page */}
+            <Row className='profile-follow-back-to-profile-row'>
+                <Col span={24}>
+                    <Link href={`/info/${userNickname}`}><a><LeftOutlined /> {userNickname} 프로필</a></Link>
+                </Col>
+            </Row>
+            {/* follow list */}
+            <FollowList type={followType} userNickname={userNickname} />
         </Fragment>
     );
 };
@@ -81,7 +83,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     });
     store.dispatch({
         type: LOAD_USER_INFO_REQUEST,
-        data: params.follow[0] // conver to userNickename
+        data: params.follow[0]
     });
     store.dispatch(END);
 

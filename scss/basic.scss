@@ -488,11 +488,17 @@
         text-align: center;
         padding: 0 0.65rem;
         border-right: $grey-color solid 0.1rem;
+        a {
+            color: grey;
+        }
     }
     .following-span {
         text-align: center;
         padding: 0 0.65rem;
         border-left: $grey-color solid 0.1rem;
+        a {
+            color: grey;
+        }
     }
 
     .logout-btn {
@@ -550,6 +556,20 @@
             color: grey;
             font-size: 0.8rem;
         }
+    }
+
+    .profile-my-post-no-data-div {
+        padding: 3rem 0;
+        text-align: center;
+    }
+}
+
+.profile-follow-back-to-profile-row {
+    padding: 1.5rem;
+
+    a {
+        color: black;
+        font-weight: bold;
     }
 }
 

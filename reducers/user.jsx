@@ -3,6 +3,8 @@ import produce from '../util/produce';
 export const initialState = {
     myInfo: {},
     userInfo: {},
+    followerList: [],
+    followingList: [],
     nicnameExist: null,
     isFollowing: false,
     logInLoading: false,
@@ -29,12 +31,19 @@ export const initialState = {
     checkNicknameDoubledLoading: false,
     checkNicknameDoubledDone: false,
     checkNicknameDoubledError: false,
+    loadFollowersLoading: false,
+    loadFollowersDone: false,
+    loadFollowersError: false,
+    loadFollowingsLoading: false,
+    loadFollowingsDone: false,
+    loadFollowingsError: false,
     unFollowLoading: false,
     unFollowDone: false,
     unFollowError: false,
     followLoading: false,
     followDone: false,
     followError: false,
+    hasMoreUsers: false,
 };
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
@@ -72,6 +81,14 @@ export const CHECK_NICKNAME_DOUBLED_FAILURE = 'CHECK_NICKNAME_DOUBLED_FAILURE';
 export const CHECK_IS_FOLLOWING_REQUEST = 'CHECK_IS_FOLLOWING_REQUEST';
 export const CHECK_IS_FOLLOWING_SUCCESS = 'CHECK_IS_FOLLOWING_SUCCESS';
 export const CHECK_IS_FOLLOWING_FAILURE = 'CHECK_IS_FOLLOWING_FAILURE';
+
+export const LOAD_FOLLOWERS_REQUEST = 'LOAD_FOLLOWERS_REQUEST';
+export const LOAD_FOLLOWERS_SUCCESS = 'LOAD_FOLLOWERS_SUCCESS';
+export const LOAD_FOLLOWERS_FAILURE = 'LOAD_FOLLOWERS_FAILURE';
+
+export const LOAD_FOLLOWINGS_REQUEST = 'LOAD_FOLLOWINGS_REQUEST';
+export const LOAD_FOLLOWINGS_SUCCESS = 'LOAD_FOLLOWINGS_SUCCESS';
+export const LOAD_FOLLOWINGS_FAILURE = 'LOAD_FOLLOWINGS_FAILURE';
 
 export const FOLLOW_REQUEST = 'FOLLOW_REQUEST';
 export const FOLLOW_SUCCESS = 'FOLLOW_SUCCESS';
@@ -224,6 +241,38 @@ const reducer = (state = initialState, action) => {
                 draft.checkIsFollowingLoading = false;
                 draft.checkIsFollowingDone = false;
                 draft.checkIsFollowingError = action.error;
+                break;
+            case LOAD_FOLLOWERS_REQUEST:
+                draft.loadFollowersLoading = true;
+                draft.loadFollowersDone = false;
+                draft.loadFollowersError = null;
+                break;
+            case LOAD_FOLLOWERS_SUCCESS:
+                draft.followerList = action.data;
+                draft.loadFollowersLoading = false;
+                draft.loadFollowersDone = true;
+                draft.hasMoreUsers = action.data.length === 10;
+                break;
+            case LOAD_FOLLOWERS_FAILURE:
+                draft.loadFollowersLoading = false;
+                draft.loadFollowersDone = false;
+                draft.loadFollowersError = action.error;
+                break;
+            case LOAD_FOLLOWINGS_REQUEST:
+                draft.loadFollowingsLoading = true;
+                draft.loadFollowingsDone = false;
+                draft.loadFollowingsError = null;
+                break;
+            case LOAD_FOLLOWINGS_SUCCESS:
+                draft.followingList = action.data;
+                draft.loadFollowingsLoading = false;
+                draft.loadFollowingsDone = true;
+                draft.hasMoreUsers = action.data.length === 10;
+                break;
+            case LOAD_FOLLOWINGS_FAILURE:
+                draft.loadFollowingsLoading = false;
+                draft.loadFollowingsDone = false;
+                draft.loadFollowingsError = action.error;
                 break;
             case UNFOLLOW_REQUEST:
                 draft.unFollowLoading = true;

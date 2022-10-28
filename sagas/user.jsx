@@ -14,8 +14,8 @@ import {
     CHANGE_DESCRIPTION_REQUEST, CHANGE_DESCRIPTION_SUCCESS, CHANGE_DESCRIPTION_FAILURE,
     CHECK_NICKNAME_DOUBLED_REQUEST, CHECK_NICKNAME_DOUBLED_SUCCESS, CHECK_NICKNAME_DOUBLED_FAILURE,
     CHECK_IS_FOLLOWING_REQUEST, CHECK_IS_FOLLOWING_SUCCESS, CHECK_IS_FOLLOWING_FAILURE,
-    // LOAD_FOLLOWER_LIST_REQUEST, LOAD_FOLLOWER_LIST_SUCCESS, LOAD_FOLLOWER_LIST_FAILURE,
-    // LOAD_FOLLOWING_LIST_REQUEST, LOAD_FOLLOWING_LIST_SUCCESS, LOAD_FOLLOWING_LIST_FAILURE,
+    LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWERS_SUCCESS, LOAD_FOLLOWERS_FAILURE,
+    LOAD_FOLLOWINGS_REQUEST, LOAD_FOLLOWINGS_SUCCESS, LOAD_FOLLOWINGS_FAILURE,
 } from '../reducers/user';
 
 function logInAPI(data) {
@@ -196,6 +196,46 @@ function* checkIsFollowing(action) {
     };
 };
 
+function loadFollowersAPI(data) {
+    return axios.get(`/user/${encodeURIComponent(data.userNickname)}/followers?lastId=${data.lastId}`);
+};
+
+function* loadFollowers(action) {
+    try {
+        const result = yield call(loadFollowersAPI, action.data);
+        yield put({
+            type: LOAD_FOLLOWERS_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: LOAD_FOLLOWERS_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
+function loadFollowingsAPI(data) {
+    return axios.get(`/user/${encodeURIComponent(data.userNickname)}/followings?lastId=${data.lastId}`);
+};
+
+function* loadFollowings(action) {
+    try {
+        const result = yield call(loadFollowingsAPI, action.data);
+        yield put({
+            type: LOAD_FOLLOWINGS_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: LOAD_FOLLOWINGS_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
 function followAPI(data) {
     return axios.patch(`/user/${data}/follow`);
 };
@@ -260,6 +300,12 @@ function* watchChangeDescription() {
 function* watchCheckNicknameDoubled() {
     yield takeLatest(CHECK_NICKNAME_DOUBLED_REQUEST, checkNicknameDoubled)
 };
+function* watchLoadFollowers() {
+    yield takeLatest(LOAD_FOLLOWERS_REQUEST, loadFollowers)
+};
+function* watchLoadFollowings() {
+    yield takeLatest(LOAD_FOLLOWINGS_REQUEST, loadFollowings)
+};
 function* watchIsFollowing() {
     yield takeLatest(CHECK_IS_FOLLOWING_REQUEST, checkIsFollowing)
 };
@@ -285,7 +331,7 @@ export default function* userSaga() {
         fork(watchChangeDescription),
         fork(watchCheckNicknameDoubled),
         fork(watchIsFollowing),
-        // fork(watchLoadFollowerList),
-        // fork(watchLoadFollowingList),
+        fork(watchLoadFollowers),
+        fork(watchLoadFollowings),
     ]);
 };

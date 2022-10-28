@@ -121,17 +121,21 @@ const MyPosts = () => {
                     </Link>
                 ))
             )
-            : <div>게시글이 존재하지 않습니다.</div>
+            : <div className='profile-my-post-no-data-div'>아직 게시글이 존재하지 않습니다.</div>
             }
             {/* Pagination */}
-            <Pagination
-                style={{width: "fit-content", margin: "1.5rem auto"}}
-                className='post-page-comments-pagination'
-                current={currentPage}
-                showSizeChanger={false}
-                total={postsLength}
-                onChange={onPageChange}
-                defaultPageSize={5} />
+            {myPosts && myPosts.length > 0
+            ? (
+                <Pagination
+                    style={{width: "fit-content", margin: "1.5rem auto"}}
+                    className='post-page-comments-pagination'
+                    current={currentPage}
+                    showSizeChanger={false}
+                    total={postsLength}
+                    onChange={onPageChange}
+                    defaultPageSize={5} />
+            )
+            : null}
         </div>
     );
 };

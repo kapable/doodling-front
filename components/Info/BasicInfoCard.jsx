@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { DownOutlined, EditOutlined, UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons';
 import useInput from '../../hooks/useInput';
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 const BasicInfoCard = () => {
     const router = useRouter();
@@ -155,8 +156,12 @@ const BasicInfoCard = () => {
             </Col>
             <Col span={10}>
                 <Row justify='center'>
-                    <Col className='follower-span'>{userInfo.followers}<br />팔로워</Col>
-                    <Col className='following-span'>{userInfo.followings}<br />팔로잉</Col>
+                    <Col className='follower-span'>
+                        <Link href={`/info/${userInfo.nickname}/follower`}><a>{userInfo.followers}<br />팔로워</a></Link>
+                    </Col>
+                    <Col className='following-span'>
+                        <Link href={`/info/${userInfo.nickname}/following`}><a>{userInfo.followings}<br />팔로잉</a></Link>
+                    </Col>
                 </Row>
                 <Row justify='center' align='bottom'>
                     {myInfo?.id && myInfo?.id === userInfo?.id ? <Button className='logout-btn' onClick={onClickLogoutButton}>로그아웃</Button> : null}
