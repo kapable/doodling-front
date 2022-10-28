@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
-import { CommentOutlined, LikeFilled } from '@ant-design/icons';
+import { CommentOutlined, CrownFilled, LikeFilled } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 
@@ -18,7 +18,7 @@ const TopFivePosts = ({ isSubCategory }) => {
 
     return (
         <div className='category-realtime-top5-posts-div'>
-            <h3 className='category-realtime-top5-posts-title'>베스트 게시물</h3>
+            <h1 className='category-realtime-top5-posts-title'>베스트 게시물&nbsp;&nbsp;<CrownFilled style={{ color: '#fed150', fontSize: '25px' }} /></h1>
             {posts && posts
             .slice().sort((a, b) => (parseFloat(a.realTimeRank) - parseFloat(b.realTimeRank))) // sorting by category ID ASC
             .map((post) => (

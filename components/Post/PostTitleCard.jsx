@@ -76,13 +76,15 @@ const PostTitleCard = ({ contents }) => {
                 <Col span={24}>
                     <Row><p className='post-title-p'>{title}</p></Row>
                     <Row align='middle'>
-                        <Col span={8}>
+                        <Col span={24}>
                             <Row justify='start' >
-                                <span style={{ backgroundColor : categoriesColorObj[User?.mbti]}} className='post-user-mbti-span'>{User?.mbti}</span>
-                                <span className='post-user-nickname-span' onClick={onUserClick(User?.nickname)}>{User?.nickname}</span>&nbsp;
+                                <span style={{ backgroundColor : categoriesColorObj[User?.mbti]}} className='post-user-mbti-span'>{User?.mbti}</span>&nbsp;
+                                <span className='post-user-nickname-span' onClick={onUserClick(User?.nickname)}>{User?.nickname}</span>
                             </Row>
                         </Col>
-                        <Col span={16}  className='post-basic-info-col'>
+                    </Row>
+                    <Row align='middle'>
+                        <Col span={24}  className='post-basic-info-col'>
                             <Row align='middle' justify='end' >
                                 <span className='post-basic-info-span'>{dateTime}</span>
                                 <span className='post-basic-info-span'>조회수 {views}</span>
