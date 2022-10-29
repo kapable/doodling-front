@@ -8,18 +8,26 @@ import wrapper from '../../store/configureStore';
 import axios from 'axios';
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, LOAD_MY_INFO_REQUEST, LOAD_USER_INFO_REQUEST } from '../../reducers/user';
 import { END } from 'redux-saga';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row } from 'antd';
 import Link from 'next/link';
 import { LeftOutlined } from '@ant-design/icons';
 
 const Follow = () => {
+    const { userInfo } = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const router = useRouter();
     const { follow } = router.query;
-
+    
     const [ userNickname, setUserNickname ] = useState('');
     const [ followType, setFollowType ] = useState('');
+
+    useEffect(() => {
+        if(userInfo?.enabled == false) {
+            alert('더이상 존재하지 않는 유저입니다.');
+            router.replace('/');
+        };
+    }, [userInfo]);
 
     // set user info from the query
     useEffect(() => {

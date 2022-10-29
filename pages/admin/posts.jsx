@@ -1,23 +1,25 @@
-import { LeftOutlined, LinkOutlined } from '@ant-design/icons';
+import { CheckCircleFilled, LeftOutlined, LinkOutlined, MinusCircleFilled } from '@ant-design/icons';
 import { Table, Space, Col, Row } from 'antd';
 import axios from 'axios';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Router } from 'next/router';
 import React, { useCallback, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 import dayjs from 'dayjs';
 import { LOAD_ALL_POSTS_REQUEST } from '../../reducers/posts';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { REMOVE_POST_REQUEST, REVIVE_POST_REQUEST } from '../../reducers/post';
 
 const { Column, ColumnGroup } = Table;
 
 const Posts = () => {
+    const dispatch = useDispatch();
     const { myInfo } = useSelector((state) => state.user);
-    const { allPosts } = useSelector((state) => state.posts);
+    const { allPosts, hasMorePosts } = useSelector((state) => state.posts);
     
     useEffect(() => {
         if(!myInfo?.admin) {
@@ -32,12 +34,31 @@ const Posts = () => {
 
     const onRemovePost = useCallback((id) => {
         if (confirm("정말로 삭제하시겠습니까?\n삭제된 게시물은 복구가 불가능합니다.") === true) {
-            // dispatch({
-            //     type: REMOVE_POST_REQUEST,
-            //     data: id,
-            // });
-        }
+            dispatch({
+                type: REMOVE_POST_REQUEST,
+                data: { postId: id },
+            });
+        };
     }, []);
+
+    const onRevivePost = useCallback((id) => {
+        if (confirm("정말로 복구하시겠습니까?\n복구된 게시물은 바로 서비스에 노출됩니다.") === true) {
+            dispatch({
+                type: REVIVE_POST_REQUEST,
+                data: { postId: id },
+            });
+        };
+    }, []);
+
+    const onPageChange = useCallback((pageInfo) => {
+        if(hasMorePosts && pageInfo.current % 100 === 0) {
+            const lastId = allPosts[allPosts.length - 1]?.id;
+            dispatch({
+                type: LOAD_ALL_POSTS_REQUEST,
+                data: { lastId }
+            });
+        };
+    }, [hasMorePosts]);
 
     if(myInfo?.admin) {
         return (
@@ -57,8 +78,13 @@ const Posts = () => {
                         <Link href={`/admin`}><a><LeftOutlined /> 어드민 메인 페이지</a></Link>
                     </Col>
                 </Row>
-                <Table pagination={{ hideOnSinglePage: true }} dataSource={allPosts} key="table" rowKey={post => post.id} className='admin-posts-table'>
+                <Table onChange={onPageChange} pagination={{ hideOnSinglePage: true }} dataSource={allPosts} key="table" rowKey={post => post.id} className='admin-posts-table'>
                     <Column title="No." dataIndex="id" key="post-id" />
+                    <Column title='상태' dataIndex='enabled' render={(enabled) => (
+                        enabled
+                        ? (<Space size='middle'><CheckCircleFilled style={{ color: '#3EB94F' }} /></Space>)
+                        : (<Space size='middle'><MinusCircleFilled style={{ color: '#F85149' }} /></Space>)
+                    )} />
                     <Column title="제목" dataIndex="title" key="title" />
                     <Column
                         title="링크" key="link-copy"
@@ -85,10 +111,19 @@ const Posts = () => {
                         <Column
                             title="" key="delete"
                             dataIndex="id"
-                            render={(id) => (
-                                <Space size="middle">
-                                    <a onClick={() => onRemovePost(id)}>삭제</a>
-                                </Space>
+                            render={(_, post) => (
+                                post.enabled
+                                ? (
+                                    <Space size="middle">
+                                        <a onClick={() => onRemovePost(post.id)}>삭제</a>
+                                    </Space>
+                                )
+                                : (
+                                    <Space size="middle">
+                                        <a onClick={() => onRevivePost(post.id)}>복구</a>
+                                    </Space>
+                                )
+                                
                             )}
                         />
                     </ColumnGroup>
@@ -120,7 +155,8 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
         type: LOAD_MY_INFO_REQUEST
     });
     store.dispatch({
-        type: LOAD_ALL_POSTS_REQUEST
+        type: LOAD_ALL_POSTS_REQUEST,
+        data: { lastId: null }
     });
     store.dispatch(END);
 

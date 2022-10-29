@@ -1,12 +1,24 @@
 import axios from 'axios';
 import Head from 'next/head';
+import Router from 'next/router';
 import React, { Fragment } from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import LoginForm from '../components/LoginForm';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 
 const Login = () => {
+    const { myInfo } = useSelector((state) => state.user);
+
+    useEffect(() => {
+        if(myInfo) {
+            alert('로그인하지 않은 유저만 로그인이 가능합니다.');
+            Router.replace('/');
+        };
+    }, [myInfo]);
+
     return (
         <Fragment>
             <Head>

@@ -6,13 +6,29 @@ import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import UploadEditor from '../../components/UploadEditor';
 import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
-import { LOAD_POST_REQUEST } from '../../reducers/post';
+import { CHECK_IS_MY_POST_REQUEST, LOAD_POST_REQUEST } from '../../reducers/post';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 
 const Edit = () => {
     const router = useRouter();
-    const { singlePost, editPostDone, editPostError } = useSelector((state) => state.post);
+    const { myInfo } = useSelector((state) => state.user);
+    const { singlePost, editPostDone, editPostError, isMyPost } = useSelector((state) => state.post);
+
+    // check this post is user's contents or admin's
+    useEffect(() => {
+        if(!myInfo) {
+            alert('로그인이 필요합니다!');
+            router.replace('/login');
+        };
+    }, [myInfo]);
+
+    useEffect(() => {
+        if(!(isMyPost || myInfo?.admin)) {
+            alert('글쓴이 또는 관리자만 접근할 수 있습니다.');
+            router.replace('/');
+        };
+    }, [isMyPost, myInfo]);
 
     useEffect(() => {
         if(editPostError) {
@@ -55,6 +71,10 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     store.dispatch({
         type: LOAD_POST_REQUEST, // 포스트 가져오기
         data: params.id
+    });
+    store.dispatch({
+        type: CHECK_IS_MY_POST_REQUEST,
+        data: { postId: params.id }
     });
     store.dispatch(END);
     

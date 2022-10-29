@@ -15,13 +15,13 @@ import {
     LOAD_MY_LIKE_POSTS_REQUEST, LOAD_MY_LIKE_POSTS_SUCCESS, LOAD_MY_LIKE_POSTS_FAILURE,
 } from '../reducers/posts';
 
-function loadAllPostsAPI() {
-    return axios.get(`/posts`);
+function loadAllPostsAPI(data) {
+    return axios.get(`/posts?lastId=${data.lastId}`);
 };
 
-function* loadAllPosts() {
+function* loadAllPosts(action) {
     try {
-        const result = yield call(loadAllPostsAPI);
+        const result = yield call(loadAllPostsAPI, action.data);
         yield put({
             type: LOAD_ALL_POSTS_SUCCESS,
             data: result.data,

@@ -110,6 +110,7 @@ const reducer = (state = initialState, action) => {
                 draft.loadAllPostsLoading = false;
                 draft.loadAllPostsDone = true;
                 draft.allPosts = draft.allPosts.concat(action.data);
+                draft.hasMorePosts = action.data.length === 100;
                 break;
             case LOAD_ALL_POSTS_FAILURE:
                 draft.loadAllPostsLoading = false;

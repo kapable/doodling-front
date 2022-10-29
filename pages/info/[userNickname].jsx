@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import Head from 'next/head';
 import BasicInfoCard from '../../components/Info/BasicInfoCard';
 import DescriptionCard from '../../components/Info/DescriptionCard';
@@ -10,9 +10,17 @@ import { LOAD_MY_INFO_REQUEST, LOAD_USER_INFO_REQUEST } from '../../reducers/use
 import { END } from 'redux-saga';
 import { Divider } from 'antd';
 import { LOAD_MY_WRITE_POSTS_REQUEST } from '../../reducers/posts';
+import Router from 'next/router';
 
 const UserInfo = () => {
-    const { userInfo, logOutDone } = useSelector((state) => state.user);
+    const { userInfo } = useSelector((state) => state.user);
+
+    useEffect(() => {
+        if(userInfo?.enabled == false) {
+            alert('더이상 존재하지 않는 유저입니다.');
+            Router.replace('/');
+        };
+    }, [userInfo]);
 
     return (
         <Fragment>

@@ -10,6 +10,12 @@ export const initialState = {
     editPostLoading: false,
     editPostDone: false,
     editPostError: false,
+    removePostLoading: false,
+    removePostDone: false,
+    removePostError: false,
+    revivePostLoading: false,
+    revivePostDone: false,
+    revivePostError: false,
     uploadImagesLoading: false,
     uploadImagesDone: false,
     uploadImagesError: false,
@@ -43,7 +49,11 @@ export const initialState = {
     unLikeCommentLoading: false,
     unLikeCommentDone: false,
     unLikeCommentError: false,
+    checkIsMyPostLoading: false,
+    checkIsMyPostDone: false,
+    checkIsMyPostError: false,
     hasMoreComments: false,
+    isMyPost: false,
 };
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
@@ -53,6 +63,14 @@ export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
 export const EDIT_POST_REQUEST = 'EDIT_POST_REQUEST';
 export const EDIT_POST_SUCCESS = 'EDIT_POST_SUCCESS';
 export const EDIT_POST_FAILURE = 'EDIT_POST_FAILURE';
+
+export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
+export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
+export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
+
+export const REVIVE_POST_REQUEST = 'REVIVE_POST_REQUEST';
+export const REVIVE_POST_SUCCESS = 'REVIVE_POST_SUCCESS';
+export const REVIVE_POST_FAILURE = 'REVIVE_POST_FAILURE';
 
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
@@ -98,6 +116,10 @@ export const UNLIKE_COMMENT_REQUEST = 'UNLIKE_COMMENT_REQUEST';
 export const UNLIKE_COMMENT_SUCCESS = 'UNLIKE_COMMENT_SUCCESS';
 export const UNLIKE_COMMENT_FAILURE = 'UNLIKE_COMMENT_FAILURE';
 
+export const CHECK_IS_MY_POST_REQUEST = 'CHECK_IS_MY_POST_REQUEST';
+export const CHECK_IS_MY_POST_SUCCESS = 'CHECK_IS_MY_POST_SUCCESS';
+export const CHECK_IS_MY_POST_FAILURE = 'CHECK_IS_MY_POST_FAILURE';
+
 export const INVALIDATE_UPLOADED_POST = 'INVALIDATE_UPLOADED_POST';
 
 const reducer = (state = initialState, action) => {
@@ -130,6 +152,32 @@ const reducer = (state = initialState, action) => {
             case EDIT_POST_FAILURE:
                 draft.editPostLoading = false;
                 draft.editPostError = action.error;
+                break;
+            case REMOVE_POST_REQUEST:
+                draft.removePostLoading = true;
+                draft.removePostDone = false;
+                draft.removePostError = null;
+                break;
+            case REMOVE_POST_SUCCESS:
+                draft.removePostDone = true;
+                draft.removePostLoading = false;
+                break;
+            case REMOVE_POST_FAILURE:
+                draft.removePostLoading = false;
+                draft.removePostError = action.error;
+                break;
+            case REVIVE_POST_REQUEST:
+                draft.revivePostLoading = true;
+                draft.revivePostDone = false;
+                draft.revivePostError = null;
+                break;
+            case REVIVE_POST_SUCCESS:
+                draft.revivePostDone = true;
+                draft.revivePostLoading = false;
+                break;
+            case REVIVE_POST_FAILURE:
+                draft.revivePostLoading = false;
+                draft.revivePostError = action.error;
                 break;
             case UPLOAD_IMAGES_REQUEST:
                 draft.uploadImagesLoading = true;
@@ -285,6 +333,20 @@ const reducer = (state = initialState, action) => {
             case UNLIKE_COMMENT_FAILURE:
                 draft.unLikeCommentLoading = false;
                 draft.unLikeCommentError = action.error;
+                break;
+            case CHECK_IS_MY_POST_REQUEST:
+                draft.checkIsMyPostLoading = true;
+                draft.checkIsMyPostDone = false;
+                draft.checkIsMyPostError = null;
+                break;
+            case CHECK_IS_MY_POST_SUCCESS:
+                draft.isMyPost = action.data.isMine;
+                draft.checkIsMyPostDone = true;
+                draft.checkIsMyPostLoading = false;
+                break;
+            case CHECK_IS_MY_POST_FAILURE:
+                draft.checkIsMyPostLoading = false;
+                draft.checkIsMyPostError = action.error;
                 break;
             case INVALIDATE_UPLOADED_POST:
                 draft.uploadedPost = {}
