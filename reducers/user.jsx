@@ -47,6 +47,12 @@ export const initialState = {
     followLoading: false,
     followDone: false,
     followError: false,
+    setUserAdminLoading: false,
+    setUserAdminDone: false,
+    setUserAdminError: false,
+    setUserEnableLoading: false,
+    setUserEnableDone: false,
+    setUserEnableError: false,
     hasMoreUsers: false,
 };
 
@@ -105,6 +111,14 @@ export const FOLLOW_FAILURE = 'FOLLOW_FAILURE';
 export const UNFOLLOW_REQUEST = 'UNFOLLOW_REQUEST';
 export const UNFOLLOW_SUCCESS = 'UNFOLLOW_SUCCESS';
 export const UNFOLLOW_FAILURE = 'UNFOLLOW_FAILURE';
+
+export const SET_USER_ADMIN_REQUEST = 'SET_USER_ADMIN_REQUEST';
+export const SET_USER_ADMIN_SUCCESS = 'SET_USER_ADMIN_SUCCESS';
+export const SET_USER_ADMIN_FAILURE = 'SET_USER_ADMIN_FAILURE';
+
+export const SET_USER_ENABLE_REQUEST = 'SET_USER_ENABLE_REQUEST';
+export const SET_USER_ENABLE_SUCCESS = 'SET_USER_ENABLE_SUCCESS';
+export const SET_USER_ENABLE_FAILURE = 'SET_USER_ENABLE_FAILURE';
 
 export const ADD_POST_LIKE_TO_ME = 'ADD_POST_LIKE_TO_ME';
 export const REMOVE_POST_LIKE_TO_ME = 'REMOVE_POST_LIKE_TO_ME';
@@ -328,6 +342,36 @@ const reducer = (state = initialState, action) => {
                 draft.followLoading = false;
                 draft.followDone = false;
                 draft.followError = action.error;
+                break;
+            case SET_USER_ADMIN_REQUEST:
+                draft.setUserAdminLoading = true;
+                draft.setUserAdminDone = false;
+                draft.setUserAdminError = null;
+                break;
+            case SET_USER_ADMIN_SUCCESS:
+                draft.userInfo = action?.data || null;
+                draft.setUserAdminLoading = false;
+                draft.setUserAdminDone = true;
+                break;
+            case SET_USER_ADMIN_FAILURE:
+                draft.setUserAdminLoading = false;
+                draft.setUserAdminDone = false;
+                draft.setUserAdminError = action.error;
+                break;
+            case SET_USER_ENABLE_REQUEST:
+                draft.setUserEnableLoading = true;
+                draft.setUserEnableDone = false;
+                draft.setUserEnableError = null;
+                break;
+            case SET_USER_ENABLE_SUCCESS:
+                draft.userInfo = action?.data || null;
+                draft.setUserEnableLoading = false;
+                draft.setUserEnableDone = true;
+                break;
+            case SET_USER_ENABLE_FAILURE:
+                draft.setUserEnableLoading = false;
+                draft.setUserEnableDone = false;
+                draft.setUserEnableError = action.error;
                 break;
             case ADD_POST_LIKE_TO_ME:
                 draft.userInfo.PostLiked.unshift(action.data);

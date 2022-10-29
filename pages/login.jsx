@@ -10,11 +10,10 @@ import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 
 const Login = () => {
-    const { myInfo } = useSelector((state) => state.user);
+    const { myInfo, logInDone } = useSelector((state) => state.user);
 
     useEffect(() => {
         if(myInfo) {
-            alert('로그인하지 않은 유저만 로그인이 가능합니다.');
             Router.replace('/');
         };
     }, [myInfo]);
@@ -30,7 +29,7 @@ const Login = () => {
                 <meta name="description" content="두들링 - MBTI 기반 커뮤니티" />
                 <meta name="keywords" content="MBTI, 커뮤니티" />
             </Head>
-            <LoginForm />
+            {myInfo ? null : (<LoginForm />)}
         </Fragment>
     );
 };

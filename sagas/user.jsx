@@ -1,11 +1,9 @@
 import axios from 'axios';
-import { all, fork, put, takeLatest, call, delay } from 'redux-saga/effects';
+import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import {
     LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
     LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
     SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
-    // CHANGE_NICKNAME_REQUEST, CHANGE_NICKNAME_SUCCESS, CHANGE_NICKNAME_FAILURE,
-    // CHANGE_DESCRIPTION_REQUEST, CHANGE_DESCRIPTION_SUCCESS, CHANGE_DESCRIPTION_FAILURE,
     FOLLOW_REQUEST ,FOLLOW_SUCCESS ,FOLLOW_FAILURE,
     UNFOLLOW_REQUEST ,UNFOLLOW_SUCCESS ,UNFOLLOW_FAILURE,
     LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOAD_MY_INFO_FAILURE,
@@ -17,6 +15,8 @@ import {
     CHECK_IS_FOLLOWING_REQUEST, CHECK_IS_FOLLOWING_SUCCESS, CHECK_IS_FOLLOWING_FAILURE,
     LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWERS_SUCCESS, LOAD_FOLLOWERS_FAILURE,
     LOAD_FOLLOWINGS_REQUEST, LOAD_FOLLOWINGS_SUCCESS, LOAD_FOLLOWINGS_FAILURE,
+    SET_USER_ADMIN_REQUEST, SET_USER_ADMIN_SUCCESS, SET_USER_ADMIN_FAILURE,
+    SET_USER_ENABLE_REQUEST, SET_USER_ENABLE_SUCCESS, SET_USER_ENABLE_FAILURE,
 } from '../reducers/user';
 
 function logInAPI(data) {
@@ -297,6 +297,46 @@ function* unFollow(action) {
     };
 };
 
+function setUserAdminAPI(data) {
+    return axios.patch(`/user/${data.userId}/admin`, data);
+};
+
+function* setUserAdmin(action) {
+    try {
+        const result = yield call(setUserAdminAPI, action.data);
+        yield put({
+            type: SET_USER_ADMIN_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: SET_USER_ADMIN_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
+function setUserEnableAPI(data) {
+    return axios.patch(`/user/${data.userId}/enable`, data);
+};
+
+function* setUserEnable(action) {
+    try {
+        const result = yield call(setUserEnableAPI, action.data);
+        yield put({
+            type: SET_USER_ENABLE_SUCCESS,
+            data: result?.data || null
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: SET_USER_ENABLE_FAILURE,
+            error: err.response.data
+        });
+    };
+};
+
 function* watchLogin() {
     yield takeLatest(LOG_IN_REQUEST, logIn)
 };
@@ -339,14 +379,18 @@ function* watchFollow() {
 function* watchUnFollow() {
     yield takeLatest(UNFOLLOW_REQUEST, unFollow)
 };
+function* watchSetUserAdmin() {
+    yield takeLatest(SET_USER_ADMIN_REQUEST, setUserAdmin)
+};
+function* watchSetUserEnable() {
+    yield takeLatest(SET_USER_ENABLE_REQUEST, setUserEnable)
+};
 
 export default function* userSaga() {
     yield all([
         fork(watchLogin),
         fork(watchLogout),
         fork(watchSignUp),
-        // fork(watchChangeNickname),
-        // fork(watchChangeDescription),
         fork(watchFollow),
         fork(watchUnFollow),
         fork(watchLoadMyInfo),
@@ -358,5 +402,7 @@ export default function* userSaga() {
         fork(watchIsFollowing),
         fork(watchLoadFollowers),
         fork(watchLoadFollowings),
+        fork(watchSetUserAdmin),
+        fork(watchSetUserEnable),
     ]);
 };

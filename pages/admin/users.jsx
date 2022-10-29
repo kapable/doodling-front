@@ -7,6 +7,8 @@ import { Router } from 'next/router';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
+import ResultUser from '../../components/Admin/Users/ResultUser';
+import SearchBar from '../../components/Admin/Users/SearchBar';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 
@@ -38,6 +40,8 @@ const Users = () => {
                         <Link href={`/admin`}><a><LeftOutlined /> 어드민 메인 페이지</a></Link>
                     </Col>
                 </Row>
+                <SearchBar />
+                <ResultUser />
             </div>
         )
     } else {
