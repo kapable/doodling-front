@@ -1,6 +1,7 @@
 import produce from '../util/produce';
 
 export const initialState = {
+    allPosts: [],
     topPosts: [],
     categoryNewPosts: [],
     categoryNew15Posts: [],
@@ -11,6 +12,9 @@ export const initialState = {
     subCategoryRealtimeTop5Posts: [],
     topPosts: [],
     myPosts: [],
+    loadAllPostsLoading: false,
+    loadAllPostsDone: false,
+    loadAllPostsError: false,
     loadCategoriesNewPostsLoading: false,
     loadCategoriesNewPostsDone: false,
     loadCategoriesNewPostsError: false,
@@ -43,6 +47,10 @@ export const initialState = {
     loadMyLikePostsError: false,
     hasMorePosts: false,
 };
+
+export const LOAD_ALL_POSTS_REQUEST = 'LOAD_ALL_POSTS_REQUEST';
+export const LOAD_ALL_POSTS_SUCCESS = 'LOAD_ALL_POSTS_SUCCESS';
+export const LOAD_ALL_POSTS_FAILURE = 'LOAD_ALL_POSTS_FAILURE';
 
 export const LOAD_CATEGORIES_NEW_POSTS_REQUEST = 'LOAD_CATEGORIES_NEW_POSTS_REQUEST';
 export const LOAD_CATEGORIES_NEW_POSTS_SUCCESS = 'LOAD_CATEGORIES_NEW_POSTS_SUCCESS';
@@ -93,6 +101,20 @@ export const LOAD_TOP_100_FAILURE = 'LOAD_TOP_100_FAILURE';
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
         switch (action.type) {
+            case LOAD_ALL_POSTS_REQUEST:
+                draft.loadAllPostsLoading = true;
+                draft.loadAllPostsDone = false;
+                draft.loadAllPostsError = null;
+                break;
+            case LOAD_ALL_POSTS_SUCCESS:
+                draft.loadAllPostsLoading = false;
+                draft.loadAllPostsDone = true;
+                draft.allPosts = draft.allPosts.concat(action.data);
+                break;
+            case LOAD_ALL_POSTS_FAILURE:
+                draft.loadAllPostsLoading = false;
+                draft.loadAllPostsError = action.error;
+                break;
             case LOAD_CATEGORIES_NEW_POSTS_REQUEST:
                 draft.loadCategoriesNewPostsLoading = true;
                 draft.loadCategoriesNewPostsDone = false;

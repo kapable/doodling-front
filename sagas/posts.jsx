@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import {
+    LOAD_ALL_POSTS_REQUEST, LOAD_ALL_POSTS_SUCCESS, LOAD_ALL_POSTS_FAILURE,
     LOAD_CATEGORIES_NEW_POSTS_REQUEST, LOAD_CATEGORIES_NEW_POSTS_SUCCESS, LOAD_CATEGORIES_NEW_POSTS_FAILURE,
     LOAD_CATEGORIES_NEW_15_POSTS_REQUEST, LOAD_CATEGORIES_NEW_15_POSTS_SUCCESS, LOAD_CATEGORIES_NEW_15_POSTS_FAILURE,
     LOAD_SUBCATEGORIES_NEW_POSTS_SUCCESS, LOAD_SUBCATEGORIES_NEW_POSTS_FAILURE, LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST,
@@ -13,6 +14,26 @@ import {
     LOAD_MY_COMMENT_POSTS_REQUEST, LOAD_MY_COMMENT_POSTS_SUCCESS, LOAD_MY_COMMENT_POSTS_FAILURE,
     LOAD_MY_LIKE_POSTS_REQUEST, LOAD_MY_LIKE_POSTS_SUCCESS, LOAD_MY_LIKE_POSTS_FAILURE,
 } from '../reducers/posts';
+
+function loadAllPostsAPI() {
+    return axios.get(`/posts`);
+};
+
+function* loadAllPosts() {
+    try {
+        const result = yield call(loadAllPostsAPI);
+        yield put({
+            type: LOAD_ALL_POSTS_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log(err);
+        yield put({
+            type: LOAD_ALL_POSTS_FAILURE,
+            error: err.response
+        });
+    };
+};
 
 function loadCategoriesNewPostsAPI() {
     return axios.get(`/posts/new5Categories`);
@@ -235,6 +256,9 @@ function* loadMyLikePosts(action) {
 };
 
 
+function* watchLoadAllPosts() {
+    yield takeLatest(LOAD_ALL_POSTS_REQUEST, loadAllPosts);
+};
 function* watchLoadCategoriesNewPosts() {
     yield takeLatest(LOAD_CATEGORIES_NEW_POSTS_REQUEST, loadCategoriesNewPosts);
 };
@@ -271,6 +295,7 @@ function* watchLoadMyLikePosts() {
 
 export default function* postsSaga() {
     yield all([
+        fork(watchLoadAllPosts),
         fork(watchLoadCategoriesNewPosts),
         fork(watchLoadCategoriesNew15Posts),
         fork(watchLoadSubCategoriesNewPosts),
