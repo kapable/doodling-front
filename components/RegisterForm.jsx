@@ -3,7 +3,6 @@ import { Button, Checkbox, Form, Input, Dropdown, Row, Col, Space, Menu } from '
 import { DownOutlined, LoadingOutlined } from '@ant-design/icons';
 import Router from 'next/router';
 import useInput from '../hooks/useInput';
-import useRegexInput from '../hooks/useRegexInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { CHECK_EMAIL_DOUBLED_REQUEST, CHECK_NICKNAME_DOUBLED_REQUEST, SIGN_UP_REQUEST } from '../reducers/user';
@@ -123,20 +122,20 @@ const RegisterForm = () => {
             };
             if(password !== passwordCheck) {
                 return setPasswordError(true);
-            }
+            };
             if(passwordError) {
                 return alert('패스워드 재확인을 해주세요!');
-            }
+            };
             if(myMBTI === '') {
                 return alert('MBTI를 선택해주세요!');
-            }
+            };
             if(!term) {
                 return setTermError(true);
-            }
+            };
             dispatch({
                 type: SIGN_UP_REQUEST,
                 data: { email, nickname, mbti: myMBTI, password }
-            })
+            });
         },
         [password, passwordCheck, setPasswordError, term, setTermError, email, nickname, myMBTI, nickDoubleChecked],
     );
