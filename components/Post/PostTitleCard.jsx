@@ -94,7 +94,7 @@ const PostTitleCard = ({ contents }) => {
                                     : <span className='post-like-btn-span' onClick={onLikeClick}><LikeOutlined /></span>}
                                 {PostLikers}</span>
                                 <span className='post-title-header-alert'>
-                                    {myInfo?.id === User?.id
+                                    {(myInfo?.id === User?.id) || myInfo?.admin // my post or admin user
                                     ? (
                                         <>
                                             <span className='post-edit-btn-span' onClick={onEditClick}><EditOutlined /> 수정</span>
