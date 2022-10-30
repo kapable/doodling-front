@@ -162,6 +162,16 @@
         padding: 1.2rem 1.5rem 0;
         border-bottom: $grey-color 0.5rem solid;
 
+        .home-each-category-icon-img {
+            width: 3rem;
+        }
+
+        .home-each-category-title-span {
+            vertical-align: middle;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
         .new-posts-post-row, .no-posts-row {
             border-bottom: $grey-color 0.15rem solid;
             padding: 0.3rem 0;
@@ -197,14 +207,22 @@
 .category-main-title-info-div {
     padding: 1.5rem 1.5rem 0.5rem;
 
-    h1 {
-        font-weight: bold;
+    .category-each-category-icon-img {
+        width: 4rem;
     }
 
-    span {
-        background-color: $point-color;
-        color: white;
-        padding: 0 0.3rem;
+    .category-each-category-span {
+        vertical-align: middle;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+
+    .category-each-subcategory-span {
+        vertical-align: bottom;
+        width: 100%;
+        margin: 0 auto;
+        color: grey;
+        font-size: 0.8 rem;
     }
 }
 

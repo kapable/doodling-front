@@ -4,11 +4,19 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import {
+    IssueIcon,
+    MBTIIcon,
+    NoticeIcon,
+    Top100Icon
+} from '../../public';
+
 
 const CategoryNewPosts = ({ category }) => {
     const { categoryNewPosts, eachSubCategoryNewPosts } = useSelector((state) => state.posts);
     const { categoriesColorObj } = useSelector((state) => state.category);
     const [posts, setPosts] = useState(category ? eachSubCategoryNewPosts : categoryNewPosts); // main home vs notice page
+    const iconObject = { 'issue': IssueIcon, 'mbti': MBTIIcon, 'notice': NoticeIcon, 'top100': Top100Icon };
 
     return (
         <div className='home-category-new-posts-main-div'>
@@ -17,7 +25,14 @@ const CategoryNewPosts = ({ category }) => {
             .map((cat) => (
                 <div className='new-posts-category-div' key={`${cat?.domain}-new-posts-main-div`}>
                     {/* Main Category Title */}
-                    <h1 key={`${cat.label}-title`}>{cat.label}</h1>
+                    <Row align='middle'>
+                        <Col span={24}>
+                            {iconObject[cat?.domain]
+                            ? <img className='home-each-category-icon-img' src={iconObject[cat?.domain].src} alt={cat?.domain} />
+                            : null}
+                            <span className='home-each-category-title-span' key={`${cat.label}-title`}>{cat.label}</span>
+                        </Col>
+                    </Row>
                     {cat.posts && cat?.posts.length > 0 // if posts exists
                     ? (cat.posts.map((post, index) => (
                         // A post renderer start
