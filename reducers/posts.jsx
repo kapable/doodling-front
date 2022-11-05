@@ -10,7 +10,6 @@ export const initialState = {
     realtimeTop10Posts: [],
     categoryRealtimeTop5Posts: [],
     subCategoryRealtimeTop5Posts: [],
-    topPosts: [],
     myPosts: [],
     loadAllPostsLoading: false,
     loadAllPostsDone: false,
