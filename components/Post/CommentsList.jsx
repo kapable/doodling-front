@@ -58,6 +58,8 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
         });
         setReCommentText("");
         setIsReCommentOpen(false);
+        setReCommentListTargetId(reCommentTargetId);
+        setIsReCommentListOpen(true)
     }, [reCommentText, postId, reCommentTargetId]);
 
     const onCommentLikeClick = (commentId) => () => {
