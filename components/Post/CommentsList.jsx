@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Col, Comment, Form, Input, List, Pagination, Row } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
-import { ADD_RECOMMENT_REQUEST, LIKE_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST, UNLIKE_COMMENT_REQUEST } from '../../reducers/post';
+import { ADD_RECOMMENT_REQUEST, LIKE_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST, REMOVE_COMMENT_REQUEST, UNLIKE_COMMENT_REQUEST } from '../../reducers/post';
 import { useState } from 'react';
 import useInput from '../../hooks/useInput';
 import { CheckCircleFilled, LikeFilled, LikeOutlined } from '@ant-design/icons';
@@ -20,6 +20,15 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
     const [reCommentText, onReCommentText] = useInput('');
     const [commentLikeTargetId, setCommentLikeTargetId] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+
+    const onRemoveCommentClick = (commentId) => () => {
+        if (confirm("정말로 삭제하시겠습니까?\n삭제된 댓글은 복구가 불가능합니다.") === true) {
+            dispatch({
+                type: REMOVE_COMMENT_REQUEST,
+                data: { commentId }
+            });
+        };
+    };
 
     const onReCommentClick = (commentId) => () => {
         if(!myInfo?.id) {
@@ -91,6 +100,9 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                             key={`${item.id}-comment`}
                             actions={[
                                 <span onClick={onCommentLikeClick(item.id)} >{commentLikeTargetId.includes(item.id) ? <LikeFilled /> : <LikeOutlined />} {item.CommentLikers.length}</span>,
+                                myInfo?.admin || item.User.id === myInfo?.id
+                                ? <span onClick={onRemoveCommentClick(item.id)}>삭제하기</span>
+                                : null,
                                 // <span onClick={onReCommentClick(item.id)}>댓글달기</span>
                             ]}
                             author={[<Link href={`/info/${item.User.nickname}`} key={`${item.User.nickname}-link`}><p key="1-user">{item.UserId === userId ? <CheckCircleFilled /> : null} {item.User.nickname}<span style={{backgroundColor: categoriesColorObj[item.User.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{item.User.mbti}</span></p></Link>]}

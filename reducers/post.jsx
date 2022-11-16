@@ -37,6 +37,9 @@ export const initialState = {
     addCommentLoading: false,
     addCommentDone: false,
     addCommentError: false,
+    removeCommentLoading: false,
+    removeCommentDone: false,
+    removeCommentError: false,
     loadCommentsLoading: false,
     loadCommentsDone: false,
     loadCommentsError: false,
@@ -99,6 +102,10 @@ export const ENABLE_POST_FAILURE = 'ENABLE_POST_FAILURE';
 export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
+
+export const REMOVE_COMMENT_REQUEST = 'REMOVE_COMMENT_REQUEST';
+export const REMOVE_COMMENT_SUCCESS = 'REMOVE_COMMENT_SUCCESS';
+export const REMOVE_COMMENT_FAILURE = 'REMOVE_COMMENT_FAILURE';
 
 export const LOAD_COMMENTS_REQUEST = 'LOAD_COMMENTS_REQUEST';
 export const LOAD_COMMENTS_SUCCESS = 'LOAD_COMMENTS_SUCCESS';
@@ -276,6 +283,20 @@ const reducer = (state = initialState, action) => {
             case ADD_COMMENT_FAILURE:
                 draft.addCommentLoading = false;
                 draft.addCommentError = action.error;
+                break;
+            case REMOVE_COMMENT_REQUEST:
+                draft.removeCommentLoading = true;
+                draft.removeCommentDone = false;
+                draft.removeCommentError = null;
+                break;
+            case REMOVE_COMMENT_SUCCESS:
+                draft.singlePost.Comments = draft.singlePost.Comments.filter((comment) => comment.id !== action.data.commentId);
+                draft.removeCommentDone = true;
+                draft.removeCommentLoading = false;
+                break;
+            case REMOVE_COMMENT_FAILURE:
+                draft.removeCommentLoading = false;
+                draft.removeCommentError = action.error;
                 break;
             case LOAD_COMMENTS_REQUEST:
                 draft.loadCommentsLoading = true;

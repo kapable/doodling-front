@@ -4,6 +4,7 @@ import {
     ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
     EDIT_POST_REQUEST, EDIT_POST_SUCCESS, EDIT_POST_FAILURE,
     ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
+    REMOVE_COMMENT_REQUEST, REMOVE_COMMENT_SUCCESS, REMOVE_COMMENT_FAILURE,
     LOAD_COMMENTS_REQUEST, LOAD_COMMENTS_SUCCESS, LOAD_COMMENTS_FAILURE,
     ADD_RECOMMENT_REQUEST, ADD_RECOMMENT_SUCCESS, ADD_RECOMMENT_FAILURE,
     REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
@@ -299,6 +300,26 @@ function* addComment(action) {
     };
 };
 
+function removeCommentAPI(data) {
+    return axios.delete(`/comment/${data.commentId}`);
+}
+
+function* removeComment(action) {
+    try {
+        const result = yield call(removeCommentAPI, action.data);
+        yield put({
+            type: REMOVE_COMMENT_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.log(err)
+        yield put({
+            type: REMOVE_COMMENT_FAILURE,
+            error: err.response
+        })
+    };
+};
+
 function loadCommentsAPI(data) {
     return axios.get(`/comment/${data.postId}?lastId=${data.lastId}`);
 }
@@ -398,6 +419,9 @@ function* watchEnablePost() {
 function* watchAddComment() {
     yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 };
+function* watchRemoveComment() {
+    yield takeLatest(REMOVE_COMMENT_REQUEST, removeComment);
+};
 function* watchLoadComments() {
     yield takeLatest(LOAD_COMMENTS_REQUEST, loadComments);
 };
@@ -416,6 +440,7 @@ export default function* postSaga() {
         fork(watchRemovePost),
         fork(watchRevivePost),
         fork(watchAddComment),
+        fork(watchRemoveComment),
         fork(watchLoadComments),
         fork(watchAddReComment),
         fork(watchUploadImages),
