@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Col, Comment, Form, Input, List, Pagination, Row } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
-import { ADD_RECOMMENT_REQUEST, LIKE_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST, REMOVE_COMMENT_REQUEST, UNLIKE_COMMENT_REQUEST } from '../../reducers/post';
+import { ADD_RECOMMENT_REQUEST, LIKE_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST, REMOVE_COMMENT_REQUEST, REMOVE_RECOMMENT_REQUEST, UNLIKE_COMMENT_REQUEST } from '../../reducers/post';
 import { useState } from 'react';
 import useInput from '../../hooks/useInput';
 import { CheckCircleFilled, LikeFilled, LikeOutlined } from '@ant-design/icons';
@@ -30,6 +30,15 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
             dispatch({
                 type: REMOVE_COMMENT_REQUEST,
                 data: { commentId }
+            });
+        };
+    };
+
+    const onRemoveReCommentClick = (commentId, reCommentId) => () => {
+        if (confirm("정말로 삭제하시겠습니까?\n삭제된 대댓글은 복구가 불가능합니다.") === true) {
+            dispatch({
+                type: REMOVE_RECOMMENT_REQUEST,
+                data: { commentId, reCommentId }
             });
         };
     };
@@ -170,6 +179,9 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                                         <li>
                                             <Comment
                                                 key={`${reComment?.text}-reComment`}
+                                                actions={[
+                                                    (myInfo?.admin || reComment?.User?.id === myInfo?.id) && <span onClick={onRemoveReCommentClick(item.id, reComment.id)}>삭제하기</span>
+                                                ]}
                                                 author={[<Link href={`/info/${reComment.User?.nickname}`} key={`${reComment.User?.nickname}-link`}><p key="1-user">{reComment.UserId === userId ? <CheckCircleFilled /> : null} {reComment.User?.nickname}<span style={{backgroundColor: categoriesColorObj[reComment?.User?.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{reComment.User?.mbti}</span></p></Link>]}
                                                 content={reComment.text}
                                                 datetime={dayjs(reComment.createdAt).diff(dayjs(), 'hours') < -24

@@ -46,6 +46,9 @@ export const initialState = {
     addReCommentLoading: false,
     addReCommentDone: false,
     addReCommentError: false,
+    removeReCommentLoading: false,
+    removeReCommentDone: false,
+    removeReCommentError: false,
     likeCommentLoading: false,
     likeCommentDone: false,
     likeCommentError: false,
@@ -114,6 +117,10 @@ export const LOAD_COMMENTS_FAILURE = 'LOAD_COMMENTS_FAILURE';
 export const ADD_RECOMMENT_REQUEST = 'ADD_RECOMMENT_REQUEST';
 export const ADD_RECOMMENT_SUCCESS = 'ADD_RECOMMENT_SUCCESS';
 export const ADD_RECOMMENT_FAILURE = 'ADD_RECOMMENT_FAILURE';
+
+export const REMOVE_RECOMMENT_REQUEST = 'REMOVE_RECOMMENT_REQUEST';
+export const REMOVE_RECOMMENT_SUCCESS = 'REMOVE_RECOMMENT_SUCCESS';
+export const REMOVE_RECOMMENT_FAILURE = 'REMOVE_RECOMMENT_FAILURE';
 
 export const LIKE_COMMENT_REQUEST = 'LIKE_COMMENT_REQUEST';
 export const LIKE_COMMENT_SUCCESS = 'LIKE_COMMENT_SUCCESS';
@@ -320,13 +327,27 @@ const reducer = (state = initialState, action) => {
                 break;
             case ADD_RECOMMENT_SUCCESS:
                 draft.singlePost.Comments.find((comment) => comment.id === action.data.CommentId).ReComments.unshift(action.data);
-                // action.data.unshift(draft.singlePost.Comments.find((comment) => comment.id === action.data.ReCommentId).ReComment);
                 draft.addReCommentDone = true;
                 draft.addReCommentLoading = false;
                 break;
             case ADD_RECOMMENT_FAILURE:
                 draft.addReCommentLoading = false;
                 draft.addReCommentError = action.error;
+                break;
+            case REMOVE_RECOMMENT_REQUEST:
+                draft.removeReCommentLoading = true;
+                draft.removeReCommentDone = false;
+                draft.removeReCommentError = null;
+                break;
+            case REMOVE_RECOMMENT_SUCCESS:
+                const filteredReComments = draft.singlePost.Comments.find((comment) => comment.id === action.data.commentId).ReComments.filter((reComment) => reComment.id !== action.data.reCommentId);
+                draft.singlePost.Comments.find((comment) => comment.id === action.data.commentId).ReComments = filteredReComments;
+                draft.removeReCommentDone = true;
+                draft.removeReCommentLoading = false;
+                break;
+            case REMOVE_RECOMMENT_FAILURE:
+                draft.removeReCommentLoading = false;
+                draft.removeReCommentError = action.error;
                 break;
             case LIKE_COMMENT_REQUEST:
                 draft.likeCommentLoading = true;
