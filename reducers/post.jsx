@@ -319,6 +319,7 @@ const reducer = (state = initialState, action) => {
                 draft.addReCommentError = null;
                 break;
             case ADD_RECOMMENT_SUCCESS:
+                draft.singlePost.Comments.find((comment) => comment.id === action.data.CommentId).ReComments.unshift(action.data);
                 // action.data.unshift(draft.singlePost.Comments.find((comment) => comment.id === action.data.ReCommentId).ReComment);
                 draft.addReCommentDone = true;
                 draft.addReCommentLoading = false;
