@@ -127,7 +127,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                             actions={[
                                 <span onClick={onCommentLikeClick(item.id)} >{commentLikeTargetId.includes(item.id) ? <LikeFilled /> : <LikeOutlined />} {item.CommentLikers.length}</span>,
                                 <span onClick={onReCommentClick(item.id)}>댓글달기</span>,
-                                item?.ReComments.length > 0
+                                item?.ReComments?.length > 0
                                 ? <span onClick={onReCommentListClick(item.id)}>대댓글보기</span>
                                 : null,
                                 myInfo?.admin || item?.User?.id === myInfo?.id
