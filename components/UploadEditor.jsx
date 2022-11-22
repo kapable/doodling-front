@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, Divider, Input, Select } from 'antd';
 import useInput from '../hooks/useInput';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 
 const QuillNoSSRWrapper = dynamic(async () => {
     const { default: RQ } = await import('react-quill');
@@ -250,6 +251,11 @@ const UploadEditor = ({ contents, isNewContents }) => {
             </Form>
         </div>
     );
+};
+
+UploadEditor.propTypes = {
+    contents: PropTypes.object.isRequired,
+    isNewContents: PropTypes.bool,
 };
 
 export default UploadEditor;

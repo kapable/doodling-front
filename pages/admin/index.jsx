@@ -31,7 +31,7 @@ const AdminHome = () => {
                     <meta name="language" content="Korean" />
                     <meta name="author" content="쿠키로켓" />
                     <meta name="description" content="어드민 | 두들링 - MBTI 기반 커뮤니티" />
-                    <meta name="keywords" content="MBTI, 커뮤니티" />
+                    <meta name="keywords" content="MBTI, 커뮤니티" />ㅎ
 
                     {/* <!-- Open Graph / Facebook --> */}
                     <meta property="og:type" content="website"/>

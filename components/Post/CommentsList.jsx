@@ -211,6 +211,9 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
 
 CommentsList.propTypes = {
     comments: PropTypes.array.isRequired,
+    postId: PropTypes.number.isRequired,
+    userId: PropTypes.number.isRequired,
+    postComments: PropTypes.number,
 };
 
 export default CommentsList;

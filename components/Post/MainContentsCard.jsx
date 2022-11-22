@@ -60,6 +60,8 @@ const MainContentsCard = ({ contents, categoryDomain, subCategoryDomain }) => {
 
 MainContentsCard.propTypes = {
     contents: PropTypes.object.isRequired,
+    categoryDomain: PropTypes.string.isRequired,
+    subCategoryDomain: PropTypes.string.isRequired,
 };
 
 export default MainContentsCard;

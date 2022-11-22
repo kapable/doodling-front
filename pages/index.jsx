@@ -15,7 +15,6 @@ import { useSelector } from 'react-redux';
 
 const Home = () => {
     const { categories } = useSelector((state) => state.category);
-    const { categoryNewPosts } = useSelector((state) => state.posts);
 
     return (
         <Fragment>

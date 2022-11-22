@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'antd';
-import { EditOutlined, LikeOutlined, LikeFilled, CommentOutlined, LinkOutlined, TagOutlined, BookOutlined, BookFilled, DeleteOutlined, LoadingOutlined, AlertOutlined } from '@ant-design/icons';
+import { EditOutlined, LikeOutlined, LikeFilled, DeleteOutlined, AlertOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

@@ -6,6 +6,7 @@ import {
     NoticeIcon,
     Top100Icon
 } from '../../public';
+import PropTypes from 'prop-types';
 
 const TItleInfoCard = ({ category, subTheme }) => {
     const iconObject = { 'issue': IssueIcon, 'mbti': MBTIIcon, 'notice': NoticeIcon, 'top100': Top100Icon };
@@ -27,6 +28,11 @@ const TItleInfoCard = ({ category, subTheme }) => {
             </Row>
         </div>
     );
+};
+
+TItleInfoCard.propTypes = {
+    category: PropTypes.object.isRequired,
+    subTheme: PropTypes.string.isRequired,
 };
 
 export default TItleInfoCard;
