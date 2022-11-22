@@ -170,7 +170,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                                 </Form>
                             )
                             : (null)}
-                            {reCommentListTargetId === item.id && isReCommentListOpen && item?.ReComments.length > 0
+                            {reCommentListTargetId === item.id && isReCommentListOpen && item?.ReComments?.length > 0
                             ? (
                                 <List
                                     itemLayout="horizontal"
