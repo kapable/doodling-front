@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Head from 'next/head';
 import React from 'react';
 import { END } from 'redux-saga';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
@@ -7,6 +8,38 @@ import wrapper from '../../store/configureStore';
 const YouthProtection = () => {
     return (
         <div className='terms-main-div'>
+            <Head>
+                <title>청소년 보호정책 - 두들링</title>
+                <link rel='main-url' href='https://doodling.kr/youthProtection' />
+                <link rel='shortcut icon' href='/doodling-favicon.png'/>
+                <meta charSet='utf-8'/>
+                <meta name="language" content="Korean" />
+                <meta name="author" content="쿠키로켓" />
+                <meta name="description" content="청소년 보호정책 - 두들링 - MBTI 기반 커뮤니티" />
+                <meta name="keywords" content="MBTI, 커뮤니티" />
+
+                {/* <!-- Open Graph / Facebook --> */}
+                <meta property="og:type" content="website"/>
+                <meta property="og:url" content='https://doodling.kr/youthProtection' />
+                <meta property="og:title" content='청소년 보호정책 - 두들링'/>
+                <meta property="og:description" content="청소년 보호정책 - 두들링 - MBTI 기반 커뮤니티"/>
+                <meta property="og:image" content="/doodling-favicon.png"/>
+                <meta property="og:image:width" content="800"/>
+                <meta property="og:image:height" content="400"/>
+                <meta property="og:image:alt" content="청소년 보호정책 - 두들링 - MBTI 기반 커뮤니티" />
+                <meta property='og:site_name' content='청소년 보호정책 - 두들링' />
+
+                {/* <!-- Twitter --> */}
+                <meta property="twitter:card" content="summary_large_image"/>
+                <meta property="twitter:url" content='https://doodling.kr/youthProtection'/>
+                <meta property="twitter:title" content='청소년 보호정책 - 두들링'/>
+                <meta property="twitter:description" content="청소년 보호정책 - 두들링 - MBTI 기반 커뮤니티"/>
+                <meta property="twitter:image" content="/doodling-favicon.png"/>
+                <meta property="twitter:image:width" content="800"/>
+                <meta property="twitter:image:height" content="400"/>
+                <meta property="twitter:image:alt" content="청소년 보호정책 - 두들링 - MBTI 기반 커뮤니티" />
+                <meta property='og:site_name' content='청소년 보호정책 - 두들링' />
+            </Head>
             두들링 청소년 보호정책
             <br></br><br></br>
             두들링은 각종 청소년 유해정보로부터 청소년을 보호하고자 관련법률에 따라 19세미만의 청소년들이 유해정보에 접근할 수 없도록 청소년 보호정책을 마련하여 시행하고 있습니다. 또한 두들링은 청소년의 건전한 성장을 저해하는 음란·불법 등의 유해정보와 비윤리적·반사회적 행위에 대해서는 엄격하게 제재하기 위하여 다음과 같이 활동하고 있습니다.

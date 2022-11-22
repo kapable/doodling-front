@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Head from 'next/head';
 import React from 'react';
 import { END } from 'redux-saga';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
@@ -7,6 +8,38 @@ import wrapper from '../../store/configureStore';
 const Privacy = () => {
     return (
         <div className='terms-main-div'>
+            <Head>
+                <title>개인정보처리방침 - 두들링</title>
+                <link rel='main-url' href='https://doodling.kr/privacy' />
+                <link rel='shortcut icon' href='/doodling-favicon.png'/>
+                <meta charSet='utf-8'/>
+                <meta name="language" content="Korean" />
+                <meta name="author" content="쿠키로켓" />
+                <meta name="description" content="개인정보처리방침 - 두들링 - MBTI 기반 커뮤니티" />
+                <meta name="keywords" content="MBTI, 커뮤니티" />
+
+                {/* <!-- Open Graph / Facebook --> */}
+                <meta property="og:type" content="website"/>
+                <meta property="og:url" content='https://doodling.kr/privacy' />
+                <meta property="og:title" content='개인정보처리방침 - 두들링'/>
+                <meta property="og:description" content="개인정보처리방침 - 두들링 - MBTI 기반 커뮤니티"/>
+                <meta property="og:image" content="/doodling-favicon.png"/>
+                <meta property="og:image:width" content="800"/>
+                <meta property="og:image:height" content="400"/>
+                <meta property="og:image:alt" content="개인정보처리방침 - 두들링 - MBTI 기반 커뮤니티" />
+                <meta property='og:site_name' content='개인정보처리방침 - 두들링' />
+
+                {/* <!-- Twitter --> */}
+                <meta property="twitter:card" content="summary_large_image"/>
+                <meta property="twitter:url" content='https://doodling.kr/privacy'/>
+                <meta property="twitter:title" content='개인정보처리방침 - 두들링'/>
+                <meta property="twitter:description" content="개인정보처리방침 - 두들링 - MBTI 기반 커뮤니티"/>
+                <meta property="twitter:image" content="/doodling-favicon.png"/>
+                <meta property="twitter:image:width" content="800"/>
+                <meta property="twitter:image:height" content="400"/>
+                <meta property="twitter:image:alt" content="개인정보처리방침 - 두들링 - MBTI 기반 커뮤니티" />
+                <meta property='og:site_name' content='개인정보처리방침 - 두들링' />
+            </Head>
             두들링
             <br></br><br></br>
             개인정보처리방침
