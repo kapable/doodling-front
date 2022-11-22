@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require("dotenv-webpack");
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.ANAYLZE === 'true',
 });
@@ -15,6 +16,7 @@ module.exports = withBundleAnalyzer({
             plugins: [
                 ...config.plugins,
                 new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^\.\/ko$/),
+                new Dotenv({ silent: true }),
             ],
         };
     },

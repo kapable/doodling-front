@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BackTop } from 'antd';
 import 'antd/dist/antd.css';
@@ -11,11 +11,22 @@ import Head from 'next/head';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
-
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
+import { useRouter } from 'next/router';
+import * as gtag from '../lib/gtag';
+React.useLayoutEffect = React.useEffect;
 
 const App = ({ Component }) => {
+    const router = useRouter();
+    useEffect(() => {
+        const handleRouteChange = (url) => { gtag.pageview(url) };
+        router.events.on('routeChangeComplete', handleRouteChange);
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange)
+        };
+    }, [router.events]);
+
     return (
         <Fragment>
             <Head>

@@ -2,6 +2,8 @@ version: '3'
 services:
   next:
     image: cookierocket/doodling-front 
+    environment:
+      GA_TRACKING_ID: ${GA_TRACKING_ID}
     container_name: "doodling-front"
     restart: "on-failure"
     build:
