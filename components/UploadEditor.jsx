@@ -1,10 +1,10 @@
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Divider, Input, Select } from 'antd';
+import { Form, Button, Input, Select } from 'antd';
 import useInput from '../hooks/useInput';
 import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 
 const QuillNoSSRWrapper = dynamic(async () => {
     const { default: RQ } = await import('react-quill');
@@ -36,6 +36,7 @@ const UploadEditor = ({ contents, isNewContents }) => {
     const [subCategory, setSubCategory] = useState(contents?.SubCategory.label || '');
     const [subCategoryId, setSubCategoryId] = useState(contents?.SubCategoryId || '');
     const [text, setText] = useState(contents?.text || "");
+    const [heicFile, setHeicFile] = useState(null);
     const quillRef = useRef(null);
 
     useEffect(() => {
@@ -125,22 +126,66 @@ const UploadEditor = ({ contents, isNewContents }) => {
             // const file = input.files[0];
             // multer에 맞는 형식으로 데이터 만들어준다.
             const formData = new FormData();
-            [].forEach.call(input.files, (f) => {
-                formData.append('image', f);
+            [].forEach.call(input.files, async (f) => {
+                if (f.type === "image/heic" | f.type === "image/heif") { // if the image format is .heic | .heif
+                    const originName = f.name.split('.')[0];
+                    const reader = new FileReader();
+                    const heic2any = (await import("heic2any")).default;
+                    heic2any({
+                        blob: f,
+                        toType: "image/jpeg",
+                        quality: 1,
+                    })
+                    .then((rb) => {
+                        const file = new File(
+                            [rb], originName+".jpg",
+                            { type: "image/jpeg", lastModified: new Date().getTime() }
+                        );
+                        reader.readAsDataURL(file);
+                        reader.onloadend = async() => {
+                            const dataURLtoFile = (dataurl, fileName) => {
+                                let arr = dataurl.split(','),
+                                    mime = arr[0].match(/:(.*?);/)[1],
+                                    bstr = atob(arr[1]), 
+                                    n = bstr.length, 
+                                    u8arr = new Uint8Array(n);
+                                while(n--){
+                                    u8arr[n] = bstr.charCodeAt(n);
+                                }
+                                return new File([u8arr], fileName, {type:mime});
+                            };
+                            formData.append('image', dataURLtoFile(reader.result, originName+".jpg"));
+                            // formData.append('image', file); // formData는 키-밸류 구조
+                            // 백엔드 multer라우터에 이미지를 보낸다.
+                            try {
+                                const result = await axios.post(`${backUrl}/post/images`, formData, { withCredentials: true });
+                                result.data.map((url) => {
+                                    const editor = quillRef.current.getEditorSelection(); // // 2. 현재 에디터 커서 위치값을 가져온다 + 에디터 객체 가져오기
+                                    quillRef.current.getEditor().insertEmbed(editor.index, 'image', url.replace(/\/resized\//, '/original/')); // 가져온 위치에 이미지를 삽입한다
+                                    quillRef.current.getEditor().setSelection(editor.index + 1);
+                                });
+                            } catch (error) {
+                                alert('이미지 업로드 중 에러가 발생했습니다 ㅠㅠ');
+                                console.error('IMG UPLOAD ERROR', error);
+                            };
+                        };
+                    });
+                } else { // if the image format is not .heic | .heif
+                    formData.append('image', f);
+                    try {
+                        const result = await axios.post(`${backUrl}/post/images`, formData, { withCredentials: true });
+                        result.data.map((url) => {
+                            const editor = quillRef.current.getEditorSelection(); // // 2. 현재 에디터 커서 위치값을 가져온다 + 에디터 객체 가져오기
+                            quillRef.current.getEditor().insertEmbed(editor.index, 'image', url.replace(/\/resized\//, '/original/')); // 가져온 위치에 이미지를 삽입한다
+                            quillRef.current.getEditor().setSelection(editor.index + 1);
+                        });
+                    } catch (error) {
+                        alert('이미지 업로드 중 에러가 발생했습니다 ㅠㅠ');
+                        console.error('IMG UPLOAD ERROR', error);
+                    };
+                }
             });
-            // formData.append('image', file); // formData는 키-밸류 구조
-            // 백엔드 multer라우터에 이미지를 보낸다.
-            try {
-                const result = await axios.post(`${backUrl}/post/images`, formData, { withCredentials: true });
-                result.data.map((url) => {
-                    const editor = quillRef.current.getEditorSelection(); // // 2. 현재 에디터 커서 위치값을 가져온다 + 에디터 객체 가져오기
-                    quillRef.current.getEditor().insertEmbed(editor.index, 'image', url.replace(/\/resized\//, '/original/')); // 가져온 위치에 이미지를 삽입한다
-                    quillRef.current.getEditor().setSelection(editor.index + 1);
-                });
-            } catch (error) {
-                alert('이미지 업로드 중 에러가 발생했습니다 ㅠㅠ');
-                console.error('IMG UPLOAD ERROR', error);
-            };
+            
         });
     };
 
@@ -254,7 +299,7 @@ const UploadEditor = ({ contents, isNewContents }) => {
 };
 
 UploadEditor.propTypes = {
-    contents: PropTypes.object.isRequired,
+    contents: PropTypes.object,
     isNewContents: PropTypes.bool,
 };
 
