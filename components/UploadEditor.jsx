@@ -116,8 +116,6 @@ const UploadEditor = ({ contents, isNewContents }) => {
         // 속성 써주기
         input.setAttribute('type', 'file');
         input.setAttribute('accept', 'image/*');
-        input.setAttribute('accept', '.heic');
-        input.setAttribute('accept', '.heif');
         input.setAttribute("multiple","");
         input.click(); // 에디터 이미지버튼을 클릭하면 이 input이 클릭된다.
         // input이 클릭되면 파일 선택창이 나타난다.
