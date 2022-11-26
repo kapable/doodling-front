@@ -1,10 +1,11 @@
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Input, Select } from 'antd';
+import { Form, Button, Input, Select, Modal } from 'antd';
 import useInput from '../hooks/useInput';
 import { useRouter } from 'next/router';
 import PropTypes, { func } from 'prop-types';
+import imageCompression from "browser-image-compression";
 
 const QuillNoSSRWrapper = dynamic(async () => {
     const { default: RQ } = await import('react-quill');
@@ -35,8 +36,8 @@ const UploadEditor = ({ contents, isNewContents }) => {
     const [subCategories, setSubCategories] = useState([]);
     const [subCategory, setSubCategory] = useState(contents?.SubCategory.label || '');
     const [subCategoryId, setSubCategoryId] = useState(contents?.SubCategoryId || '');
+    const [isImageUploading, setIsImageUploading] = useState(false);
     const [text, setText] = useState(contents?.text || "");
-    const [heicFile, setHeicFile] = useState(null);
     const quillRef = useRef(null);
 
     useEffect(() => {
@@ -134,28 +135,37 @@ const UploadEditor = ({ contents, isNewContents }) => {
 
         // input에 변화가 생긴다면 = 이미지를 선택
         input.addEventListener('change', async () => {
-            // const file = input.files[0];
             // multer에 맞는 형식으로 데이터 만들어준다.
             const formData = new FormData();
-            [].forEach.call(input.files, async (f) => {
-                const originName = f.name.split('.')[0];
-                if (f.type === "image/heic" | f.type === "image/heif") { // if the image format is .heic | .heif
+            const maxFileSize = 3;
+            [].forEach.call(input.files, async (fileInput) => {
+                // image upload start
+                setIsImageUploading(true);
+                const originName = fileInput.name.split('.')[0];
+                let file;
+                // compression if A img file size over 3MB to 3MB
+                fileInput.size > maxFileSize * 1024 * 1024
+                ? file = await imageCompression(fileInput, {
+                    maxSizeMB: maxFileSize,
+                })
+                : file = fileInput;
+                // if the image format is .heic | .heif
+                if (file.type === "image/heic" || file.type === "image/heif") {
                     const reader = new FileReader();
                     const heic2any = (await import("heic2any")).default;
                     heic2any({
-                        blob: f,
+                        blob: file,
                         toType: "image/jpeg",
                         quality: 1,
                     })
                     .then((rb) => {
-                        const file = new File(
+                        const jpgFfile = new File(
                             [rb], originName+".jpg",
                             { type: "image/jpeg", lastModified: new Date().getTime() }
                         );
-                        reader.readAsDataURL(file);
+                        reader.readAsDataURL(jpgFfile);
                         reader.onloadend = async() => {
                             formData.append('image', dataURLtoFile(reader.result, originName+".jpg"));
-                            // formData.append('image', file); // formData는 키-밸류 구조
                             // 백엔드 multer라우터에 이미지를 보낸다.
                             try {
                                 const result = await axios.post(`${backUrl}/post/images`, formData, { withCredentials: true });
@@ -164,16 +174,17 @@ const UploadEditor = ({ contents, isNewContents }) => {
                                     quillRef.current.getEditor().insertEmbed(editor.index, 'image', url.replace(/\/resized\//, '/original/')); // 가져온 위치에 이미지를 삽입한다
                                     quillRef.current.getEditor().setSelection(editor.index + 1);
                                 });
+                                setIsImageUploading(false);
                             } catch (error) {
-                                alert(`아이폰에서 ${f.type} 이미지 업로드 중 에러가 발생했습니다 ㅠㅠ`);
+                                alert(`이미지 업로드 중 에러가 발생했습니다 ㅠㅠ`);
                                 console.error('IMG UPLOAD ERROR', error);
+                                setIsImageUploading(false);
                             };
                         };
                     });
-                } else { // if the image format is not .heic | .heif
+                } else { // if the image format is not .heic || .heif
                     const reader = new FileReader();
-                    reader.readAsDataURL(f);
-                    // formData.append('image', f);
+                    reader.readAsDataURL(file);
                     reader.onloadend = async() => {
                         formData.append('image', dataURLtoFile(reader.result, originName+".jpg"));
                         try {
@@ -183,14 +194,15 @@ const UploadEditor = ({ contents, isNewContents }) => {
                                 quillRef.current.getEditor().insertEmbed(editor.index, 'image', url.replace(/\/resized\//, '/original/')); // 가져온 위치에 이미지를 삽입한다
                                 quillRef.current.getEditor().setSelection(editor.index + 1);
                             });
+                            setIsImageUploading(false);
                         } catch (error) {
-                            alert(`${f.type} 이미지 업로드 중 에러가 발생했습니다 ㅠㅠ`);
+                            alert(`이미지 업로드 중 에러가 발생했습니다 ㅠㅠ`);
                             console.error('IMG UPLOAD ERROR', error);
+                            setIsImageUploading(false);
                         };
                     }
-                    }
+                }
             });
-            
         });
     };
 
@@ -299,6 +311,9 @@ const UploadEditor = ({ contents, isNewContents }) => {
                 {/* Submit Button */}
                 <Button type='primary' htmlType="submit" loading={addPostLoading} >{isNew ? '업로드' : '수정하기'}</Button>
             </Form>
+            
+            {/* When Image uploading, open Modal */}
+            <Modal title="이미지 업로드 중..." open={isImageUploading} footer={null}/>
         </div>
     );
 };

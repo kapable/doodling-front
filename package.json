@@ -16,6 +16,7 @@
     "antd": "^4.23.4",
     "axios": "^0.27.2",
     "babel-plugin-styled-components": "^2.0.7",
+    "browser-image-compression": "^2.0.0",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.5",
     "dotenv-webpack": "^8.0.1",
