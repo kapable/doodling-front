@@ -165,7 +165,7 @@ const UploadEditor = ({ contents, isNewContents }) => {
                                     quillRef.current.getEditor().setSelection(editor.index + 1);
                                 });
                             } catch (error) {
-                                alert('이미지 업로드 중 에러가 발생했습니다 ㅠㅠ');
+                                alert('아이폰에서 이미지 업로드 중 에러가 발생했습니다 ㅠㅠ');
                                 console.error('IMG UPLOAD ERROR', error);
                             };
                         };
