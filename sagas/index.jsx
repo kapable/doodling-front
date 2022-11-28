@@ -3,7 +3,7 @@ import userSaga from './user';
 import postSaga from './post';
 import postsSaga from './posts';
 import categorySaga from './category';
-// import urlSaga from './url';
+import reportSaga from './report';
 import axios from 'axios';
 import { backUrl } from '../config/config';
 
@@ -16,6 +16,6 @@ export default function* rootSaga() {
         fork(postSaga),
         fork(postsSaga),
         fork(categorySaga),
-        // fork(urlSaga),
+        fork(reportSaga),
     ]);
 };

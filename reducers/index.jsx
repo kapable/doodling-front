@@ -4,6 +4,7 @@ import user from './user';
 import post from './post';
 import posts from './posts';
 import category from './category';
+import report from './report';
 
 const rootReducer = (state, action) => {
     switch (action.type) {
@@ -15,6 +16,7 @@ const rootReducer = (state, action) => {
                 post,
                 posts,
                 category,
+                report,
             });
             return combineReducer(state, action);
         }
