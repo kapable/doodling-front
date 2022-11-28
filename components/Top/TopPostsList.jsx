@@ -32,44 +32,44 @@ const TopPostsList = ({ topPeriod }) => {
         <div className='top100-posts-main-div'>
             {currentPage === 1 ? ( // In case of the Page is 1, Top 3 Render
                 <div className='top3-main-div'>
-                {posts && posts.slice(0, 3) // for top 3
-                .map((post, index) => (
-                    <Link
-                        href={`/${post.Post.Category.domain}/${post.Post.SubCategory.domain}/${post.PostId}`}
-                        key={`/${post.Post.Category.domain}/${post.Post.SubCategory.domain}/${post.PostId}-link`}><a>
-                        <Row className='top3-main-row'>
-                            <Col xs={{ span: 16 }} lg={{ span: 20 }}>
-                                <Row>
-                                    <Col xs={{ span: 5 }} lg={{ span: 2 }}>
-                                        <img src={`https://images.doodling.kr/basic/top100-${index+1}.png`} alt={`rank-${index+1}`} width='50' />
-                                    </Col>
-                                    <Col xs={{ span: 19 }} lg={{ span: 22 }}>
-                                        <Row>
-                                            <span className='top3-title-span'>{post.Post?.title?.length > 10 ? `${post.Post.title.slice(0, 10)}...` : post.Post.title}</span> &nbsp;
-                                            <span className='top3-mbti-span' style={{ backgroundColor : categoriesColorObj[post.Post.User.mbti]}}>{post.Post.User.mbti}</span>
-                                        </Row>
-                                        <Row className='top3-info-row'>
-                                            <span className='top3-views-span'>조회수 {post.Post.views}</span>&nbsp;|&nbsp;
-                                            <span className='top3-likes-span'><LikeFilled /> {post.Post.likes}</span>&nbsp;|&nbsp;
-                                            <span className='top3-nickname-span'>{post.Post.User.nickname}</span>
-                                        </Row>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col xs={{ span: 8 }} lg={{ span: 4 }}>
-                                <Row className='top3-right-row' justify={'end'}>
-                                    {/* DateTime */}
-                                    {dayjs(post.Post.createdAt).diff(dayjs(), 'hours') < -240
-                                        ? dayjs(post.Post.createdAt).format('YYYY-MM-DD')
-                                        : dayjs(post.Post.createdAt).fromNow()} &nbsp;
-                                    {/* Comments */}
-                                    <span className='top5-comments-span'><CommentOutlined />&nbsp;{post.Post.comments}</span>
-                                </Row>
-                            </Col>
-                        </Row>
-                    </a></Link>
-                ))}
-            </div>
+                    {posts && posts.slice(0, 3) // for top 3
+                    .map((post, index) => (
+                        <Link
+                            href={`/${post.Post.Category.domain}/${post.Post.SubCategory.domain}/${post.PostId}`}
+                            key={`/${post.Post.Category.domain}/${post.Post.SubCategory.domain}/${post.PostId}-link`}><a>
+                            <Row className='top3-main-row'>
+                                <Col xs={{ span: 16 }} lg={{ span: 20 }}>
+                                    <Row>
+                                        <Col xs={{ span: 5 }} lg={{ span: 2 }}>
+                                            <img src={`https://images.doodling.kr/basic/top100-${index+1}.png`} alt={`rank-${index+1}`} width='50' />
+                                        </Col>
+                                        <Col xs={{ span: 19 }} lg={{ span: 22 }}>
+                                            <Row>
+                                                <span className='top3-title-span'>{post.Post?.title?.length > 10 ? `${post.Post.title.slice(0, 10)}...` : post.Post.title}</span> &nbsp;
+                                                <span className='top3-mbti-span' style={{ backgroundColor : categoriesColorObj[post.Post.User.mbti]}}>{post.Post.User.mbti}</span>
+                                            </Row>
+                                            <Row className='top3-info-row'>
+                                                <span className='top3-views-span'>조회수 {post.Post.views}</span>&nbsp;|&nbsp;
+                                                <span className='top3-likes-span'><LikeFilled /> {post.Post.likes}</span>&nbsp;|&nbsp;
+                                                <span className='top3-nickname-span'>{post.Post.User.nickname}</span>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col xs={{ span: 8 }} lg={{ span: 4 }}>
+                                    <Row className='top3-right-row' justify={'end'}>
+                                        {/* DateTime */}
+                                        {dayjs(post.Post.createdAt).diff(dayjs(), 'hours') < -240
+                                            ? dayjs(post.Post.createdAt).format('YYYY-MM-DD')
+                                            : dayjs(post.Post.createdAt).fromNow()} &nbsp;
+                                        {/* Comments */}
+                                        <span className='top5-comments-span'><CommentOutlined />&nbsp;{post.Post.comments}</span>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </a></Link>
+                    ))}
+                </div>
             ) : null}
             <div className='top-rest-main-div'>
                 {posts &&
@@ -85,7 +85,9 @@ const TopPostsList = ({ topPeriod }) => {
                             <Col xs={{ span: 16 }} lg={{ span: 20 }}>
                                 <Row>
                                     <Col className='rest-index-col' xs={{ span: 5 }} lg={{ span: 2 }}>
-                                        <span className='rest-index-span'>{index+3}</span>
+                                        <span className='rest-index-span'>
+                                            {currentPage === 1 ? index+4 : (currentPage-1)*15+(index+1)}
+                                        </span>
                                     </Col>
                                     <Col xs={{ span: 19 }} lg={{ span: 22 }}>
                                         <Row>
