@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import { INITIALIZE_MY_POSTS, LOAD_MY_COMMENT_POSTS_REQUEST, LOAD_MY_LIKE_POSTS_REQUEST, LOAD_MY_WRITE_POSTS_REQUEST } from '../../reducers/posts';
 import { CommentOutlined, LikeFilled } from '@ant-design/icons';
+import * as gtag from '../../lib/gtag';
 
 const MyPosts = () => {
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const MyPosts = () => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const onPageChange = useCallback((e) => {
+        gtag.event({ action: "Click MyArticle Pagination", category: "Paging", label: "profile page" });
         setCurrentPage(e);
     }, []);
 
@@ -25,6 +27,7 @@ const MyPosts = () => {
     ];
     const [currentMode, setCurrentMode] = useState(tabItems[0].key);
     const onTabClick = useCallback((mode) => {
+        gtag.event({ action: "Tab MyArticles NavBar", category: "Navigating", label: "profile page" });
         setCurrentMode(mode);
     }, []);
 
@@ -100,7 +103,8 @@ const MyPosts = () => {
                 myPosts
                 .slice((currentPage-1)*5, (currentPage-1)*5+5)
                 .map((post) => (
-                    <Link key={`${post.id}-link`} href={`/${post.SubCategory.Category.domain}/${post.SubCategory.domain}/${post.id}`}>
+                    <Link onClick={() => {gtag.event({ action: "Go to Article", category: "Paging", label: "profile page" })}}
+                        key={`${post.id}-link`} href={`/${post.SubCategory.Category.domain}/${post.SubCategory.domain}/${post.id}`}>
                         <Row className='profile-my-post-main-row' key={`${post.id}-row`}>
                             <Col span={18}>
                                 <Row><span>{post.title}</span>&nbsp;<span className='my-post-mbti-span' style={{ backgroundColor : categoriesColorObj[post.User?.mbti]}}>{post.User.mbti}</span></Row>

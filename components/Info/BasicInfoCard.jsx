@@ -7,6 +7,7 @@ import { DownOutlined, EditOutlined, UserAddOutlined, UserDeleteOutlined } from 
 import useInput from '../../hooks/useInput';
 import { useEffect } from 'react';
 import Link from 'next/link';
+import * as gtag from '../../lib/gtag';
 
 const BasicInfoCard = () => {
     const router = useRouter();
@@ -28,6 +29,7 @@ const BasicInfoCard = () => {
     }, [myInfo, userInfo]);
 
     const onClickLogoutButton = useCallback(() => {
+        gtag.event({ action: "Click Logout Button", category: "Paging", label: "profile page" });
         dispatch({
             type: LOG_OUT_REQUEST
         });
@@ -36,6 +38,7 @@ const BasicInfoCard = () => {
     }, [LOG_OUT_REQUEST]);
 
     const onEditClick = useCallback(() => {
+        gtag.event({ action: "Click Edit My Info Button", category: "Posting", label: "profile page" });
         setNickname(userInfo.nickname); // after edit cancel and reEdit
         setMbti(userInfo.mbti); // after edit cancel and reEdit
         setEditMode(!editMode);
@@ -79,6 +82,7 @@ const BasicInfoCard = () => {
         if(!myInfo?.id) {
             return alert('팔로우를 하기 위해서는 로그인이 필요합니다!');
         };
+        gtag.event({ action: "Click Follow Button", category: "Reactioning", label: "profile page" });
         dispatch({
             type: FOLLOW_REQUEST,
             data: userInfo.id,
@@ -86,6 +90,7 @@ const BasicInfoCard = () => {
     }, [userInfo.id, myInfo]);
 
     const onUnFollowClick = useCallback(() => {
+        gtag.event({ action: "Click UnFollow Button", category: "Reactioning", label: "profile page" });
         dispatch({
             type: UNFOLLOW_REQUEST,
             data: userInfo.id,
@@ -99,6 +104,7 @@ const BasicInfoCard = () => {
         if(!mbti) {
             return alert('MBTI를 선택해주세요!');
         };
+        gtag.event({ action: "Submit My Info", category: "Posting", label: "profile page" });
         dispatch({
             type: CHANGE_NICKNAME_AND_MBTI_REQUEST,
             data: { nickname, mbti }
@@ -157,10 +163,12 @@ const BasicInfoCard = () => {
             <Col span={10}>
                 <Row justify='center'>
                     <Col className='follower-span'>
-                        <Link href={`/info/${userInfo.nickname}/follower`}><a>{userInfo.followers}<br />팔로워</a></Link>
+                        <Link onClick={() => {gtag.event({ action: "Go to Follower List", category: "Paging", label: "profile page" })}} 
+                            href={`/info/${userInfo.nickname}/follower`}><a>{userInfo.followers}<br />팔로워</a></Link>
                     </Col>
                     <Col className='following-span'>
-                        <Link href={`/info/${userInfo.nickname}/following`}><a>{userInfo.followings}<br />팔로잉</a></Link>
+                        <Link onClick={() => {gtag.event({ action: "Go to Following List", category: "Paging", label: "profile page" })}} 
+                            href={`/info/${userInfo.nickname}/following`}><a>{userInfo.followings}<br />팔로잉</a></Link>
                     </Col>
                 </Row>
                 <Row justify='center' align='bottom'>

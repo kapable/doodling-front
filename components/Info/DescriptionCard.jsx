@@ -4,6 +4,7 @@ import React, { Fragment, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../../hooks/useInput';
 import { CHANGE_DESCRIPTION_REQUEST } from '../../reducers/user';
+import * as gtag from '../../lib/gtag';
 
 const DescriptionCard = () => {
     const dispatch = useDispatch();
@@ -12,10 +13,12 @@ const DescriptionCard = () => {
     const [editMode, setEditMode] = useState(false);
 
     const onEditClick = useCallback(() => {
+        gtag.event({ action: "Click Edit My Desc Button", category: "Posting", label: "profile page" });
         setEditMode(!editMode);
     }, [editMode]);
 
     const onEditSubmit = useCallback(() => {
+        gtag.event({ action: "Submit My Desc", category: "Posting", label: "profile page" });
         dispatch({
             type: CHANGE_DESCRIPTION_REQUEST,
             data: { description },
