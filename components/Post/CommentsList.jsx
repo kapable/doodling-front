@@ -129,6 +129,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                 header={<p>총 {postComments}개의 댓글 | <CheckCircleFilled /> 는 글쓴이의 댓글입니다.</p>}
                 renderItem={item => (
                     <li>
+                        {console.log('COMMM', item)}
                         <Comment
                             key={`${item.id}-comment`}
                             actions={[
@@ -184,12 +185,13 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                                     dataSource={item?.ReComments}
                                     renderItem={reComment => (
                                         <li>
+                                            {console.log('RECC', reComment)}
                                             <Comment
                                                 key={`${reComment?.text}-reComment`}
                                                 actions={[
                                                     (myInfo?.admin || reComment?.User?.id === myInfo?.id) && <span onClick={onRemoveReCommentClick(item.id, reComment.id)}>삭제하기</span>
                                                 ]}
-                                                author={[<Link key={`${reComment.User?.nickname}-link`}><a onClick={() => {gtag.event({ action: "Go to ReComment Author Info", category: "Paging", label: "article page" })}} href={`/info/${reComment.User?.nickname}`}><p style={{ cursor: "pointer" }} key="1-user">{reComment.UserId === userId ? <CheckCircleFilled /> : null} {reComment.User?.nickname}<span style={{backgroundColor: categoriesColorObj[reComment?.User?.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{reComment.User?.mbti}</span></p></a></Link>]}
+                                                author={[<Link href={`/info/${reComment.User?.nickname}`} key={`${reComment.User?.nickname}-link`}><a onClick={() => {gtag.event({ action: "Go to ReComment Author Info", category: "Paging", label: "article page" })}}><p style={{ cursor: "pointer" }} key="1-user">{reComment.UserId === userId ? <CheckCircleFilled /> : null} {reComment.User?.nickname}<span style={{backgroundColor: categoriesColorObj[reComment?.User?.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{reComment.User?.mbti}</span></p></a></Link>]}
                                                 content={reComment.text}
                                                 datetime={dayjs(reComment.createdAt).diff(dayjs(), 'hours') < -24
                                                     ? dayjs(reComment.createdAt).format('YYYY-MM-DD')
