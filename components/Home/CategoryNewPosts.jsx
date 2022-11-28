@@ -10,7 +10,7 @@ import {
     NoticeIcon,
     Top100Icon
 } from '../../public';
-
+import * as gtag from '../../lib/gtag';
 
 const CategoryNewPosts = ({ category }) => {
     const { categoryNewPosts, eachSubCategoryNewPosts } = useSelector((state) => state.posts);
@@ -36,7 +36,8 @@ const CategoryNewPosts = ({ category }) => {
                     {cat.posts && cat?.posts.length > 0 // if posts exists
                     ? (cat.posts.map((post, index) => (
                         // A post renderer start
-                        <Link href={category
+                        <Link onClick={() => {gtag.event({ action: "Go to Article", category: "Paging", label: "main page" })}}
+                            href={category
                                 ? `/${post['Category.domain']}/${post['SubCategory.domain']}/${post.id}`
                                 : `/${cat.domain}/${post['SubCategory.domain']}/${post.id}`}
                             key={category
@@ -61,7 +62,8 @@ const CategoryNewPosts = ({ category }) => {
                     : (<p className='no-posts-row'>신규 포스트가 없습니다.</p>)
                     }
                     {/* Show More to Go to Category Main */}
-                    <Link href={category ? `/${category}/${cat.domain}` : `/${cat.domain}`}><a>
+                    <Link onClick={() => {gtag.event({ action: "Go to More list", category: "Paging", label: "main page" })}}
+                        href={category ? `/${category}/${cat.domain}` : `/${cat.domain}`}><a>
                         <div className='new-posts-more-div'>{"더보기 >"}</div>
                     </a></Link>
                 </div>

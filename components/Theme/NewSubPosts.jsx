@@ -6,6 +6,7 @@ import { Col, Pagination, Row } from 'antd';
 import dayjs from 'dayjs';
 import { LikeFilled } from '@ant-design/icons';
 import { LOAD_SUBCATEGORIES_NEW_POSTS_REQUEST } from '../../reducers/posts';
+import * as gtag from '../../lib/gtag';
 
 const NewSubPosts = ({ subCategoryDomain }) => {
     const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const NewSubPosts = ({ subCategoryDomain }) => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const onPageChange = useCallback((e) => {
+        gtag.event({ action: "Click Article Pagination", category: "Paging", label: "sub category page" })
         setCurrentPage(e);
     }, []);
 
@@ -32,7 +34,8 @@ const NewSubPosts = ({ subCategoryDomain }) => {
             {subCategoryNewPosts
             .slice((currentPage-1)*15, (currentPage-1)*15+15)
             .map((post) => (
-                <Link href={`/${post?.SubCategory?.Category?.domain}/${post?.SubCategory?.domain}/${post?.id}`} key={`${post?.id}-newPost-link`}><a> 
+                <Link onClick={() => {gtag.event({ action: "Go to SubCategory New Article", category: "Paging", label: "sub category page" })}}
+                    href={`/${post?.SubCategory?.Category?.domain}/${post?.SubCategory?.domain}/${post?.id}`} key={`${post?.id}-newPost-link`}><a> 
                     <Row className='new-15-each-post-row' key={`${post.id}-newPost`}>
                         <Col span={18}>
                             <Row className='new-15-each-post-title-row'>

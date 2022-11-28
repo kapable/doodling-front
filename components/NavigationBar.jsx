@@ -4,6 +4,7 @@ import { Tabs } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import * as gtag from '../lib/gtag';
 
 const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
     const router = useRouter();
@@ -22,6 +23,7 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
     }, []);
 
     const onCategoryTabClick = useCallback((domain) => {
+        gtag.event({ action: "Tab NavBar", category: "Navigating", label: "main page" });
         if(domain === 'top100') { // TOP100
             return router.push('/top100');
         } else if (domain === 'notice') { // NOTICE
@@ -34,6 +36,7 @@ const NavigationBar = ({ categoryDomain, subCategoryDomain }) => {
     }, []);
 
     const onSubCategoryTabClick = useCallback((domain) => {
+        gtag.event({ action: "Tab SubNavBar", category: "Navigating", label: "main page" });
         return router.push(`/${currentCategoryDomain}/${domain}`);
     }, [currentCategoryDomain]);
 

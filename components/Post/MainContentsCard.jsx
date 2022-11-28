@@ -5,6 +5,7 @@ import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post';
 import { Button } from 'antd';
 import { LikeFilled, LinkOutlined } from '@ant-design/icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import * as gtag from '../../lib/gtag';
 
 const MainContentsCard = ({ contents, categoryDomain, subCategoryDomain }) => {
     const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const MainContentsCard = ({ contents, categoryDomain, subCategoryDomain }) => {
         if(!myInfo?.id) {
             return alert('좋아요를 누르려면 로그인이 필요합니다!');
         };
+        gtag.event({ action: "Click Like article Button", category: "Reactioning", label: "article page" });
         dispatch({
             type: LIKE_POST_REQUEST,
             data: { postId : contents.id }
@@ -32,6 +34,7 @@ const MainContentsCard = ({ contents, categoryDomain, subCategoryDomain }) => {
         if(!myInfo?.id) {
             return alert('로그인이 필요합니다!');
         };
+        gtag.event({ action: "Click UnLike article Button", category: "Reactioning", label: "article page" });
         dispatch({
             type: UNLIKE_POST_REQUEST,
             data: { postId : contents.id }
@@ -39,6 +42,7 @@ const MainContentsCard = ({ contents, categoryDomain, subCategoryDomain }) => {
     }, [contents, myInfo]);
 
     const onShareButtonClick = useCallback(() => {
+        gtag.event({ action: "Click Copy Link Button", category: "Reactioning", label: "article page" });
         alert('링크가 복사되었습니다!');
     }, []);
 

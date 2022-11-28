@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ENABLE_POST_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post';
+import * as gtag from '../../lib/gtag';
 
 const PostTitleCard = ({ contents }) => {
     const router = useRouter();
@@ -35,6 +36,7 @@ const PostTitleCard = ({ contents }) => {
         if(!myInfo?.id) {
             return alert('좋아요를 누르려면 로그인이 필요합니다!');
         };
+        gtag.event({ action: "Click Like article Button", category: "Paging", label: "article page" });
         dispatch({
             type: LIKE_POST_REQUEST,
             data: { postId : contents.id }
@@ -45,6 +47,7 @@ const PostTitleCard = ({ contents }) => {
         if(!myInfo?.id) {
             return alert('로그인이 필요합니다!');
         };
+        gtag.event({ action: "Click UnLike article Button", category: "Paging", label: "article page" });
         dispatch({
             type: UNLIKE_POST_REQUEST,
             data: { postId : contents.id }
@@ -52,18 +55,22 @@ const PostTitleCard = ({ contents }) => {
     }, [contents, myInfo]);
 
     const onUserClick = (userNickname) => useCallback(() => {
+        gtag.event({ action: "Go to Author Info", category: "Paging", label: "article page" });
         router.push(`/info/${userNickname}`);
     }, [])
 
     const onReportClick = useCallback(() => {
+        gtag.event({ action: "Click Report article Button", category: "Paging", label: "article page" });
         alert('신고 기능은 준비중입니다!');
     }, []);
 
     const onEditClick = useCallback(() => {
+        gtag.event({ action: "Click Edit article Button", category: "Paging", label: "article page" });
         router.push(`/edit/${contents.id}`);
     }, [contents]);
 
     const onDeleteClick = useCallback(() => {
+        gtag.event({ action: "Click Delete article Button", category: "Paging", label: "article page" });
         dispatch({
             type: ENABLE_POST_REQUEST,
             data: { postId: contents.id, checked: false },

@@ -13,6 +13,7 @@ const CommentsCard = ({ contents }) => {
 
     const onSubmitComment = useCallback(() => {
         try {
+            gtag.event({ action: "Click Submit Comment Button", category: "Posting", label: "article page" });
             dispatch({
                 type: ADD_COMMENT_REQUEST,
                 data: { postId: contents.id, text: commentText }

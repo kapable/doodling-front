@@ -3,6 +3,7 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
 import { useSelector } from 'react-redux';
+import * as gtag from '../lib/gtag';
 
 const { Header, Content, Footer } = Layout;
 
@@ -19,14 +20,14 @@ const AppLayout = ({ children }) => {
                     {myInfo?.id
                         ? (
                             <Fragment>
-                                <div className='applayout-nav-right-div'><Link href={`/info/${myInfo?.nickname}`}><a className='applayout-nav-right-div-a'>내 정보</a></Link></div>
-                                <div className='applayout-nav-left-div'><Link href='/upload'><a className='applayout-nav-left-div-a'>글쓰기</a></Link></div>
+                                <div onClick={() => {gtag.event({ action: "Go to MyInfo Button", category: "Paging", label: "head bar" })}} className='applayout-nav-right-div'><Link href={`/info/${myInfo?.nickname}`}><a className='applayout-nav-right-div-a'>내 정보</a></Link></div>
+                                <div onClick={() => {gtag.event({ action: "Go to Write Button", category: "Paging", label: "head bar" })}} className='applayout-nav-left-div'><Link href='/upload'><a className='applayout-nav-left-div-a'>글쓰기</a></Link></div>
                             </Fragment>
                         )
                         : (
                             <Fragment>
-                                <div className='applayout-nav-right-div'><Link href='/login'><a className='applayout-nav-right-div-a'>로그인</a></Link></div>
-                                <div className='applayout-nav-left-div'><Link href='/register'><a className='applayout-nav-left-div-a'>회원가입</a></Link></div>
+                                <div onClick={() => {gtag.event({ action: "Go to Login Button", category: "Paging", label: "head bar" })}} className='applayout-nav-right-div'><Link href='/login'><a className='applayout-nav-right-div-a'>로그인</a></Link></div>
+                                <div onClick={() => {gtag.event({ action: "Go to Register Button", category: "Paging", label: "head bar" })}} className='applayout-nav-left-div'><Link href='/register'><a className='applayout-nav-left-div-a'>회원가입</a></Link></div>
                             </Fragment>
                         )
                         }

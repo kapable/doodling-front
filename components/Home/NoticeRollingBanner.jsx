@@ -4,6 +4,7 @@ import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import { useSelector } from 'react-redux';
+import * as gtag from '../../lib/gtag';
 
 const NoticeRollingBanner = () => {
     const { categoryNew15Posts } = useSelector((state) => state.posts);
@@ -27,7 +28,8 @@ const NoticeRollingBanner = () => {
                     items={
                         categoryNew15Posts // if categoryNew15Posts' post exist
                         ? (categoryNew15Posts.map((post) => (
-                            <Link href={`notice/${post?.SubCategory?.domain}/${post.id}`}><a>
+                            <Link onClick={() => {gtag.event({ action: "Go to Notice Article", category: "Paging", label: "main page" })}}
+                                href={`notice/${post?.SubCategory?.domain}/${post.id}`}><a>
                                 <p>{post.title}</p>
                             </a></Link>
                         )))

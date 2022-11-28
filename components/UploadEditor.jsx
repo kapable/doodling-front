@@ -6,6 +6,7 @@ import useInput from '../hooks/useInput';
 import { useRouter } from 'next/router';
 import PropTypes, { func } from 'prop-types';
 import imageCompression from "browser-image-compression";
+import * as gtag from '../lib/gtag';
 
 const QuillNoSSRWrapper = dynamic(async () => {
     const { default: RQ } = await import('react-quill');
@@ -85,6 +86,7 @@ const UploadEditor = ({ contents, isNewContents }) => {
         if(!text || text === '<p><br></p>') {
             return alert('글을 작성해주세요!');
         };
+        gtag.event({ action: "Click the Upload Article Button", category: "Posting", label: "upload page" });
         isNew
         ? ( // upload a New Post
             dispatch({

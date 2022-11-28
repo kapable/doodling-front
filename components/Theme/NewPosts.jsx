@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { LOAD_CATEGORIES_NEW_15_POSTS_REQUEST } from '../../reducers/posts';
+import * as gtag from '../../lib/gtag';
 
 const NewPosts = ({ categoryDomain }) => {
     const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const NewPosts = ({ categoryDomain }) => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const onPageChange = useCallback((e) => {
+        gtag.event({ action: "Click Article Pagination", category: "Paging", label: "category page" })
         setCurrentPage(e);
     }, []);
 
@@ -33,7 +35,8 @@ const NewPosts = ({ categoryDomain }) => {
             .slice((currentPage-1)*15, (currentPage-1)*15+15)
             .map((post) => (
                 // Category & SubCategory Needed
-                <Link href={`/${post?.SubCategory?.Category?.domain}/${post?.SubCategory?.domain}/${post?.id}`} key={`${post?.id}-newPost-link`}><a> 
+                <Link onClick={() => {gtag.event({ action: "Go to Category New Article", category: "Paging", label: "category page" })}}
+                    href={`/${post?.SubCategory?.Category?.domain}/${post?.SubCategory?.domain}/${post?.id}`} key={`${post?.id}-newPost-link`}><a> 
                     <Row className='new-15-each-post-row' key={`${post.id}-newPost`}>
                         <Col span={18}>
                             <Row className='new-15-each-post-title-row'>

@@ -8,6 +8,7 @@ import { useState } from 'react';
 import useInput from '../../hooks/useInput';
 import { CheckCircleFilled, LikeFilled, LikeOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import * as gtag from '../../lib/gtag';
 
 const CommentsList = ({ postId, comments, userId, postComments }) => {
     const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
 
     const onRemoveCommentClick = (commentId) => () => {
         if (confirm("정말로 삭제하시겠습니까?\n삭제된 댓글은 복구가 불가능합니다.") === true) {
+            gtag.event({ action: "Click Delete Comment Button", category: "Removing", label: "article page" });
             dispatch({
                 type: REMOVE_COMMENT_REQUEST,
                 data: { commentId }
@@ -36,6 +38,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
 
     const onRemoveReCommentClick = (commentId, reCommentId) => () => {
         if (confirm("정말로 삭제하시겠습니까?\n삭제된 대댓글은 복구가 불가능합니다.") === true) {
+            gtag.event({ action: "Click Delete ReComment Button", category: "Removing", label: "article page" });
             dispatch({
                 type: REMOVE_RECOMMENT_REQUEST,
                 data: { commentId, reCommentId }
@@ -44,6 +47,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
     };
 
     const onReCommentListClick = (commentId) => () => {
+        gtag.event({ action: "Click Watch ReComment list Button", category: "Reactioning", label: "article page" });
         setReCommentListTargetId(commentId);
         reCommentListTargetId === commentId
         ? setIsReCommentListOpen(!isReCommentListOpen)
@@ -53,7 +57,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
     const onReCommentClick = (commentId) => () => {
         if(!myInfo?.id) {
             return alert('로그인 후 댓글 입력이 가능합니다.');
-        }
+        };
         setReCommentTargetId(commentId);
         reCommentTargetId === commentId
         ? setIsReCommentOpen(!isReCommentOpen)
@@ -61,6 +65,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
     };
 
     const onReCommentSubmit = useCallback(() => {
+        gtag.event({ action: "Click Submit ReComment Button", category: "Posting", label: "article page" });
         dispatch({
             type: ADD_RECOMMENT_REQUEST,
             data: { text: reCommentText, postId: postId, commentId: reCommentTargetId },
@@ -75,6 +80,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
         if(!myInfo?.id) {
             return alert('좋아요를 누르려면 로그인이 필요합니다!');
         };
+        gtag.event({ action: "Click Like Comment Button", category: "Reactioning", label: "article page" });
         commentLikeTargetId.includes(commentId)
         ? (
             dispatch({
@@ -101,6 +107,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
     }, [userInfo]);
 
     const onPageChange = useCallback((e) => {
+        gtag.event({ action: "Click Comment Pagination", category: "Paging", label: "article page" });
         setCurrentPage(e);
     }, []);
 
@@ -134,7 +141,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                                 ? <span onClick={onRemoveCommentClick(item.id)}>삭제하기</span>
                                 : null,
                             ]}
-                            author={[<Link href={`/info/${item.User?.nickname}`} key={`${item.User?.nickname}-link`}><p style={{ cursor: "pointer" }} key="1-user">{item.UserId === userId ? <CheckCircleFilled /> : null} {item.User?.nickname}<span style={{backgroundColor: categoriesColorObj[item?.User?.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{item.User?.mbti}</span></p></Link>]}
+                            author={[<Link onClick={() => {gtag.event({ action: "Go to Comment Author Info", category: "Paging", label: "article page" })}} href={`/info/${item.User?.nickname}`} key={`${item.User?.nickname}-link`}><p style={{ cursor: "pointer" }} key="1-user">{item.UserId === userId ? <CheckCircleFilled /> : null} {item.User?.nickname}<span style={{backgroundColor: categoriesColorObj[item?.User?.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{item.User?.mbti}</span></p></Link>]}
                             content={item.text}
                             datetime={dayjs(item.createdAt).diff(dayjs(), 'hours') < -24
                                 ? dayjs(item.createdAt).format('YYYY-MM-DD')
@@ -182,7 +189,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                                                 actions={[
                                                     (myInfo?.admin || reComment?.User?.id === myInfo?.id) && <span onClick={onRemoveReCommentClick(item.id, reComment.id)}>삭제하기</span>
                                                 ]}
-                                                author={[<Link href={`/info/${reComment.User?.nickname}`} key={`${reComment.User?.nickname}-link`}><p style={{ cursor: "pointer" }} key="1-user">{reComment.UserId === userId ? <CheckCircleFilled /> : null} {reComment.User?.nickname}<span style={{backgroundColor: categoriesColorObj[reComment?.User?.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{reComment.User?.mbti}</span></p></Link>]}
+                                                author={[<Link onClick={() => {gtag.event({ action: "Go to ReComment Author Info", category: "Paging", label: "article page" })}} href={`/info/${reComment.User?.nickname}`} key={`${reComment.User?.nickname}-link`}><p style={{ cursor: "pointer" }} key="1-user">{reComment.UserId === userId ? <CheckCircleFilled /> : null} {reComment.User?.nickname}<span style={{backgroundColor: categoriesColorObj[reComment?.User?.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{reComment.User?.mbti}</span></p></Link>]}
                                                 content={reComment.text}
                                                 datetime={dayjs(reComment.createdAt).diff(dayjs(), 'hours') < -24
                                                     ? dayjs(reComment.createdAt).format('YYYY-MM-DD')

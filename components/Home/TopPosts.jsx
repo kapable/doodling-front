@@ -3,6 +3,7 @@ import { Col, Row } from 'antd';
 import Link from 'next/link';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import * as gtag from '../../lib/gtag';
 
 const TopPosts = () => {
     const { realtimeTop10Posts } = useSelector((state) => state.posts);
@@ -15,7 +16,8 @@ const TopPosts = () => {
                 {realtimeTop10Posts
                 .slice().sort((a, b) => (parseFloat(a.realTimeRank) - parseFloat(b.realTimeRank))) // sorting by category ID ASC
                 .map((post, index) => (
-                    <Link href={`/${post.Post.Category.domain}/${post.Post.SubCategory.domain}/${post.PostId}`} key={`${post.Post.title}-link`}><a>
+                    <Link onClick={() => {gtag.event({ action: "Go to Article", category: "Paging", label: "main page" })}}
+                        href={`/${post.Post.Category.domain}/${post.Post.SubCategory.domain}/${post.PostId}`} key={`${post.Post.title}-link`}><a>
                         <Row key={`${post.Post.title}-row`} className='each-realtime-post-row'>
                             <Col span={22}>
                                 {/* Number */}
@@ -36,7 +38,8 @@ const TopPosts = () => {
                 ))}
             </div>
             {/* Show More to Go to Top100 Main */}
-            <Link href={`/top100`}><a>
+            <Link onClick={() => {gtag.event({ action: "Go to More list", category: "Paging", label: "main page" })}}
+                href={`/top100`}><a>
                 <div className='new-posts-more-div'>{"더보기 >"}</div>
             </a></Link>
         </div>
