@@ -129,7 +129,6 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                 header={<p>총 {postComments}개의 댓글 | <CheckCircleFilled /> 는 글쓴이의 댓글입니다.</p>}
                 renderItem={item => (
                     <li>
-                        {console.log('COMMM', item)}
                         <Comment
                             key={`${item.id}-comment`}
                             actions={[
@@ -185,7 +184,6 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                                     dataSource={item?.ReComments}
                                     renderItem={reComment => (
                                         <li>
-                                            {console.log('RECC', reComment)}
                                             <Comment
                                                 key={`${reComment?.text}-reComment`}
                                                 actions={[
