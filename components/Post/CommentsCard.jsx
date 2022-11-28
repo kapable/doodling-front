@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../../hooks/useInput';
 import { useCallback } from 'react';
 import { ADD_COMMENT_REQUEST } from '../../reducers/post';
+import * as gtag from '../../lib/gtag';
 
 const CommentsCard = ({ contents }) => {
     const { myInfo, addCommentLoading } = useSelector((state) => state.user);

@@ -28,10 +28,10 @@ const NoticeRollingBanner = () => {
                     items={
                         categoryNew15Posts // if categoryNew15Posts' post exist
                         ? (categoryNew15Posts.map((post) => (
-                            <Link onClick={() => {gtag.event({ action: "Go to Notice Article", category: "Paging", label: "main page" })}}
-                                href={`notice/${post?.SubCategory?.domain}/${post.id}`}><a>
-                                <p>{post.title}</p>
-                            </a></Link>
+                            <Link href={`notice/${post?.SubCategory?.domain}/${post.id}`}>
+                                <a onClick={() => {gtag.event({ action: "Go to Notice Article", category: "Paging", label: "main page" })}}>
+                                    <p>{post.title}</p>
+                                </a></Link>
                         )))
                         : (<p>현재 공지글이 존재하지 않습니다.</p>)
                     }

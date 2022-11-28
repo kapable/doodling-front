@@ -103,26 +103,26 @@ const MyPosts = () => {
                 myPosts
                 .slice((currentPage-1)*5, (currentPage-1)*5+5)
                 .map((post) => (
-                    <Link onClick={() => {gtag.event({ action: "Go to Article", category: "Paging", label: "profile page" })}}
-                        key={`${post.id}-link`} href={`/${post.SubCategory.Category.domain}/${post.SubCategory.domain}/${post.id}`}>
-                        <Row className='profile-my-post-main-row' key={`${post.id}-row`}>
-                            <Col span={18}>
-                                <Row><span>{post.title}</span>&nbsp;<span className='my-post-mbti-span' style={{ backgroundColor : categoriesColorObj[post.User?.mbti]}}>{post.User.mbti}</span></Row>
-                                <Row className='my-post-info-row'><span>
-                                    <span>조회수 {post.views}</span>&nbsp;|&nbsp;
-                                    <span><LikeFilled /> {post.likes}</span>&nbsp;|&nbsp;
-                                    <span>{post.User.nickname}</span>
-                                </span></Row>
-                            </Col>
-                            <Col span={6}>
-                                <Row justify={'end'} className='my-post-right-info-row'><span>{dayjs(post.createdAt).diff(dayjs(), 'days') < -240
-                                        ? dayjs(post.createdAt).format('YYYY-MM-DD')
-                                        : dayjs(post.createdAt).fromNow()}</span>&nbsp;
-                                    <span><CommentOutlined /> {post.comments}</span>
-                                </Row>
-                            </Col>
-                        </Row>
-                    </Link>
+                    <Link key={`${post.id}-link`} href={`/${post.SubCategory.Category.domain}/${post.SubCategory.domain}/${post.id}`}>
+                        <a onClick={() => {gtag.event({ action: "Go to Article", category: "Paging", label: "profile page" })}}>
+                            <Row className='profile-my-post-main-row' key={`${post.id}-row`}>
+                                <Col span={18}>
+                                    <Row><span>{post.title}</span>&nbsp;<span className='my-post-mbti-span' style={{ backgroundColor : categoriesColorObj[post.User?.mbti]}}>{post.User.mbti}</span></Row>
+                                    <Row className='my-post-info-row'><span>
+                                        <span>조회수 {post.views}</span>&nbsp;|&nbsp;
+                                        <span><LikeFilled /> {post.likes}</span>&nbsp;|&nbsp;
+                                        <span>{post.User.nickname}</span>
+                                    </span></Row>
+                                </Col>
+                                <Col span={6}>
+                                    <Row justify={'end'} className='my-post-right-info-row'><span>{dayjs(post.createdAt).diff(dayjs(), 'days') < -240
+                                            ? dayjs(post.createdAt).format('YYYY-MM-DD')
+                                            : dayjs(post.createdAt).fromNow()}</span>&nbsp;
+                                        <span><CommentOutlined /> {post.comments}</span>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </a></Link>
                 ))
             )
             : <div className='profile-my-post-no-data-div'>아직 게시글이 존재하지 않습니다.</div>

@@ -163,12 +163,16 @@ const BasicInfoCard = () => {
             <Col span={10}>
                 <Row justify='center'>
                     <Col className='follower-span'>
-                        <Link onClick={() => {gtag.event({ action: "Go to Follower List", category: "Paging", label: "profile page" })}} 
-                            href={`/info/${userInfo.nickname}/follower`}><a>{userInfo.followers}<br />팔로워</a></Link>
+                        <Link href={`/info/${userInfo.nickname}/follower`}>
+                            <a onClick={() => {gtag.event({ action: "Go to Follower List", category: "Paging", label: "profile page" })}} >
+                                {userInfo.followers}<br />팔로워
+                            </a></Link>
                     </Col>
                     <Col className='following-span'>
-                        <Link onClick={() => {gtag.event({ action: "Go to Following List", category: "Paging", label: "profile page" })}} 
-                            href={`/info/${userInfo.nickname}/following`}><a>{userInfo.followings}<br />팔로잉</a></Link>
+                        <Link href={`/info/${userInfo.nickname}/following`}>
+                            <a onClick={() => {gtag.event({ action: "Go to Following List", category: "Paging", label: "profile page" })}}>
+                                {userInfo.followings}<br />팔로잉
+                            </a></Link>
                     </Col>
                 </Row>
                 <Row justify='center' align='bottom'>

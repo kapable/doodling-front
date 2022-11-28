@@ -141,7 +141,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                                 ? <span onClick={onRemoveCommentClick(item.id)}>삭제하기</span>
                                 : null,
                             ]}
-                            author={[<Link onClick={() => {gtag.event({ action: "Go to Comment Author Info", category: "Paging", label: "article page" })}} href={`/info/${item.User?.nickname}`} key={`${item.User?.nickname}-link`}><p style={{ cursor: "pointer" }} key="1-user">{item.UserId === userId ? <CheckCircleFilled /> : null} {item.User?.nickname}<span style={{backgroundColor: categoriesColorObj[item?.User?.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{item.User?.mbti}</span></p></Link>]}
+                            author={[<Link href={`/info/${item.User?.nickname}`} key={`${item.User?.nickname}-link`}><a onClick={() => {gtag.event({ action: "Go to Comment Author Info", category: "Paging", label: "article page" })}}><p style={{ cursor: "pointer" }} key="1-user">{item.UserId === userId ? <CheckCircleFilled /> : null} {item.User?.nickname}<span style={{backgroundColor: categoriesColorObj[item?.User?.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{item.User?.mbti}</span></p></a></Link>]}
                             content={item.text}
                             datetime={dayjs(item.createdAt).diff(dayjs(), 'hours') < -24
                                 ? dayjs(item.createdAt).format('YYYY-MM-DD')
@@ -189,7 +189,7 @@ const CommentsList = ({ postId, comments, userId, postComments }) => {
                                                 actions={[
                                                     (myInfo?.admin || reComment?.User?.id === myInfo?.id) && <span onClick={onRemoveReCommentClick(item.id, reComment.id)}>삭제하기</span>
                                                 ]}
-                                                author={[<Link onClick={() => {gtag.event({ action: "Go to ReComment Author Info", category: "Paging", label: "article page" })}} href={`/info/${reComment.User?.nickname}`} key={`${reComment.User?.nickname}-link`}><p style={{ cursor: "pointer" }} key="1-user">{reComment.UserId === userId ? <CheckCircleFilled /> : null} {reComment.User?.nickname}<span style={{backgroundColor: categoriesColorObj[reComment?.User?.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{reComment.User?.mbti}</span></p></Link>]}
+                                                author={[<Link key={`${reComment.User?.nickname}-link`}><a onClick={() => {gtag.event({ action: "Go to ReComment Author Info", category: "Paging", label: "article page" })}} href={`/info/${reComment.User?.nickname}`}><p style={{ cursor: "pointer" }} key="1-user">{reComment.UserId === userId ? <CheckCircleFilled /> : null} {reComment.User?.nickname}<span style={{backgroundColor: categoriesColorObj[reComment?.User?.mbti], color:"white", padding: "0 0.2rem", marginLeft:"0.2rem"}}>{reComment.User?.mbti}</span></p></a></Link>]}
                                                 content={reComment.text}
                                                 datetime={dayjs(reComment.createdAt).diff(dayjs(), 'hours') < -24
                                                     ? dayjs(reComment.createdAt).format('YYYY-MM-DD')

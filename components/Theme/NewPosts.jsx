@@ -35,30 +35,30 @@ const NewPosts = ({ categoryDomain }) => {
             .slice((currentPage-1)*15, (currentPage-1)*15+15)
             .map((post) => (
                 // Category & SubCategory Needed
-                <Link onClick={() => {gtag.event({ action: "Go to Category New Article", category: "Paging", label: "category page" })}}
-                    href={`/${post?.SubCategory?.Category?.domain}/${post?.SubCategory?.domain}/${post?.id}`} key={`${post?.id}-newPost-link`}><a> 
-                    <Row className='new-15-each-post-row' key={`${post.id}-newPost`}>
-                        <Col span={18}>
-                            <Row className='new-15-each-post-title-row'>
-                                <span>{post?.title?.length > 10 ? `${post.title.slice(0, 10)}...` : post.title}</span> &nbsp;
-                                <span className='new-15-each-post-title-row-mbti' style={{ backgroundColor : categoriesColorObj[post.User?.mbti]}}>
-                                    {post.User?.mbti}
-                                </span>
-                            </Row>
-                            <Row className='new-15-each-post-info-row'>
-                                <span>조회수 {post.views}</span>&nbsp;|&nbsp;
-                                <span><LikeFilled /> {post.likes}</span>&nbsp;|&nbsp;
-                                <span>{post?.User?.nickname}</span>
-                            </Row>
-                        </Col>
-                        <Col span={6}>
-                            <Row justify={'end'}>{dayjs(post.createdAt).diff(dayjs(), 'hours') < -240
-                                        ? dayjs(post.createdAt).format('YYYY-MM-DD')
-                                        : dayjs(post.createdAt).fromNow()}
-                            </Row>
-                        </Col>
-                    </Row>
-                </a></Link>
+                <Link href={`/${post?.SubCategory?.Category?.domain}/${post?.SubCategory?.domain}/${post?.id}`} key={`${post?.id}-newPost-link`}>
+                    <a onClick={() => {gtag.event({ action: "Go to Category New Article", category: "Paging", label: "category page" })}}> 
+                        <Row className='new-15-each-post-row' key={`${post.id}-newPost`}>
+                            <Col span={18}>
+                                <Row className='new-15-each-post-title-row'>
+                                    <span>{post?.title?.length > 10 ? `${post.title.slice(0, 10)}...` : post.title}</span> &nbsp;
+                                    <span className='new-15-each-post-title-row-mbti' style={{ backgroundColor : categoriesColorObj[post.User?.mbti]}}>
+                                        {post.User?.mbti}
+                                    </span>
+                                </Row>
+                                <Row className='new-15-each-post-info-row'>
+                                    <span>조회수 {post.views}</span>&nbsp;|&nbsp;
+                                    <span><LikeFilled /> {post.likes}</span>&nbsp;|&nbsp;
+                                    <span>{post?.User?.nickname}</span>
+                                </Row>
+                            </Col>
+                            <Col span={6}>
+                                <Row justify={'end'}>{dayjs(post.createdAt).diff(dayjs(), 'hours') < -240
+                                            ? dayjs(post.createdAt).format('YYYY-MM-DD')
+                                            : dayjs(post.createdAt).fromNow()}
+                                </Row>
+                            </Col>
+                        </Row>
+                    </a></Link>
             ))}
             <Pagination
                 style={{width: "fit-content", margin: "1.5rem auto"}}

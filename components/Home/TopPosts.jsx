@@ -16,30 +16,29 @@ const TopPosts = () => {
                 {realtimeTop10Posts
                 .slice().sort((a, b) => (parseFloat(a.realTimeRank) - parseFloat(b.realTimeRank))) // sorting by category ID ASC
                 .map((post, index) => (
-                    <Link onClick={() => {gtag.event({ action: "Go to Article", category: "Paging", label: "main page" })}}
-                        href={`/${post.Post.Category.domain}/${post.Post.SubCategory.domain}/${post.PostId}`} key={`${post.Post.title}-link`}><a>
-                        <Row key={`${post.Post.title}-row`} className='each-realtime-post-row'>
-                            <Col span={22}>
-                                {/* Number */}
-                                <span className='each-realtime-post-number'>{index+1}</span> &nbsp;
-                                {/* Category */}
-                                <span className='each-realtime-post-category'>{post.Post.Category.label}</span> &nbsp;
-                                {/* Title */}
-                                <span className='each-realtime-post-title'>{post.Post.title.length > 10 ? `${post.Post.title.slice(0, 10)}...` : post.Post.title}</span> &nbsp;
-                                {/* MBTI */}
-                                <span style={{ backgroundColor : categoriesColorObj[post.Post.User.mbti]}} className='each-realtime-post-mbti'>{post.Post.User.mbti}</span>
-                            </Col>
-                            <Col span={2}>
-                                {/* Comments */}
-                                <span className='each-realtime-post-comments'><CommentOutlined />&nbsp;{post.Post.comments}</span>
-                            </Col>
-                        </Row>
-                    </a></Link>
+                    <Link href={`/${post.Post.Category.domain}/${post.Post.SubCategory.domain}/${post.PostId}`} key={`${post.Post.title}-link`}>
+                        <a onClick={() => {gtag.event({ action: "Go to Article", category: "Paging", label: "main page" })}}>
+                            <Row key={`${post.Post.title}-row`} className='each-realtime-post-row'>
+                                <Col span={22}>
+                                    {/* Number */}
+                                    <span className='each-realtime-post-number'>{index+1}</span> &nbsp;
+                                    {/* Category */}
+                                    <span className='each-realtime-post-category'>{post.Post.Category.label}</span> &nbsp;
+                                    {/* Title */}
+                                    <span className='each-realtime-post-title'>{post.Post.title.length > 10 ? `${post.Post.title.slice(0, 10)}...` : post.Post.title}</span> &nbsp;
+                                    {/* MBTI */}
+                                    <span style={{ backgroundColor : categoriesColorObj[post.Post.User.mbti]}} className='each-realtime-post-mbti'>{post.Post.User.mbti}</span>
+                                </Col>
+                                <Col span={2}>
+                                    {/* Comments */}
+                                    <span className='each-realtime-post-comments'><CommentOutlined />&nbsp;{post.Post.comments}</span>
+                                </Col>
+                            </Row>
+                        </a></Link>
                 ))}
             </div>
             {/* Show More to Go to Top100 Main */}
-            <Link onClick={() => {gtag.event({ action: "Go to More list", category: "Paging", label: "main page" })}}
-                href={`/top100`}><a>
+            <Link href={`/top100`}><a onClick={() => {gtag.event({ action: "Go to More list", category: "Paging", label: "main page" })}}>
                 <div className='new-posts-more-div'>{"더보기 >"}</div>
             </a></Link>
         </div>
