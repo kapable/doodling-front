@@ -8,7 +8,7 @@ import {
 } from '../reducers/report';
 
 function addReportLabelAPI(data) {
-    return axios.post(`/report`, data);
+    return axios.post(`/report/label`, data);
 };
 
 function* addReportLabel(action) {

@@ -1,8 +1,8 @@
 import produce from '../util/produce';
 
 export const initialState = {
-    reportedArticles: [],
     reportLabels: [],
+    reportedArticles: [],
     addReportLabelLoading: false,
     addReportLabelDone: false,
     addReportLabelError: false,
@@ -42,7 +42,7 @@ const reducer = (state = initialState, action) => {
                 draft.addReportLabelError = null;
                 break;
             case ADD_REPORT_LABEL_SUCCESS:
-                draft.reportLabels = action.data;
+                draft.reportLabels = draft.reportLabels.concat(action.data);
                 draft.addReportLabelDone = true;
                 draft.addReportLabelLoading = false;
                 break;
@@ -90,6 +90,8 @@ const reducer = (state = initialState, action) => {
             case GET_REPORT_LABELS_FAILURE:
                 draft.getReportLabelsLoading = false;
                 draft.getReportLabelsError = action.error;
+                break;
+            default:
                 break;
         };
     });
