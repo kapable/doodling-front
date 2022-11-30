@@ -8,6 +8,7 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ENABLE_POST_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post';
 import * as gtag from '../../lib/gtag';
+import { REPORT_ARTICLE_REQUEST } from '../../reducers/report';
 
 const PostTitleCard = ({ contents }) => {
     const router = useRouter();
@@ -61,7 +62,16 @@ const PostTitleCard = ({ contents }) => {
 
     const onReportClick = useCallback(() => {
         gtag.event({ action: "Click Report article Button", category: "Paging", label: "article page" });
-        alert('신고 기능은 준비중입니다!');
+        if (confirm("정말로 이 글을 신고하시겠어요?\n*허위 신고 시 활동에 제약이 생길 수 있습니다.") === true) {
+            // Open Modal with label options
+
+            // if button clicked, Submit Report
+            // dispatch({
+            //     type: REPORT_ARTICLE_REQUEST,
+            //     data: { postId, labelId }
+            // });
+            alert('신고 기능은 준비중입니다!');
+        };
     }, []);
 
     const onEditClick = useCallback(() => {
