@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { Col, Row } from 'antd';
+import { Button, Col, Dropdown, Modal, Row, Select } from 'antd';
 import { EditOutlined, LikeOutlined, LikeFilled, DeleteOutlined, AlertOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useCallback } from 'react';
@@ -15,9 +15,13 @@ const PostTitleCard = ({ contents }) => {
     const dispatch = useDispatch();
     const { myInfo, userInfo } = useSelector((state) => state.user);
     const { categoriesColorObj } = useSelector((state) => state.category);
+    const { reportLabels } = useSelector((state) => state.report);
     const { title, createdAt, views, PostLikers, User } = contents;
     const [dateTime, setDateTime] = useState();
     const [likeClick, setLikeClick] = useState(false);
+    const [reportModalOpened, setReportModalOpened] = useState(false);
+    const [reportMenu, setReportMenu] = useState(reportLabels && reportLabels.map((label) => ({ value: label.label, label: label.label })));
+    const [reportLabel, setReportLabel] = useState("");
 
     // setting post's dateTime
     useEffect(() => {
@@ -61,18 +65,26 @@ const PostTitleCard = ({ contents }) => {
     }, [])
 
     const onReportClick = useCallback(() => {
+        if(!myInfo?.id) {
+            return alert('로그인이 필요합니다!');
+        };
         gtag.event({ action: "Click Report article Button", category: "Paging", label: "article page" });
         if (confirm("정말로 이 글을 신고하시겠어요?\n*허위 신고 시 활동에 제약이 생길 수 있습니다.") === true) {
-            // Open Modal with label options
-
-            // if button clicked, Submit Report
-            // dispatch({
-            //     type: REPORT_ARTICLE_REQUEST,
-            //     data: { postId, labelId }
-            // });
-            alert('신고 기능은 준비중입니다!');
+            setReportModalOpened(true);
         };
     }, []);
+
+    const onReportSubmit = useCallback(() => {
+        if(!reportLabel) {
+            return alert("신고 유형을 선택해주세요.");
+        };
+        dispatch({
+            type: REPORT_ARTICLE_REQUEST,
+            data: { postId: contents.id, label: reportLabel }
+        });
+        setReportModalOpened(false);
+        return alert("게시물 신고가 완료되었습니다.");
+    }, [contents, reportLabel]);
 
     const onEditClick = useCallback(() => {
         gtag.event({ action: "Click Edit article Button", category: "Paging", label: "article page" });
@@ -125,6 +137,10 @@ const PostTitleCard = ({ contents }) => {
                     </Row>
                 </Col>
             </Row>
+            {/* Modal for Report this article */}
+            <Modal title="신고 유형을 선택해주세요." open={reportModalOpened} onOk={onReportSubmit} onCancel={() => setReportModalOpened(false)} >
+                <Select defaultValue={reportMenu[0]?.label} style={{ width: '100%' }} options={reportMenu} onChange={setReportLabel} />
+            </Modal>
         </Fragment>
     );
 };

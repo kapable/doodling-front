@@ -15,6 +15,7 @@ import { LOAD_CATEGORIES_REQUEST } from '../../reducers/category';
 import { LOAD_MY_INFO_REQUEST, LOAD_USER_INFO_REQUEST } from '../../reducers/user';
 import { END } from 'redux-saga';
 import CommentsList from '../../components/Post/CommentsList';
+import { GET_REPORT_LABELS_REQUEST } from '../../reducers/report';
 
 const Post = () => {
     const dispatch = useDispatch();
@@ -119,6 +120,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     store.dispatch({
         type: VIEW_POST_REQUEST, // 포스트 보기
         data: { postId: params.postId[1] }
+    });
+    store.dispatch({
+        type: GET_REPORT_LABELS_REQUEST
     });
     store.dispatch(END);
     
