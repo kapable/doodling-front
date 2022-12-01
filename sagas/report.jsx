@@ -48,7 +48,7 @@ function* reportArticle(action) {
 };
 
 function getReportedArticlesAPI(data) {
-    return axios.get(`/report?lastId=${data.lastId}`);
+    return axios.get(`/report?lastId=${data?.lastId}`);
 };
 
 function* getReportedArticles(action) {
@@ -67,13 +67,13 @@ function* getReportedArticles(action) {
     };
 };
 
-function getReportLabelsAPI(data) {
+function getReportLabelsAPI() {
     return axios.get(`/report/labels`);
 };
 
 function* getReportLabels(action) {
     try {
-        const result = yield call(getReportLabelsAPI, action.data);
+        const result = yield call(getReportLabelsAPI);
         yield put({
             type: GET_REPORT_LABELS_SUCCESS,
             data: result.data,

@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import ReportArticles from '../../components/Admin/Reports/ReportArticles';
 import ReportLabels from '../../components/Admin/Reports/ReportLabels';
-import { GET_REPORT_LABELS_REQUEST } from '../../reducers/report';
+import { GET_REPORTED_ARTICLES_REQUEST, GET_REPORT_LABELS_REQUEST } from '../../reducers/report';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 
@@ -85,6 +85,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     });
     store.dispatch({
         type: GET_REPORT_LABELS_REQUEST
+    });
+    store.dispatch({
+        type: GET_REPORTED_ARTICLES_REQUEST,
     });
     store.dispatch(END);
 
