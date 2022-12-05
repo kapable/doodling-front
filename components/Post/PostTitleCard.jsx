@@ -21,7 +21,7 @@ const PostTitleCard = ({ contents }) => {
     const [likeClick, setLikeClick] = useState(false);
     const [reportModalOpened, setReportModalOpened] = useState(false);
     const [reportMenu, setReportMenu] = useState(reportLabels && reportLabels.map((label) => ({ value: label.label, label: label.label })));
-    const [reportLabel, setReportLabel] = useState("");
+    const [reportLabel, setReportLabel] = useState(reportMenu[0]?.label);
 
     // setting post's dateTime
     useEffect(() => {

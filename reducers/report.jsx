@@ -12,9 +12,16 @@ export const initialState = {
     getReportedArticlesLoading: false,
     getReportedArticlesDone: false,
     getReportedArticlesError: false,
+    hasMoreReportedArticles: false,
     getReportedLabelsLoading: false,
     getReportedLabelsDone: false,
     getReportedLabelsError: false,
+    removeReportedArticleLoading: false,
+    removeReportedArticleDone: false,
+    removeReportedArticleError: false,
+    clearReportedArticleLoading: false,
+    clearReportedArticleDone: false,
+    clearReportedArticleError: false,
 };
 
 export const ADD_REPORT_LABEL_REQUEST = 'ADD_REPORT_LABEL_REQUEST';
@@ -32,6 +39,14 @@ export const GET_REPORTED_ARTICLES_FAILURE = 'GET_REPORTED_ARTICLES_FAILURE';
 export const GET_REPORT_LABELS_REQUEST = 'GET_REPORT_LABELS_REQUEST';
 export const GET_REPORT_LABELS_SUCCESS = 'GET_REPORT_LABELS_SUCCESS';
 export const GET_REPORT_LABELS_FAILURE = 'GET_REPORT_LABELS_FAILURE';
+
+export const REMOVE_REPORTED_ARTICLE_REQUEST = 'REMOVE_REPORTED_ARTICLE_REQUEST';
+export const REMOVE_REPORTED_ARTICLE_SUCCESS = 'REMOVE_REPORTED_ARTICLE_SUCCESS';
+export const REMOVE_REPORTED_ARTICLE_FAILURE = 'REMOVE_REPORTED_ARTICLE_FAILURE';
+
+export const CLEAR_REPORTED_ARTICLE_REQUEST = 'CLEAR_REPORTED_ARTICLE_REQUEST';
+export const CLEAR_REPORTED_ARTICLE_SUCCESS = 'CLEAR_REPORTED_ARTICLE_SUCCESS';
+export const CLEAR_REPORTED_ARTICLE_FAILURE = 'CLEAR_REPORTED_ARTICLE_FAILURE';
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -69,9 +84,10 @@ const reducer = (state = initialState, action) => {
                 draft.getReportedArticlesError = null;
                 break;
             case GET_REPORTED_ARTICLES_SUCCESS:
-                draft.reportedArticles = action.data;
+                draft.reportedArticles = draft.reportedArticles.concat(action.data);
                 draft.getReportedArticlesDone = true;
                 draft.getReportedArticlesLoading = false;
+                draft.hasMoreReportedArticles = action.data.length === 15;
                 break;
             case GET_REPORTED_ARTICLES_FAILURE:
                 draft.getReportedArticlesLoading = false;
@@ -90,6 +106,34 @@ const reducer = (state = initialState, action) => {
             case GET_REPORT_LABELS_FAILURE:
                 draft.getReportLabelsLoading = false;
                 draft.getReportLabelsError = action.error;
+                break;
+            case REMOVE_REPORTED_ARTICLE_REQUEST:
+                draft.removeReportedArticleLoading = true;
+                draft.removeReportedArticleDone = false;
+                draft.removeReportedArticleError = null;
+                break;
+            case REMOVE_REPORTED_ARTICLE_SUCCESS:
+                draft.reportedArticles = draft.reportedArticles.filter((report) => report.Post.id !== action.data.id);
+                draft.removeReportedArticleDone = true;
+                draft.removeReportedArticleLoading = false;
+                break;
+            case REMOVE_REPORTED_ARTICLE_FAILURE:
+                draft.removeReportedArticleLoading = false;
+                draft.removeReportedArticleError = action.error;
+                break;
+            case CLEAR_REPORTED_ARTICLE_REQUEST:
+                draft.clearReportedArticleLoading = true;
+                draft.clearReportedArticleDone = false;
+                draft.clearReportedArticleError = null;
+                break;
+            case CLEAR_REPORTED_ARTICLE_SUCCESS:
+                draft.reportedArticles = draft.reportedArticles.filter((report) => report.Post.id !== action.data.id);
+                draft.clearReportedArticleDone = true;
+                draft.clearReportedArticleLoading = false;
+                break;
+            case CLEAR_REPORTED_ARTICLE_FAILURE:
+                draft.clearReportedArticleLoading = false;
+                draft.clearReportedArticleError = action.error;
                 break;
             default:
                 break;
