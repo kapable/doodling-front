@@ -107,7 +107,7 @@ const MyPosts = () => {
                         <a onClick={() => {gtag.event({ action: "Go to Article", category: "Paging", label: "profile page" })}}>
                             <Row className='profile-my-post-main-row' key={`${post.id}-row`}>
                                 <Col span={18}>
-                                    <Row><span>{post.title}</span>&nbsp;<span className='my-post-mbti-span' style={{ backgroundColor : categoriesColorObj[post.User?.mbti]}}>{post.User.mbti}</span></Row>
+                                    <Row><span style={{ color: "black" }}>{post.title}</span>&nbsp;<span className='my-post-mbti-span' style={{ backgroundColor : categoriesColorObj[post.User?.mbti]}}>{post.User.mbti}</span></Row>
                                     <Row className='my-post-info-row'><span>
                                         <span>조회수 {post.views}</span>&nbsp;|&nbsp;
                                         <span><LikeFilled /> {post.likes}</span>&nbsp;|&nbsp;

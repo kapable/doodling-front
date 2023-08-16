@@ -92,6 +92,7 @@ const Post = () => {
                     <CommentsCard contents={singlePost}/>
                     <CommentsList postId={singlePost?.id} comments={singlePost?.Comments} userId={singlePost?.User?.id} postComments={singlePost?.PostComments || 0}/>
                     <Divider />
+                    {/* TODO: Finishing RecommendPosts Component */}
                     {/* <RecommendPosts /> */}
                 </div>
             )

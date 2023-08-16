@@ -52,8 +52,8 @@ const Home = () => {
             </Head>
             <NavigationBar categoryDomain={categories[0]?.domain} />
             <NoticeRollingBanner />
-            <TopPosts />
-            <CategoryNewPosts />
+            {/* <TopPosts />
+            <CategoryNewPosts /> */}
         </Fragment>
     );
 };
@@ -67,19 +67,19 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async({ 
     store.dispatch({
         type: LOAD_CATEGORIES_REQUEST
     });
-    store.dispatch({
-        type: LOAD_CATEGORIES_NEW_POSTS_REQUEST
-    });
+    // store.dispatch({
+    //     type: LOAD_CATEGORIES_NEW_POSTS_REQUEST
+    // });
     store.dispatch({
         type: LOAD_MY_INFO_REQUEST
     });
-    store.dispatch({
-        type: LOAD_CATEGORIES_NEW_15_POSTS_REQUEST,
-        data: { theme: 'notice', lastId: null }
-    });
-    store.dispatch({
-        type: LOAD_REALTIME_TOP_10_REQUEST
-    });
+    // store.dispatch({
+    //     type: LOAD_CATEGORIES_NEW_15_POSTS_REQUEST,
+    //     data: { theme: 'notice', lastId: null }
+    // });
+    // store.dispatch({
+    //     type: LOAD_REALTIME_TOP_10_REQUEST
+    // });
     store.dispatch(END);
 
     await store.sagaTask.toPromise();
